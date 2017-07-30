@@ -35,75 +35,54 @@ contract Requests is Freezable{
   address public miner;
   bool public claimed = false;
 
+  function stringToBytes32(string memory source) returns (bytes32 result) {
+    assembly {
+        result := mload(add(source, 32))
+    }
+  }
+
+
   function Requests(address _mainAddress) {
     mainAddress=_mainAddress;
   }
 
-  function getUrl() constant returns (string){
-    return url;
+
+  struct Request{
+    string url;
+    string result;
+    address miner;
+    bool claimed;
   }
 
-  function submitUrl(string _url) returns (bool){
+  mapping (bytes32 => Request) public requests;
+  function setUrl(string _id,string _url) returns (bool){
     Main main = Main(mainAddress);
     Auth auth = Auth(main.getContractAddress(0));
     if( auth.getPermission(msg.sender)>=32 ){
-      url = _url;
+      requests[stringToBytes32(_id)].url=_url;
       return true;
     }
     revert();
   }
 
-  function submitResult(string _result) returns (bool){
+  function getUrl(string _id) constant returns (string){
+    return requests[stringToBytes32(_id)].url;
+  }
+  function setResult(string _id,string _result) returns (bool){
     Main main = Main(mainAddress);
     Auth auth = Auth(main.getContractAddress(0));
     if( auth.getPermission(msg.sender)>=5 && !claimed){
-      result = _result;
-      miner = msg.sender;
-      claimed = true;
+      bytes32 i = stringToBytes32(_id);
+      requests[i].result=_result;
+      requests[i].miner=msg.sender;
+      requests[i].claimed=true;
       return true;
     }
     revert();
   }
-
-  function getResult() constant returns (string,address){
-    return (result,miner);
+  function getResult(string _id) constant returns (string,address){
+    bytes32 i = stringToBytes32(_id);
+    return (requests[i].result,requests[i].miner);
   }
 
-  /*
-    struct Request {
-      string url;
-      uint count;
-      address owner;
-      uint reward;
-      uint32 processor;
-    }
-
-    mapping(bytes32 => Request) public requests;
-
-    function submitRequest(bytes32 _id,string _url,uint _count,address _owner,uint _reward) returns (bool){
-      Main main = Main(mainAddress);
-      Auth auth = Auth(main.getContractAddress(0));
-      if( auth.getPermission(msg.sender)>=32 ){
-        requests[_id].url = _url;
-        requests[_id].count = _count;
-        requests[_id].owner = _owner;
-        requests[_id].reward = _reward;
-      }
-      revert();
-    }
-
-    function getRequest(bytes32 _id) constant returns (string) {
-
-      return requests[_id].url;
-    }*/
-
-
-  //function getRequest() constant returns (string) {
-  //  return request;
-  //}
-
-
-  function testGet(bytes32 _id) constant returns (bytes32) {
-    return _id;
-  }
 }

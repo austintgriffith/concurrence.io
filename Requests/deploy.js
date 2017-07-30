@@ -21,7 +21,7 @@ if(!bytecode){
         arguments: [fs.readFileSync("../Main/Main.address").toString().trim()]
       }).send({
         from: accounts[0],
-        gas: 1000000,
+        gas: 2000000,
         gasPrice:5000000000
       }, function(error, transactionHash){
         console.log("CALLBACK",error, transactionHash)

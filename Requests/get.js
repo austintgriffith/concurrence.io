@@ -21,10 +21,10 @@ if(!address){
       let index = 0;
       contract.methods.mainAddress().call().then((mainAddress)=>{
         console.log("The current mainAddress is ",mainAddress)
-        contract.methods.getUrl().call().then((result)=>{
+        contract.methods.getUrl("SOMERANDOMHASH").call().then((result)=>{
           console.log("The current getUrl is ",result)
-          contract.methods.getResult().call().then((result)=>{
-            console.log("The current getResult is ",result)
+          contract.methods.getResult("SOMERANDOMHASH").call().then((result)=>{
+            console.log("The SOMERANDOMHASH getResult is ",result)
           })
         })
       })

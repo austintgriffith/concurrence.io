@@ -17,7 +17,7 @@ if(!address){
       console.log("Loaded account "+accounts[0])
       let contract = new web3.eth.Contract(abi,address)
       console.log("interact...")
-      contract.methods.submitUrl("https://ifconfig.co/json").send({from: accounts[0]}).then(function(receipt){
+      contract.methods.setUrl("SOMERANDOMHASH","https://ifconfig.co/json").send({from: accounts[0]}).then(function(receipt){
           console.log("SENT:",receipt)
           // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
       });
