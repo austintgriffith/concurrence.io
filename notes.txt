@@ -1,0 +1,94 @@
+mining on the test net:
+geth --mine --minerthreads=4 --testnet --etherbase='0xe5A055CFe57287fEB89bbAE79538a3be3A06f62b'
+
+
+getting testnet ether:
+curl -X POST  -H "Content-Type: application/json" -d '{"toWhom":"0xe5A055CFe57287fEB89bbAE79538a3be3A06f62b"}' https://ropsten.faucet.b9lab.com/tap
+
+
+before deploy
+3.66325549
+3.46072299
+3.36072299
+3.15819049
+
+gas price
+http://ethgasstation.info/
+
+
+running gets with rpc:
+geth --testnet --rpc --rpcapi="db,eth,net,web3,personal"
+then
+geth attach http://:8545
+
+
+to get it to interface with web3 in node:
+geth --testnet --rpc --rpcapi="db,eth,net,web3,personal,web3" --rpccorsdomain "*" console
+
+getting balance
+web3.fromWei(eth.getBalance(eth.coinbase), "ether")
+
+unlock the account
+personal.unlockAccount(eth.accounts[0])
+
+I also had to give gas to the  turffle.js config:
+module.exports = {
+  networks: {
+    development: {
+      host: "localhost",
+      port: 8545,
+      network_id: "*", // Match any network id
+      gas: 500000
+    }
+  }
+};
+
+view ether nodes
+https://ethernodes.org/network/1
+
+
+
+---- ORACLE NOTES ------
+
+Used as time too:
+Take care if you perform calendar calculations using these units, because not every year equals 365 days and not even every day has 24 hours because of leap seconds. Due to the fact that leap seconds cannot be predicted, an exact calendar library has to be updated by an external oracle.
+
+
+
+
+———— OLD NOTES ————
+
+
+
+//send
+eth.sendTransaction({from: eth.accounts[0], to: '0xae8f3c8d1134e50a7c63c39d78406ab7334149ac', value: web3.toWei(0.001, "ether")})
+
+//balance
+web3.fromWei(eth.getBalance(eth.accounts[0]))
+
+//address
+eth.accounts
+["0xf027ca6ef6fab01b092196b3e2e52134225e2c3f"]
+
+
+web3.fromWei(eth.getBalance('0xae8f3c8d1134e50a7c63c39d78406ab7334149ac'))
+
+
+
+//mining
+geth --mine --minerthreads=4
+
+
+
+//explore chain:
+https://etherchain.org
+
+//my local wallet:
+https://etherchain.org/account/0xf027ca6ef6fab01b092196b3e2e52134225e2c3f
+
+
+web3.fromWei(eth.getBalance('0x1a060B0604883A99809eB3F798DF71BEf6c358f1'))
+
+
+//polo 0x32Be343B94f860124dC4fEe278FDCBD38C102D88
+web3.fromWei(eth.getBalance('0x32Be343B94f860124dC4fEe278FDCBD38C102D88'))
