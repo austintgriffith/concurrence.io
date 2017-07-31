@@ -13,21 +13,23 @@ if(!bytecode){
     console.log("Couldn't load "+process.argv[2]+".abi")
   }else{
     console.log("Deploying...",bytecode,abi)
-    let contract = new web3.eth.Contract(abi)
-    let deployed = contract.deploy({
-      data: "0x"+bytecode,
-      arguments: [fs.readFileSync("../Auth/Auth.address").toString().trim()]
-    }).send({
-      from: '0xdc1605c50b514b5caaa49d6abc5e58b40db09a58',
-      gas: 500000,
-      gasPrice:4000000000
-    }, function(error, transactionHash){
-      console.log("CALLBACK",error, transactionHash)
-    })
-    .then(function(newContractInstance){
-        console.log("newContractInstance!",newContractInstance.options.address) // instance with the new contract address
-        fs.writeFile(process.argv[2]+".address",newContractInstance.options.address)
-        console.log("deployed!")
+    web3.eth.getAccounts().then((accounts)=>{
+      console.log("Loaded account "+accounts[0])
+      let contract = new web3.eth.Contract(abi)
+      let deployed = contract.deploy({
+        data: "0x"+bytecode
+      }).send({
+        from: accounts[0],
+        gas: 1000000,
+        gasPrice:4000000000
+      }, function(error, transactionHash){
+        console.log("CALLBACK",error, transactionHash)
+      })
+      .then(function(newContractInstance){
+          console.log("newContractInstance!",newContractInstance.options.address) // instance with the new contract address
+          fs.writeFile(process.argv[2]+".address",newContractInstance.options.address)
+          console.log("deployed!")
+      });
     });
   }
 }

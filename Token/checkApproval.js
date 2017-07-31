@@ -19,22 +19,9 @@ if(!address){
       console.log("Ready to interact...")
       let index = 0;//auth
 
-      contract.methods.name().call().then((name)=>{
-        console.log("The current token name is ",name)
-        contract.methods.owner().call().then((owner)=>{
-          console.log("The current token owner is ",owner)
-          contract.methods.totalSupply().call().then((totalSupply)=>{
-              console.log("The current token totalSupply is ",totalSupply)
-              contract.methods.balanceOf(owner).call().then((balanceOf)=>{
-                console.log("The current token owner is ",balanceOf)
-              })
-          });
-        })
+      contract.methods.allowance(accounts[1],accounts[0]).call().then((allowance)=>{
+        console.log("account "+accounts[0]+" is allowed to transfer up to "+allowance+" from "+accounts[1])
 
-      //  index = 10;//requests
-      //  contract.methods.getContractAddress(index).call().then((contractAddress)=>{
-      //    console.log("The current contractAddress for ["+index+"] is ",contractAddress)
-      //  })
       })
     })
   }

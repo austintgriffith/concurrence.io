@@ -23,12 +23,20 @@ if(!address){
         console.log("The current token name is ",name)
         contract.methods.owner().call().then((owner)=>{
           console.log("The current token owner is ",owner)
-          contract.methods.totalSupply().call().then((totalSupply)=>{
-              console.log("The current token totalSupply is ",totalSupply)
-              contract.methods.balanceOf(owner).call().then((balanceOf)=>{
-                console.log("The current token owner is ",balanceOf)
-              })
-          });
+          contract.methods.balanceOf(owner).call().then((balanceOf)=>{
+            console.log("The current token owner is ",balanceOf)
+
+            let amount = 100
+            console.log("approving "+amount+" from "+accounts[1]+" to move to "+accounts[0]+"...");
+            contract.methods.approve(accounts[0],amount).send({
+              from: accounts[1],
+              gas: 100000,
+              gasPrice:4000000000
+            }).then((result,b,c)=>{
+              console.log("APPROVE WORKED?",result,b,c)
+            })
+
+          })
         })
 
       //  index = 10;//requests

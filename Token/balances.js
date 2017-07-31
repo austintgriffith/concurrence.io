@@ -23,12 +23,16 @@ if(!address){
         console.log("The current token name is ",name)
         contract.methods.owner().call().then((owner)=>{
           console.log("The current token owner is ",owner)
-          contract.methods.totalSupply().call().then((totalSupply)=>{
-              console.log("The current token totalSupply is ",totalSupply)
-              contract.methods.balanceOf(owner).call().then((balanceOf)=>{
-                console.log("The current token owner is ",balanceOf)
+          contract.methods.balanceOf(owner).call().then((balanceOf)=>{
+            console.log("The current token owner balance is ",balanceOf)
+            contract.methods.balanceOf(accounts[1]).call().then((balanceOf)=>{
+              console.log("The current token balance for [1]("+accounts[1]+") is ",balanceOf)
+              contract.methods.balanceOf(accounts[2]).call().then((balanceOf)=>{
+                console.log("The current token balance for [2]("+accounts[2]+") is ",balanceOf)
               })
-          });
+            })
+
+          })
         })
 
       //  index = 10;//requests

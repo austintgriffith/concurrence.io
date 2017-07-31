@@ -23,12 +23,28 @@ if(!address){
         console.log("The current token name is ",name)
         contract.methods.owner().call().then((owner)=>{
           console.log("The current token owner is ",owner)
-          contract.methods.totalSupply().call().then((totalSupply)=>{
-              console.log("The current token totalSupply is ",totalSupply)
-              contract.methods.balanceOf(owner).call().then((balanceOf)=>{
-                console.log("The current token owner is ",balanceOf)
+          contract.methods.balanceOf(owner).call().then((balanceOf)=>{
+            console.log("The current token owner is ",balanceOf)
+
+            contract.methods.balanceOf(accounts[1]).call().then((balanceOf)=>{
+              console.log("The balance of [1] "+accounts[1]+" is ",balanceOf)
+              contract.methods.balanceOf(accounts[2]).call().then((balanceOf)=>{
+                console.log("The balance of [2] "+accounts[2]+" is ",balanceOf)
+                let amount = 50
+                console.log("transferring "+amount+" to from (1)"+accounts[1]+" to (2)"+accounts[2]+" as (0)"+accounts[0]+"...");
+                contract.methods.transferFrom(accounts[1],accounts[2],amount).send({
+                  from: accounts[0],
+                  gas: 100000,
+                  gasPrice:4000000000
+                }).then((result,b,c)=>{
+                  console.log("XFER WORKED?",result,b,c)
+                })
               })
-          });
+            })
+
+
+
+          })
         })
 
       //  index = 10;//requests
