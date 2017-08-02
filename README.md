@@ -17,8 +17,15 @@ node wireupAllContracts.js Main
 node get.js Main
 ```
 
-Fire up the mock requestcoin.io backend server
+Fire up the mock backend server
 ```
 cd Web
 sudo nodemon index.js
+(http://localhost/address returns the main address)
+```
+
+Bring up the client with
+```
+cd App
+npm start
 ```
