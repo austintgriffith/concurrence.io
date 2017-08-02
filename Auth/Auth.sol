@@ -1,4 +1,12 @@
 pragma solidity ^0.4.0;
+
+/*
+>=200 setContractAddress (Main.sol)
+
+
+*/
+
+
 contract Auth {
     address owner;
     mapping ( address => uint8 ) public permission;

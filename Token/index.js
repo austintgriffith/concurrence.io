@@ -15,20 +15,7 @@ if(!address){
     console.log("Loading...")
     web3.eth.getAccounts().then((accounts)=>{
       console.log("Loaded account "+accounts[0])
-      let contract = new web3.eth.Contract(abi,address)
-      console.log("interact...")
-      let requestsAddress = fs.readFileSync("../Requests/Requests.address").toString().trim();
-      console.log("requestsAddress",requestsAddress)
-      contract.methods.setContractAddress(10,requestsAddress).send({
-        from: '0xdc1605c50b514b5caaa49d6abc5e58b40db09a58',
-        gas: 100000,
-        gasPrice:5000000000
-      }).then(function(receipt,data){
-        console.log("SENT:",receipt,data)
-          // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-      });
-
-      //console.log(contract)
+    
     })
   }
 }

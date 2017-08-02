@@ -24,6 +24,11 @@ if(!address){
         index = 10;//requests
         contract.methods.getContractAddress(index).call().then((contractAddress)=>{
           console.log("The current contractAddress for ["+index+"] is ",contractAddress)
+
+          index = 20;//token
+          contract.methods.getContractAddress(index).call().then((contractAddress)=>{
+            console.log("The current contractAddress for ["+index+"] is ",contractAddress)
+          })
         })
       })
     })

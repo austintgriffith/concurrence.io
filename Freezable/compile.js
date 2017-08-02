@@ -8,7 +8,6 @@ if(!input){
   var sources = {
     'Auth.sol': fs.readFileSync('../Auth/Auth.sol', 'utf8'),
     'Main.sol': fs.readFileSync('../Main/Main.sol', 'utf8'),
-    'Freezable.sol': fs.readFileSync('../Freezable/Freezable.sol', 'utf8'),
   };
   sources[(process.argv[2])+".sol"] = fs.readFileSync((process.argv[2])+".sol", 'utf8');
   const output = solc.compile({sources: sources}, 1);
