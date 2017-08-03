@@ -1,6 +1,7 @@
 pragma solidity ^0.4.0;
 
 /*
+>=240 give permissions to other addresses
 >=200 setContractAddress (Main.sol)
 
 
@@ -15,7 +16,7 @@ contract Auth {
         permission[owner] = 255;
     }
     function setPermission( address _address , uint8 _permission) returns (bool) {
-        if( permission[msg.sender]>=255 && _address!=owner ){
+        if( permission[msg.sender]>=240 && _address!=owner ){
             permission[_address] = _permission;
             return true;
         }

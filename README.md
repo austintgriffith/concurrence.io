@@ -10,13 +10,6 @@ Deploy contracts to rpc
 ./deploy.sh
 ```
 
-Wire the deployed contracts back to the main
-```
-cd Main
-node wireupAllContracts.js Main
-node get.js Main
-```
-
 Fire up the mock backend server
 ```
 cd Web

@@ -14,3 +14,8 @@ cd ..
 echo "Deploying Token...";
 cd Token;node compile Token;node deploy Token;
 cd ..
+
+echo "Wire the deployed contracts back to the main...";
+cd Main
+node wireupAllContracts.js Main
+node get.js Main
