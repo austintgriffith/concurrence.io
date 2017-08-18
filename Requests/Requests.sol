@@ -3,13 +3,71 @@ pragma solidity ^0.4.0;
 import "Auth.sol";
 import "Main.sol";
 import "Freezable.sol";
+import "Descendant.sol";
+import "Token.sol";
 
-contract Requests is Freezable{
+contract Requests is Freezable,Descendant {
+
   address public mainAddress;
-  string public url;
-  string public result;
-  address public miner;
-  bool public claimed = false;
+
+  function Requests(address _mainAddress) {
+    mainAddress=_mainAddress;
+    //setAncestor(_ancestor);
+  }
+
+  function setMainAddress(address _mainAddress){
+    Main main = Main(mainAddress);
+    Auth auth = Auth(main.getContractAddress(0));
+    if( auth.isOwner(msg.sender) ){
+      mainAddress=_mainAddress;
+    }
+  }
+
+  ///// Request ----------------------------------------------
+  struct Request{
+    string url;//ex "http://ifconfig.co"
+    address combiner;//ex 3 (this would mean contract 103)
+  }
+
+  mapping (bytes32 => Request) public requests;
+  ///// ======= ----------------------------------------------
+  event ErrorString(string _str);
+  event AddRequest(address _sender,string _id,address _combiner,uint _coin, string _url);
+  event AttemptAddRequest(address _sender,string _id,address _combiner,uint _coin, string _url);
+
+  ///// request add  --------------------------------------------------
+  function addRequest(string _id, address _combiner, uint _coin, string _url) returns (bool){
+    AttemptAddRequest(msg.sender,_id,_combiner,_coin,_url);
+    Main main = Main(mainAddress);
+    Auth auth = Auth(main.getContractAddress(0));
+    Token token = Token(main.getContractAddress(20));
+    //right now you need at least 32 auth level to add requests...
+    if( auth.getPermission(msg.sender)>=32 ){
+      bytes32 __id = stringToBytes32(_id);
+      if( token.reserve(msg.sender,_combiner,__id,_coin) ){
+
+        requests[__id].url=_url;
+        requests[__id].combiner=_combiner;
+
+        AddRequest(msg.sender,_id,_combiner,_coin,_url);
+        return true;
+      }else{
+        ErrorString("Failed to reserve!");
+        return false;
+      }
+    }else{
+      ErrorString("Failed to get permission!");
+      return false;
+    }
+  }
+
+  function getRequest(string _id) constant returns (uint,string,address){
+    bytes32 __id = stringToBytes32(_id);
+    Main main = Main(mainAddress);
+    Token token = Token(main.getContractAddress(20));
+    return ( token.getReserved(requests[__id].combiner,__id), requests[__id].url, requests[__id].combiner );
+  }
+  ///// === --------------------------------------------------
 
   function stringToBytes32(string memory source) returns (bytes32) {
     bytes32 result;
@@ -17,51 +75,6 @@ contract Requests is Freezable{
         result := mload(add(source, 32))
     }
     return result;
-  }
-
-  function Requests(address _mainAddress) {
-    mainAddress=_mainAddress;
-  }
-
-  struct Request{
-    string url;
-    string result;
-    address miner;
-    bool claimed;
-  }
-
-  mapping (bytes32 => Request) public requests;
-
-  function setUrl(string _id,string _url) returns (bool){
-    Main main = Main(mainAddress);
-    Auth auth = Auth(main.getContractAddress(0));
-    if( auth.getPermission(msg.sender)>=32 ){
-      requests[stringToBytes32(_id)].url=_url;
-      return true;
-    }
-    revert();
-  }
-
-  function getUrl(string _id) constant returns (string){
-    return requests[stringToBytes32(_id)].url;
-  }
-
-  function setResult(string _id,string _result) returns (bool){
-    Main main = Main(mainAddress);
-    Auth auth = Auth(main.getContractAddress(0));
-    if( auth.getPermission(msg.sender)>=5 && !claimed){
-      bytes32 i = stringToBytes32(_id);
-      requests[i].result=_result;
-      requests[i].miner=msg.sender;
-      requests[i].claimed=true;
-      return true;
-    }
-    revert();
-  }
-
-  function getResult(string _id) constant returns (string,address){
-    bytes32 i = stringToBytes32(_id);
-    return (requests[i].result,requests[i].miner);
   }
 
 }

@@ -19,7 +19,7 @@ if(!address){
       console.log("interact...")
 
 
-      
+
       let requestsAddress = fs.readFileSync("../Requests/Requests.address").toString().trim();
       console.log("requestsAddress",requestsAddress)
       contract.methods.setContractAddress(10,requestsAddress).send({
@@ -43,6 +43,18 @@ if(!address){
         console.log("SENT:",receipt,data)
           // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
       });
+
+
+      /*let combinerAddress = fs.readFileSync("../Combiner/basic/Combiner.address").toString().trim();
+      console.log("combinerAddress",combinerAddress)
+      contract.methods.setContractAddress(100,combinerAddress).send({
+        from: accounts[0],
+        gas: 100000,
+        gasPrice:5000000000
+      }).then(function(receipt,data){
+        console.log("SENT:",receipt,data)
+          // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+      });*/
 
 
 

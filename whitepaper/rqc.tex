@@ -1,5 +1,43 @@
 \documentclass[a4paper,10pt]{article}
 
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.96,0.96,0.96}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+\lstset{emph={%
+    some, stuff%
+    },emphstyle={\color{red}\bfseries\underbar}%
+}%
+\lstset{emph={%
+    rad, things%
+    },emphstyle={\color{blue}\bfseries}%
+}%
+
+
 \begin{document}
 
 \title{%
@@ -46,7 +84,7 @@ An open job queue of Request still waiting for more miners \\
 Requests will be represented by a struct and can have many different forms \\
 (Some requests will want consensus while others will want single calls)
 
-Processors \\
+Combiners \\
 Once a request is fulfilled by a miner, it should be processed on the way back in \\
 Meaning, the request struct will define a contract ENUM (looked up on head) to process the results \\
 Processors could range from simple passalong, to hash, to different forms on consensus \\
@@ -67,6 +105,31 @@ The miner may provide hash of the content, the response code, the response time,
 The processor will accumulate responses until the defined consensus is met and create a response \\
 This response event is watched either on chain or off by either RequestCoin clients or third party apps \\
 Public and decentralized history of all requests/consensus/responses \\
+
+//best languages are C++ and AWK so far, maybe Scilab,
+
+\begin{lstlisting}[language=Scilab]
+import "Token.sol";
+//some comment
+contract Requests is Freezable,Descendant {
+
+  address public mainAddress;
+
+  function Requests(address _mainAddress) {
+    mainAddress=_mainAddress;
+    //setAncestor(_ancestor);
+  }
+
+  function setMainAddress(address _mainAddress){
+    Main main = Main(mainAddress);
+    Auth auth = Auth(main.getContractAddress(0));
+    if( auth.isOwner(msg.sender) ){
+      mainAddress=_mainAddress;
+    }
+  }
+}
+\end{lstlisting}
+
 
 
 \begin{center}

@@ -14,21 +14,19 @@ if(!address){
   }else{
     console.log("Loading...")
     web3.eth.getAccounts().then((accounts)=>{
-      console.log("Loaded account "+accounts[0])
-    
+      console.log("Loaded account [1] "+accounts[1])
+      let contract = new web3.eth.Contract(abi,address)
+      console.log("interact...")
+
+      contract.getPastEvents('Reserve', {
+          fromBlock: 0,
+          toBlock: 'latest'
+      }, function(error, events){
+        console.log(events);
+      })
+
+
+
     })
   }
 }
-
-
-
-
-/*
-let deployed = test.deploy({
-  data: bytecode,
-  arguments: ["CONARG1"]
-})
-console.log("Deployed...")
-
-console.log(deployed)
-*/

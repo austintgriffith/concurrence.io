@@ -14,19 +14,18 @@ if(!address){
   }else{
     console.log("Loading...")
     web3.eth.getAccounts().then((accounts)=>{
-      console.log("Loaded account "+accounts[0])
+      console.log("Loaded account [1] "+accounts[1])
       let contract = new web3.eth.Contract(abi,address)
-      console.log("Give user [1] mining auth...")
-      contract.methods.setPermission(accounts[1],32).send({
-        from: accounts[0],
-        gas: 100000,
-        gasPrice:4000000000
-      }).then(function(receipt){
-        console.log("SENT:",receipt)
-          // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-      });
+      console.log("interact...")
 
-      //console.log(contract)
+      contract.getPastEvents('AddRequest', {
+          fromBlock: 0,
+          toBlock: 'latest'
+      }, function(error, events){
+        console.log(events);
+      })
+
+
     })
   }
 }

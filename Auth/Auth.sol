@@ -1,15 +1,12 @@
 pragma solidity ^0.4.0;
 
 /*
->=240 give permissions to other addresses
->=200 setContractAddress (Main.sol)
-
-
+>=240 give permissions to other addresses (Auth admin)
+>=200 setContractAddress (Main admin)
 */
 
-
 contract Auth {
-    address owner;
+    address public owner;
     mapping ( address => uint8 ) public permission;
     function Auth() {
         owner=msg.sender;
@@ -19,10 +16,15 @@ contract Auth {
         if( permission[msg.sender]>=240 && _address!=owner ){
             permission[_address] = _permission;
             return true;
+        }else{
+            return false;
         }
-        revert();
     }
     function getPermission( address _address) constant returns (uint8) {
         return permission[_address];
+    }
+
+    function isOwner( address _address) constant returns (bool) {
+        return (owner==_address);
     }
 }

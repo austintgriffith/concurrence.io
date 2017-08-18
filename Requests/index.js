@@ -14,10 +14,24 @@ if(!address){
   }else{
     console.log("Loading...")
     web3.eth.getAccounts().then((accounts)=>{
-      console.log("Loaded account "+accounts[0])
+      console.log("Loaded account [1] "+accounts[1])
       let contract = new web3.eth.Contract(abi,address)
-      console.log("interact...")
-      contract.methods.setUrl("SOMERANDOMHASH","https://ifconfig.co/json").send({from: accounts[0]}).then(function(receipt){
+      console.log("addRequest...")
+
+      //eventually we will have a library combiners probably even third party
+      // that means miners will need a way to know the combiner abi from the combiner address
+      // for now we will use a hardcoded basic combiner and work out the dynamic stuff later
+      // perhaps all combiner abis could be hashed and then that hash would come along with the address
+      // then a miner could use the hash to find the abi it needs
+
+      let combiner = "basic";
+      let combinerAddress = fs.readFileSync("../Combiner/"+combiner+"/Combiner.address").toString().trim();
+      //let combinerabi = JSON.parse(fs.readFileSync("../Combiner/"+combiner+"/Combiner.abi"));
+      contract.methods.addRequest("SOMERANDOMHASH",combinerAddress,5,"https://ifconfig.co/json").send({
+        from: accounts[1],
+        gasPrice: fs.readFileSync("../gasprice.int").toString().trim()*1000000000,
+        gas: fs.readFileSync("../deploygas.int").toString().trim()
+      }).then(function(receipt){
           console.log("SENT:",receipt)
           // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
       });

@@ -14,19 +14,19 @@ if(!address){
   }else{
     console.log("Loading...")
     web3.eth.getAccounts().then((accounts)=>{
-      console.log("Loaded account "+accounts[0])
+      console.log("Loaded account "+accounts[1])
       let contract = new web3.eth.Contract(abi,address)
-      console.log("Give user [1] mining auth...")
-      contract.methods.setPermission(accounts[1],32).send({
-        from: accounts[0],
+      console.log("interact...")
+      //let requestsAddress = fs.readFileSync("../Requests/Requests.address").toString().trim();
+      //console.log("requestsAddress",requestsAddress)
+      contract.methods.spend(1).send({
+        from: accounts[1],
         gas: 100000,
-        gasPrice:4000000000
-      }).then(function(receipt){
-        console.log("SENT:",receipt)
+        gasPrice:5000000000
+      }).then(function(receipt,data){
+        console.log("SENT:",receipt,data)
           // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
       });
-
-      //console.log(contract)
     })
   }
 }

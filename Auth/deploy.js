@@ -19,12 +19,16 @@ if(!bytecode){
       console.log("Loaded account "+accounts[0])
       console.log("Deploying...",bytecode,abi)
       let contract = new web3.eth.Contract(abi)
+      let gasPrice = fs.readFileSync("../gasprice.int").toString().trim()
+      let gas = fs.readFileSync("../deploygas.int").toString().trim()
+      let gaspricegwei = gasPrice*1000000000
+      console.log("paying a max of "+gas+" gas @ the price of "+gasPrice+" gwei ("+gaspricegwei+")")
       let deployed = contract.deploy({
         data: "0x"+bytecode
       }).send({
         from: accounts[0],
-        gas: 500000,
-        gasPrice:4000000000
+        gas: gas,
+        gasPrice: gaspricegwei
       }, function(error, transactionHash){
         console.log("CALLBACK",error, transactionHash)
       })

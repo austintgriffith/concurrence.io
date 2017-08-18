@@ -17,8 +17,11 @@ if(!address){
       console.log("Loaded account "+accounts[0])
       let contract = new web3.eth.Contract(abi,address)
       console.log("Ready to interact...")
-      contract.methods.permission(accounts[1]).call().then((permission)=>{
-        console.log("The current permission is ",permission)
+      contract.methods.permission(accounts[0]).call().then((permission)=>{
+        console.log("The current permission[0] is ",permission)
+        contract.methods.permission(accounts[1]).call().then((permission)=>{
+          console.log("The current permission[1] is ",permission)
+        })
       })
     })
   }

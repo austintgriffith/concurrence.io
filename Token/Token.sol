@@ -1,21 +1,64 @@
 pragma solidity ^0.4.8;
 
+import "Auth.sol";
+import "Main.sol";
 
-// ----------------------------------------------------------------------------------------------
-// Sample fixed supply token contract
-// Enjoy. (c) BokkyPooBah 2017. The MIT Licence.
-// ----------------------------------------------------------------------------------------------
-
-// ERC Token Standard #20 Interface
-// https://github.com/ethereum/EIPs/issues/20
 contract Token {
      string public constant symbol = "RQC";
      string public constant name = "RequestCoin";
      uint8 public constant decimals = 18;
      uint256 _totalSupply = 1000000000000;
 
-     // Owner of this contract
      address public owner;
+     address public mainAddress;
+
+     event Reserve(address _contract, address indexed _from, address indexed _combiner, bytes32 indexed _id, uint256 _value);
+     event Reward(address indexed _combiner, bytes32 indexed _id, address indexed _to, uint256 _value);
+     event AttemptReserve(address _contract, address indexed _account, address indexed _combiner, bytes32 indexed _id,uint256 _amount);
+     event AttemptReward(address _combiner, bytes32 indexed _id, address _miner, uint _amount);
+     event FailedReserve(address _contract, address _validContract, address indexed _account, address indexed _combiner, bytes32 _id, uint256 _amount, uint256 _balance);
+     event FailedReward(address indexed _contract, bytes32 indexed _id, address indexed _account, uint256 _amount);
+
+     //reservations are tokens held by a combiner's address for a request id to eventually reward miners
+     mapping(address => mapping(bytes32 => uint256)) reservations;
+
+     function reserve(address _account,address _combiner,bytes32 _id,uint256 _amount) returns (bool) {
+          AttemptReserve(msg.sender,_account,_combiner,_id,_amount);
+          Main main = Main(mainAddress);
+          //make sure msg.sender is the Requests contract registered in main
+          // it is important to make sure only the registered contract can
+          // reserve coin on behalf of users
+          address requestsContractAddress = main.getContractAddress(10);
+          if(msg.sender == requestsContractAddress){
+               if (balances[_account] >= _amount
+                  && _amount > 0) {
+                  balances[_account] -= _amount;
+                  reservations[_combiner][_id] += _amount;
+                  Reserve(msg.sender, _account, _combiner, _id, _amount);
+                  return true;
+               }
+          }
+          FailedReserve(msg.sender,requestsContractAddress,_account,_combiner,_id,_amount,balances[_account]);
+          return false;
+     }
+     function getReserved(address _combiner,bytes32 _id) constant returns (uint){
+       return reservations[_combiner][_id];
+     }
+
+     function reward(bytes32 _id,address _miner,uint256 _amount) returns (bool) {
+          AttemptReward(msg.sender,_id,_miner,_amount);
+
+          if (reservations[msg.sender][_id] >= _amount
+               && _amount > 0) {
+               reservations[msg.sender][_id] -= _amount;
+               balances[_miner] += _amount;
+               Reward(msg.sender,_id,_miner, _amount);
+               return true;
+          }
+          FailedReward(msg.sender,_id,_miner,_amount);
+          return false;
+
+     }
 
      //Events
      event Transfer(address indexed _from, address indexed _to, uint256 _value);
@@ -36,7 +79,8 @@ contract Token {
      }
 
      // Constructor
-     function Token() {
+     function Token(address _mainAddress) {
+         mainAddress = _mainAddress;
          owner = msg.sender;
          balances[owner] = _totalSupply;
      }
