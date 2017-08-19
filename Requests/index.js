@@ -27,7 +27,7 @@ if(!address){
       let combiner = "basic";
       let combinerAddress = fs.readFileSync("../Combiner/"+combiner+"/Combiner.address").toString().trim();
       //let combinerabi = JSON.parse(fs.readFileSync("../Combiner/"+combiner+"/Combiner.abi"));
-      contract.methods.addRequest("SOMERANDOMHASH",combinerAddress,5,"https://ifconfig.co/json").send({
+      contract.methods.addRequest("SOMERANDOMHASH",combinerAddress,3,"https://ifconfig.co/json").send({
         from: accounts[1],
         gasPrice: fs.readFileSync("../gasprice.int").toString().trim()*1000000000,
         gas: fs.readFileSync("../deploygas.int").toString().trim()

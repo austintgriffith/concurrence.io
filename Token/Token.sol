@@ -44,6 +44,9 @@ contract Token {
      function getReserved(address _combiner,bytes32 _id) constant returns (uint){
        return reservations[_combiner][_id];
      }
+     function getReservedByString(address _combiner,string _id) constant returns (uint){
+       return reservations[_combiner][stringToBytes32(_id)];
+     }
 
      function reward(bytes32 _id,address _miner,uint256 _amount) returns (bool) {
           AttemptReward(msg.sender,_id,_miner,_amount);
@@ -143,5 +146,15 @@ contract Token {
 
      function allowance(address _owner, address _spender) constant returns (uint256 remaining) {
          return allowed[_owner][_spender];
+     }
+
+     ///// === --------------------------------------------------
+
+     function stringToBytes32(string memory source) returns (bytes32) {
+       bytes32 result;
+       assembly {
+           result := mload(add(source, 32))
+       }
+       return result;
      }
  }
