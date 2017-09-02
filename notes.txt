@@ -6,12 +6,6 @@ getting testnet ether:
 curl -X POST  -H "Content-Type: application/json" -d '{"toWhom":"0xe5A055CFe57287fEB89bbAE79538a3be3A06f62b"}' https://ropsten.faucet.b9lab.com/tap
 
 
-before deploy
-3.66325549
-3.46072299
-3.36072299
-3.15819049
-
 gas price
 http://ethgasstation.info/
 
