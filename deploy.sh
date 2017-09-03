@@ -1,10 +1,9 @@
 #!/bin/bash
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 echo "Deploying Auth...";
-cd Auth;node compile Auth;node deploy Auth;
-cd ..
+cd Auth;node compile Auth;
+cd ..;node deploy Auth;
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
-
 
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 echo "Giving account [1] permission from account [0]...";
@@ -14,28 +13,28 @@ node get Auth
 cd ..
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 echo "Deploying Main...";
-cd Main;node compile Main;node deploy Main;
-cd ..
+cd Main;node compile Main;
+cd ..;node deploy Main;
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 
 
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 echo "Deploying Requests...";
-cd Requests;node compile Requests;node deploy Requests;
-cd ..
+cd Requests;node compile Requests;
+cd ..;node deploy Requests;
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 
 
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 echo "Deploying Token...";
-cd Token;node compile Token;node deploy Token;
-cd ..
+cd Token;node compile Token;
+cd ..;node deploy Token;
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 echo "Deploying basic Combiner...";
-cd Combiner/basic;node compile Combiner;node deploy Combiner;
-cd ../..
+cd Combiner/basic;node compile Combiner;
+cd ../..;node deploy Combiner/basic Combiner
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 
 

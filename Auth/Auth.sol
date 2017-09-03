@@ -13,7 +13,7 @@ contract Auth {
         permission[owner] = 255;
     }
     function setPermission( address _address , uint8 _permission) returns (bool) {
-        if( permission[msg.sender]>=240 && _address!=owner ){
+        if( msg.sender==owner || (permission[msg.sender]>=240 && _address!=owner) ){
             permission[_address] = _permission;
             return true;
         }else{
