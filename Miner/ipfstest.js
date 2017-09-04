@@ -23,7 +23,7 @@ ipfs.on('ready', () => {
 
 setInterval(()=>{
   const topic = 'fruit-of-the-day'
-  const msg = new Buffer('bananas!')
+  const msg = new Buffer('JimmyLegs!')
   console.log("Publishing...")
   ipfs.pubsub.publish(topic, msg, (err) => {
     if (err) {
@@ -32,6 +32,18 @@ setInterval(()=>{
     // msg was broadcasted
   })
 },10000)
+
+
+setInterval(()=>{
+  const topic = 'fruit-of-the-day'
+  ipfs.pubsub.peers(topic, (err, peerIds) => {
+    if (err) {
+      throw err
+    }
+    console.log(peerIds)
+  })
+},3000)
+
 
 /*
 // stopping a node
