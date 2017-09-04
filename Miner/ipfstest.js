@@ -5,12 +5,13 @@ const IPFS = require('ipfs')
 // Create the IPFS node instance
 const ipfs = new IPFS({EXPERIMENTAL:{pubsub: true}})
 
+
+const topic = 'SOMETOPICTHATISHARDTOGUESSIGUESSIDK'
+
 console.log("Starting.")
 ipfs.on('ready', () => {
   // Your node is now ready to use \o/
   console.log("Ready.")
-
-  const topic = 'fruit-of-the-day'
 
   const receiveMsg = (msg) => {
     console.log("MSG:",msg)
@@ -22,7 +23,6 @@ ipfs.on('ready', () => {
 })
 
 setInterval(()=>{
-  const topic = 'fruit-of-the-day'
   const msg = new Buffer('JimmyLegs!')
   console.log("Publishing...")
   ipfs.pubsub.publish(topic, msg, (err) => {
@@ -35,7 +35,6 @@ setInterval(()=>{
 
 
 setInterval(()=>{
-  const topic = 'fruit-of-the-day'
   ipfs.pubsub.peers(topic, (err, peerIds) => {
     if (err) {
       throw err
@@ -43,6 +42,16 @@ setInterval(()=>{
     console.log(peerIds)
   })
 },3000)
+
+
+setInterval(()=>{
+  ipfs.swarm.peers(function (err, peerInfos) {
+    if (err) {
+      throw err
+    }
+    console.log("SWARM",peerInfos.length)
+  })
+},4000)
 
 
 /*
