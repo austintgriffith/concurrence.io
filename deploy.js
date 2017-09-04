@@ -21,6 +21,7 @@ if(!bytecode){
 
     let ethPrice = parseInt(fs.readFileSync("ethprice.int").toString().trim())
     web3.eth.getAccounts().then((accounts)=>{
+
       web3.eth.getBalance(accounts[0]).then((balance)=>{
         let etherbalance = web3.utils.fromWei(balance,"ether");
         console.log(etherbalance+" $"+(etherbalance*ethPrice))
@@ -63,7 +64,10 @@ if(!bytecode){
                   fs.writeFileSync(contractdir+"/"+contractname+".address",result.contractAddress)
 
                   let endSeconds = new Date().getTime() / 1000;
-                  console.log("deploy time: ",(endSeconds-startSeconds))
+                  let duration = Math.floor((endSeconds-startSeconds))
+                  console.log("deploy time: ",duration)
+
+                  fs.appendFileSync("./deploy.log",contractdir+"/"+contractname+" "+result.contractAddress+" "+duration+" "+etherdiff+" $"+(etherdiff*ethPrice)+" "+gaspricegwei+"\n")
 
                   process.exit(0);
                 })
@@ -72,7 +76,7 @@ if(!bytecode){
                 console.log(".")
               }
             })
-          },3000)
+          },10000)
         })
 
       })

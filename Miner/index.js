@@ -1,3 +1,12 @@
+/*
+Miner
+*/
+
+const IPFS = require('ipfs-daemon')
+const options = {}
+const ipfs = new IPFS(options)
+const ipfsReady = false
+
 const RPC = true
 const WEBSERVER = "localhost"
 
@@ -31,31 +40,37 @@ let blockNumberSearchBack=10
 
 
 
+
+
 //Start everything off by attempting to connect to eth network
-connectToEthereumNetwork()
+//connectToEthereumNetwork()
+
+/*
+setInterval(()=>{
+  if(mainContract&&authContract&&requestsContract&&tokenContract){
+      loadRequests()
+  }else{console.log("---")}
+},10000)
 
 
+setInterval(()=>{
+  if(requestList&&tokenContract){
+      loadReservedCoinInRequests()
+  }else{console.log("###")}
+},15000)
 
+setInterval(()=>{
+  if(requestList&&tokenContract){
+      loadReservedCoinInRequests()
+  }else{console.log("###")}
+},15000)
+*/
 
-function mainLoop(){
-  console.log("====== RQC ==================")
-  loadRequests()
-}
-
-
-
-
-
-
-
-//setInterval(()=>{
-//  if(mainContract&&authContract&&requestsContract&&tokenContract){
-//      mainLoop()
-//  }else{console.log("---")}
-//},10000)
-
-
-
+ipfs.on('ready', () => {
+  console.log("@@ IPFS READY @@")
+  ipfsReady=true
+})
+ipfs.on('error', (e) => console.log("@@@ IPFS ERROR",e))
 
 function connectToEthereumNetwork(){
   if(RPC){
@@ -202,29 +217,29 @@ function connectToTokenContract(){
       console.log("Ready to interact with tokenContract...")
       tokenContract.methods.mainAddress().call().then((_mainAddress)=>{
         console.log("_mainAddress: "+_mainAddress)
-        mainLoop()
+        loadRequests()
+        setTimeout(loadReservedCoinInRequests,5000)
       })
     }
   })
 }
 
 function loadRequests(){
-  console.log("Loading requests...")
-  console.log("Current Block Number: ",blockNumber)
+  let DEBUG = false
+  if(DEBUG) console.log("Loading requests...")
+  if(DEBUG) console.log("Current Block Number: ",blockNumber)
   web3.eth.getBlockNumber((err,_currentBlockNumber)=>{
-    console.log("_currentBlockNumber: "+_currentBlockNumber)
+    if(DEBUG) console.log("_currentBlockNumber: "+_currentBlockNumber)
     if(_currentBlockNumber){
       let thisBlockNumberSearchBack = _currentBlockNumber-blockNumberSearchBack
-      console.log("Looking for AddRequest events back to block ",thisBlockNumberSearchBack)
+      if(DEBUG) console.log("Looking for AddRequest events back to block ",thisBlockNumberSearchBack)
       requestsContract.getPastEvents('AddRequest', {
           fromBlock: thisBlockNumberSearchBack,
           toBlock: 'latest'
       }, function(error, events){
         console.log("Found "+events.length+" requests...");
-
-
         for(let request in events.reverse()){
-          console.log(events[request].returnValues)
+          if(DEBUG) console.log(events[request].returnValues)
           if(!requestList[events[request].returnValues._id]){
             console.log("Adding request "+events[request].returnValues._id+" with combiner "+events[request].returnValues._combiner)
             requestList[events[request].returnValues._id] = events[request].returnValues
@@ -233,4 +248,25 @@ function loadRequests(){
       })
     }
   })
+}
+
+function loadReservedCoinInRequests(){
+  let DEBUG=true
+  if(DEBUG) console.log("## REQUESTS ")
+  for(let req in requestList){
+    //for each request we want to see how much coin is still reserved
+    //getReserved(address _combiner,bytes32 _id) constant returns (uint)
+    //getReservedByString(address _combiner,string _id) constant returns (uint){
+    if(typeof requestList[req].reserved == "undefined" || requestList[req].reserved>0 ){
+      if(DEBUG) console.log(requestList[req]._id)
+      tokenContract.methods.getReservedByString(requestList[req]._combiner,requestList[req]._id).call().then((_reserved)=>{
+        if(DEBUG) console.log("_reserved: "+_reserved)
+        requestList[req].reserved=_reserved
+      })
+    }
+
+    if(requestList[req].reserved){
+      console.log("#  "+requestList[req]._id+" ("+requestList[req].reserved+") "+requestList[req]._url)
+    }
+  }
 }
