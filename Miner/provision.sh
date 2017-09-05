@@ -1,6 +1,8 @@
 #!/bin/bash
 echo ".....Preparing OS........................."
 cd ~
+git config --global user.email "you@example.com"  
+git config --global user.name "Your Name"
 sudo apt-get update
 sudo apt-get dist-upgrade -y
 sudo apt-get upgrade -y
@@ -29,6 +31,7 @@ sudo apt-get install ethereum -y
 geth version
 
 echo "....Installing RQC........................."
+cd ~/rqc/Miner
 npm install
 npm install leveldown
 node ipfsget.js
