@@ -19,7 +19,7 @@ ipfs.on('ready', () => {
   })
 })
 
-const multihashStr = 'QmVLDAhCY3X9P2uRudKAryuQFPM5zqA3Yij1dY8FpGbL7T/about';
+const multihashStr = 'QmcgvjN5saSNdNWXAG4UaL1D7RLoVDSHDTAuShVoKucmai';
 let didGet = false
 setInterval(()=>{
   ipfs.swarm.peers(function (err, peerInfos) {
