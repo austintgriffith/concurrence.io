@@ -1,6 +1,17 @@
 const IPFS = require('ipfs')
-const Room = require('ipfs-pubsub-room')
-const ipfs = new IPFS({EXPERIMENTAL:{pubsub: true}})
+//const Room = require('ipfs-pubsub-room')
+const ipfs = new IPFS(
+  {
+    EXPERIMENTAL:{
+      pubsub: true
+    },
+    config:{
+      "Bootstrap": [
+        "/ip4/54.208.27.159/tcp/8000/ipfs/QmdvzD1UQKTex9veYo1r6S2orH5cZoVMuwM6tSiV6bQjz4"
+      ],
+    }
+  }
+)
 
 //npm install --save ipfs
 // (ran that twice)
@@ -9,8 +20,18 @@ const ipfs = new IPFS({EXPERIMENTAL:{pubsub: true}})
 
 
 
-const topic = 'SOMETOPIC'
 
+const multihashStr = 'QmQNt89HCVNaGwUhJFASdAv7eqrGmTPLyNWTDgEVzdFhP9'
+
+console.log("Starting.")
+ipfs.on('ready', () => {
+  console.log("Ready?")
+})
+
+
+
+const topic = 'SOMETOPIC'
+/*
 console.log("Starting.")
 ipfs.on('ready', () => {
   ipfs.id((err,id)=>{
@@ -27,16 +48,9 @@ ipfs.on('ready', () => {
   setInterval(()=>{
     room.broadcast("HELLO JABRONIES")
   },2000)
-/*
-  const receiveMsg = (msg) => {
-    console.log("MSG:",msg)
-    console.log(msg.data.toString())
-  }
 
-  ipfs.pubsub.subscribe(topic, receiveMsg)
-*/
 })
-
+*/
 
 
 /*
@@ -51,7 +65,7 @@ setInterval(()=>{
   })
 },10000)
 
-
+*/
 setInterval(()=>{
   ipfs.pubsub.peers(topic, (err, peerIds) => {
     if (err) {
@@ -60,14 +74,31 @@ setInterval(()=>{
     console.log(peerIds)
   })
 },3000)
-*/
 
+
+
+
+
+
+let didGet = false
 setInterval(()=>{
   ipfs.swarm.peers(function (err, peerInfos) {
     if (err) {
       throw err
     }
     console.log("SWARM",peerInfos.length)
+    if(!didGet && peerInfos.length>0){
+      didGet=true
+      console.log("GET")
+      ipfs.files.get(multihashStr, function (err, stream) {
+        stream.on('data', (file) => {
+          console.log("GOT")
+          // write the file's path and contents to standard out
+          console.log(file.path)
+          file.content.pipe(process.stdout)
+        })
+      })
+    }
   })
 },4000)
 
