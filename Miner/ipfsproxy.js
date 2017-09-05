@@ -18,6 +18,12 @@ const ipfs = new IPFS(
   }
 )
 
+
+const topic = 'fruit-of-the-day'
+
+
+
+
 ipfs.on('ready', () => {
   console.log("Ready?")
   ipfs.id(function (err, identity) {
@@ -39,7 +45,7 @@ setInterval(()=>{
     console.log("SWARM",peerInfos.length)
     if(!didGet && peerInfos.length>0){
       didGet=true
-      console.log("GET")
+      /*console.log("GET")
       ipfs.files.get(multihashStr, function (err, stream) {
         stream.on('data', (file) => {
           console.log("GOT")
@@ -47,7 +53,25 @@ setInterval(()=>{
           console.log(file.path)
           file.content.pipe(process.stdout)
         })
-      })
+      })*/
+      console.log("SUB")
+
+
+      const receiveMsg = (msg) => {
+        console.log("MSG",msg,msg.data.toString())
+      }
+
+      ipfs.pubsub.subscribe(topic, receiveMsg)
+
+      setInterval(()=>{
+        ipfs.pubsub.peers(topic, (err, peerIds) => {
+          if (err) {
+            throw err
+          }
+          console.log("PUBSUB PEERS",peerIds)
+        })
+      },5000)
+
     }
   })
 },4000)
