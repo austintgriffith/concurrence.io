@@ -1,8 +1,9 @@
 #!/bin/bash
 echo ".....Preparing OS........................."
 cd ~
-git config --global user.email "you@example.com"  
+git config --global user.email "you@example.com"
 git config --global user.name "Your Name"
+git config --global push.default simple
 sudo apt-get update
 sudo apt-get dist-upgrade -y
 sudo apt-get upgrade -y
