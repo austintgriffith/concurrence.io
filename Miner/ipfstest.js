@@ -1,14 +1,22 @@
 const IPFS = require('ipfs')
+
+/*
+let config = {
+  "Bootstrap": [
+    "/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+    "/ip4/162.243.248.213/tcp/4001/ipfs/QmSoLueR4xBeUbY9WZ9xGUUxunbKWcrNFTDAadQJmocnWm",
+    "/ip4/25.196.147.100/tcp/4001/ipfs/QmaMqSwWShsPg2RbredZtoneFjXhim7AQkqbLxib45Lx4S",
+  ],
+}*/
+
+
+
+
 //const Room = require('ipfs-pubsub-room')
 const ipfs = new IPFS(
   {
     EXPERIMENTAL:{
       pubsub: true
-    },
-    config:{
-      "Bootstrap": [
-        "/ip4/54.208.27.159/tcp/8000/ipfs/QmdvzD1UQKTex9veYo1r6S2orH5cZoVMuwM6tSiV6bQjz4"
-      ],
     }
   }
 )
@@ -19,13 +27,23 @@ const ipfs = new IPFS(
 // Create the IPFS node instance
 
 
-
-
 const multihashStr = 'QmQNt89HCVNaGwUhJFASdAv7eqrGmTPLyNWTDgEVzdFhP9'
 
 console.log("Starting.")
+
+ipfs.bootstrap.list((err,list)=>{
+  console.log("LIST",list)
+})
+
 ipfs.on('ready', () => {
   console.log("Ready?")
+
+  ipfs.id(function (err, identity) {
+  if (err) {
+    throw err
+  }
+  console.log(identity)
+})
 })
 
 
