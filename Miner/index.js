@@ -1,11 +1,15 @@
 /*
 Miner
 */
-
-const IPFS = require('ipfs-daemon')
-const options = {}
-const ipfs = new IPFS(options)
-const ipfsReady = false
+const IPFS = require('ipfs')
+const ipfs = new IPFS(
+  {
+    EXPERIMENTAL:{
+      pubsub: true
+    }
+  }
+)
+let ipfsReady = false
 
 const RPC = true
 const WEBSERVER = "localhost"
@@ -41,6 +45,16 @@ let blockNumberSearchBack=10
 
 
 
+ipfs.on('ready', () => {
+  console.log("Ready?")
+  ipfs.id(function (err, identity) {
+    if (err) {
+      throw err
+    }
+    console.log(identity)
+    console.log("ISON",ipfs.isOnline())
+  })
+})
 
 //Start everything off by attempting to connect to eth network
 //connectToEthereumNetwork()

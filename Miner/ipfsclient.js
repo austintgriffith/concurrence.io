@@ -10,6 +10,7 @@ const ipfs = new IPFS(
     config: { // overload the default IPFS node config
       Bootstrap: [
         //a couple custom ports should probably be opened up on rqc somewhere
+        //just to give a network that blocks 4001 a proxy to ipfs
         "/ip4/54.208.27.159/tcp/8000/ipfs/QmakdM7XPy9kYpXvEo9GduDvKazx8PuTvCSYoVyPtpCmqE",
         //the reset of the defaul list that requires port 4001 to be open
         "/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",  // mars.i.ipfs.io
