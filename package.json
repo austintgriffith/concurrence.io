@@ -1,0 +1,22 @@
+{
+  "name": "rqc",
+  "version": "1.0.0",
+  "description": "Start a test rpc ``` testrpc ```",
+  "main": "account.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://ecaea77b139bc61900f5ed5e8f4b8181e86ecd69@github.com/austintgriffith/rqc.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/austintgriffith/rqc/issues"
+  },
+  "homepage": "https://github.com/austintgriffith/rqc#readme",
+  "dependencies": {
+    "solc": "^0.4.16"
+  }
+}
