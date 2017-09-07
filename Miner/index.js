@@ -57,7 +57,7 @@ ipfs.on('ready', () => {
 })
 
 //Start everything off by attempting to connect to eth network
-//connectToEthereumNetwork()
+connectToEthereumNetwork()
 
 /*
 setInterval(()=>{

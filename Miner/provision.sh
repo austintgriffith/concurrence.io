@@ -36,3 +36,9 @@ cd ~/rqc/Miner
 npm install
 npm install leveldown
 node ipfsget.js
+
+
+echo "....Installing SOLC........................."
+npm init
+npm install --save solc
+node compile.js Auth
