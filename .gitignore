@@ -1,3 +1,4 @@
+package-lock.json
 *.ens
 App
 */*.abi
@@ -7,3 +8,4 @@ App
 */*.run.xml
 */*.log.*
 */node_modules
+/node_modules
