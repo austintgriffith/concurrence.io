@@ -1,6 +1,9 @@
 package-lock.json
+*.log
 *.ens
 App
+*/*/*.abi
+*/*/*.bytecode
 */*.abi
 */*.bytecode
 */*.bib

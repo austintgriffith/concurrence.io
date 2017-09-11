@@ -1,3 +1,13 @@
+########
+# todo
+
+auth contract should probably have events 
+
+#
+#########
+
+
+
 mining on the test net:
 geth --mine --minerthreads=4 --testnet --etherbase='0xe5A055CFe57287fEB89bbAE79538a3be3A06f62b'
 

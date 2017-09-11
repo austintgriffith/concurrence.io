@@ -21,6 +21,14 @@ if(!address){
         console.log("The current permission[0] is ",permission)
         contract.methods.permission(accounts[1]).call().then((permission)=>{
           console.log("The current permission[1] is ",permission)
+          contract.methods.owner().call().then((owner,b,c)=>{
+            console.log("OWNER ",owner)
+            if(owner==accounts[0]){
+              console.log("(OWNER IS account 0)")
+            }else if(owner==accounts[1]){
+              console.log("(OWNER IS account 1)")
+            }
+          })
         })
       })
     })

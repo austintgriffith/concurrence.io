@@ -2,13 +2,15 @@ pragma solidity ^0.4.0;
 
 import "Auth.sol";
 import "Main.sol";
-import "Freezable.sol";
-import "Descendant.sol";
+//import "Freezable.sol";
+//import "Descendant.sol";
 import "Token.sol";
 
-contract Requests is Freezable,Descendant {
+//contract Requests is Freezable,Descendant {
+contract Requests {
 
   address public mainAddress;
+  bool public frozen;
 
   function Requests(address _mainAddress) {
     mainAddress=_mainAddress;
@@ -37,6 +39,7 @@ contract Requests is Freezable,Descendant {
 
   ///// request add  --------------------------------------------------
   function addRequest(string _id, address _combiner, uint _coin, string _url) returns (bool){
+    if(frozen) return false;
     AttemptAddRequest(msg.sender,_id,_combiner,_coin,_url);
     Main main = Main(mainAddress);
     Auth auth = Auth(main.getContractAddress(0));
@@ -69,6 +72,7 @@ contract Requests is Freezable,Descendant {
   }
   ///// === --------------------------------------------------
 
+  //I think this should be made "internal"
   function stringToBytes32(string memory source) returns (bytes32) {
     bytes32 result;
     assembly {

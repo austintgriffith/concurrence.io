@@ -1,6 +1,7 @@
 pragma solidity ^0.4.0;
 
 /*
+>=250 withdraw ether sent on accident to contracts
 >=240 give permissions to other addresses (Auth admin)
 >=200 setContractAddress (Main admin)
 */
@@ -26,5 +27,13 @@ contract Auth {
 
     function isOwner( address _address) constant returns (bool) {
         return (owner==_address);
+    }
+
+    //we need to be able to drain any errant ether
+    //spread this to all contracts after testing
+    function withdraw() {
+        if ( permission[msg.sender] >= 250 ) {
+            msg.sender.send(this.balance)
+        }
     }
 }

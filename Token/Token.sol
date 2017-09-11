@@ -4,8 +4,8 @@ import "Auth.sol";
 import "Main.sol";
 
 contract Token {
-     string public constant symbol = "RQC";
-     string public constant name = "RequestCoin";
+     string public constant symbol = "XRC";
+     string public constant name = "RequestCoinTest";
      uint8 public constant decimals = 18;
      uint256 _totalSupply = 1000000000000;
 
