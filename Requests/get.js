@@ -1,7 +1,7 @@
 const fs = require('fs');
 const Web3 = require('web3');
 const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-var request = require('request');
+
 
 console.log("Reading data...")
 const address = fs.readFileSync(process.argv[2]+".address").toString().trim()
@@ -23,7 +23,7 @@ if(!address){
         console.log("The current mainAddress is ",mainAddress)
         contract.methods.getRequest("SOMERANDOMHASH").call().then((request)=>{
           console.log("The current request is ",request)
-        
+
         })
       })
     })
