@@ -42,3 +42,6 @@ echo "....Installing SOLC........................."
 npm init
 npm install --save solc
 node compile.js Auth
+
+echo "....Installing Nodemon......................."
+sudo npm install -g nodemon
