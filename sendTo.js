@@ -9,7 +9,7 @@ let to = 2
 let from = 1
 let amount = 0.1
 
-//EXAMPLE USAGE: node send #AMOUNT# #FROM(index in accounts)# #TO(index in accounts)#
+//EXAMPLE USAGE: node send #AMOUNT# #FROM(index in accounts)# #TO(actual address)#
 
 if(process.argv[2]){
   amount=process.argv[2]
@@ -31,7 +31,7 @@ web3.eth.getAccounts().then((accounts)=>{
 
   let params = {
     from: accounts[from],
-    to: accounts[to],
+    to: to,
     value: web3.utils.toWei(amount, "ether"),
     gas: gas,
     gasPrice: gaspricegwei
