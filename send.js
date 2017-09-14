@@ -37,7 +37,6 @@ web3.eth.getAccounts().then((accounts)=>{
     gasPrice: gaspricegwei
   }
   console.log(params)
-
   web3.eth.sendTransaction(params,(error,transactionHash)=>{
     console.log(error,transactionHash)
     setInterval(()=>{
