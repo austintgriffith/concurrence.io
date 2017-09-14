@@ -43,7 +43,7 @@ if(!address){
         console.log("Loaded "+script+", running...")
         let params = {
           gas:gas,
-          gasPrice:gasPrice,
+          gasPrice:gaspricegwei,
           accounts:accounts
         }
         let scriptPromise = scriptFunction(contract,params,process.argv)
