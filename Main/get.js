@@ -28,6 +28,10 @@ if(!address){
           index = 20;//token
           contract.methods.getContractAddress(index).call().then((contractAddress)=>{
             console.log("The current contractAddress for ["+index+"] is ",contractAddress)
+            index = 100;//combiner
+            contract.methods.getContractAddress(index).call().then((contractAddress)=>{
+              console.log("The current contractAddress for ["+index+"] is ",contractAddress)
+            })
           })
         })
       })

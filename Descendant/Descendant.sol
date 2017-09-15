@@ -3,6 +3,8 @@ pragma solidity ^0.4.0;
 import "Auth.sol";
 import "Main.sol";
 
+//lineage
+
 contract Descendant {
 
   address public ancestor;
@@ -24,5 +26,5 @@ contract Descendant {
       predecessor=_predecessor;
     }
   }
-  
+
 }

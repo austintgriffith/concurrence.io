@@ -4,6 +4,9 @@ package-lock.json
 App
 */*/*.abi
 */*/*.bytecode
+*/*/*.address
+*/*/*.run.xml
+*/*/*.log.*
 */*.abi
 */*.bytecode
 */*.bib

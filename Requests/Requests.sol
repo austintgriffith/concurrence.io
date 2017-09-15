@@ -6,6 +6,10 @@ import "Main.sol";
 //import "Descendant.sol";
 import "Token.sol";
 
+
+//long json data string instead of _url
+
+
 //contract Requests is Freezable,Descendant {
 contract Requests {
 

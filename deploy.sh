@@ -31,15 +31,15 @@ echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 echo "Deploying Token..."
 node compile Token
 node deploy Token
+node contract wireupContract Main null Token 20
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 
 
 
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
-echo "Wire the deployed contracts back to the main..."
+echo "Check that everything is wired up..."
 node personal.js
 cd Main
-node wireupAllContracts.js Main
 node get.js Main
 cd ..
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
@@ -60,6 +60,7 @@ echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 echo "Deploying basic Combiner..."
 node compile Combiner/basic Combiner
 node deploy Combiner/basic Combiner
+node contract wireupContract Main null Combiner/basic Combiner 100
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 
 

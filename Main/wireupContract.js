@@ -12,12 +12,27 @@ const ACCOUNT_INDEX = 1
 //
 
 module.exports = (contract,params,args)=>{
-  if(!args[5]||!args[6]){
-    console.log("Please provide contract name and main address index to link address to main contract.")
+
+  let contractName
+  let contractLocation
+  let contractIndex
+
+  if( typeof args[7] == "undefined"){
+    contractName = args[5]
+    contractLocation = args[5]
+    contractIndex = args[6]
   }else{
-    let address = fs.readFileSync(args[5]+"/"+args[5]+".address").toString().trim();
-    console.log("**== setting "+args[5]+"Address to "+address+" as index "+args[6]+" with account "+params.accounts[ACCOUNT_INDEX]+"...")
-    return contract.methods.setContractAddress(args[6],address).send({
+    contractName = args[6]
+    contractLocation = args[5]
+    contractIndex = args[7]
+  }
+
+  if(!contractName||!contractIndex){
+    console.log("Please provide contract name and index to link address to main contract.")
+  }else{
+    let address = fs.readFileSync(contractLocation+"/"+contractName+".address").toString().trim();
+    console.log("**== setting "+contractName+"Address to "+address+" as index "+contractIndex+" with account "+params.accounts[ACCOUNT_INDEX]+"...")
+    return contract.methods.setContractAddress(contractIndex,address).send({
       from: params.accounts[ACCOUNT_INDEX],
       gas: params.gas,
       gasPrice:params.gasPrice
