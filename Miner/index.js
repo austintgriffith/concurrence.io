@@ -12,13 +12,13 @@ const ipfs = new IPFS(
 let ipfsReady = false
 
 const RPC = true
-const WEBSERVER = "localhost"
+const WEBSERVER = "requestco.in"
 
 console.log("Starting up...")
 const fs = require('fs');
 const Web3 = require('web3');
 const net = require('net');
-const request = require('request');
+const Request = require('request');
 const client = net.Socket();
 
 let web3
@@ -40,9 +40,65 @@ let permission
 let blockNumber
 
 let requestList = []
-let blockNumberSearchBack=10
+let blockNumberSearchBack=999
+
+let DEBUG_MINER = false
+
+setInterval(()=>{
+  console.log("## ")
+  for(let r in requestList){
+    let request = requestList[r]
+    if(DEBUG_MINER) console.log(" request:",request)
+    if(request.reserved>0){
+      console.log("# mining url "+request._url+" to combiner "+request._combiner)
+      Request(request._url,(error, response, body)=>{
+        if(error){
+          callback("Failed to mine "+request._url+"",body)
+        }else{
+          let responseBody = body
+          console.log(responseBody)
+
+          console.log("Looking up combiner address "+request._combiner+"...")
+          Request('http://'+WEBSERVER+'/combinerLookup/'+request._combiner,(error, response, body)=>{
+            if(error){console.log(error)}else{
+              let combinerName = body
+              console.log("combinerName for "+request._combiner+" is "+combinerName)
+              Request('http://'+WEBSERVER+'/combiner/abi/'+combinerName+"",(error, response, body)=>{
+                if(error){console.log(error)}else{
+                  let combinerAbi = body
+                  try{
+
+                    console.log("Parsing abi...")
+                    let combinerAbiObject = JSON.parse(combinerAbi)
+
+                    console.log("combinerAbi:",combinerAbi)
+                    let combinerContract = new web3.eth.Contract(combinerAbiObject,request._combiner)
+                    console.log("Ready to interact with combinerContract...")
+                    web3.eth.getAccounts().then((accounts)=>{
+                      combinerContract.methods.addResponse(request._id,Date.now(),0,200,responseBody).send({
+                        from: accounts[2],
+                        gasPrice: fs.readFileSync("../gasprice.int").toString().trim()*1000000000,
+                        gas: fs.readFileSync("../deploygas.int").toString().trim()
+                      }).then(function(receipt){
+                          console.log("SENT:",receipt)
+                          // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+                      });
+                    })
+
+                  }catch(e){
+                    console.log(e)
+                  }
 
 
+                }
+              })
+            }
+          })
+        }
+      })
+    }
+  }
+},5000)
 
 
 ipfs.on('ready', () => {
@@ -118,7 +174,7 @@ function loadContractAddress(contract,callback){
   }catch(e){
     console.log("Failed to load "+contract+" contract data locally, attempting to download...")
     console.log("Connecting to "+WEBSERVER+"...")
-    request('http://'+WEBSERVER+'/address/'+contract,(error, response, body)=>{
+    Request('http://'+WEBSERVER+'/address/'+contract,(error, response, body)=>{
       if(error){
         callback("Failed to load "+contract+" address from "+WEBSERVER+"!")
       }else{
@@ -138,7 +194,7 @@ function loadContractAbi(contract,address,callback){
   }catch(e){
     console.log("Failed to load "+contract+" abi locally, attempting to download...")
     console.log("Connecting to "+WEBSERVER+"...")
-    request('http://'+WEBSERVER+'/abi/'+contract,(error, response, body)=>{
+    Request('http://'+WEBSERVER+'/abi/'+contract,(error, response, body)=>{
       if(!error){
         try{
           abi = JSON.parse(body)
@@ -265,7 +321,7 @@ function loadRequests(){
 }
 
 function loadReservedCoinInRequests(){
-  let DEBUG=true
+  let DEBUG=false
   if(DEBUG) console.log("## REQUESTS ")
   for(let req in requestList){
     //for each request we want to see how much coin is still reserved
@@ -280,7 +336,7 @@ function loadReservedCoinInRequests(){
     }
 
     if(requestList[req].reserved){
-      console.log("#  "+requestList[req]._id+" ("+requestList[req].reserved+") "+requestList[req]._url)
+      if(DEBUG) console.log("#  "+requestList[req]._id+" ("+requestList[req].reserved+") "+requestList[req]._url)
     }
   }
 }

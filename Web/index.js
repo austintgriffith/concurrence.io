@@ -53,4 +53,30 @@ app.get('/combiner/abi/:contract', (req, res) => {
     res.end(fs.readFileSync("../Combiner/"+contract+"/Combiner.abi").toString().trim())
 });
 
+app.get('/combinerLookup/:address', (req, res) => {
+    const DEBUGCOMBINERLOOKUP = false
+    const combinersAt = "../Combiner";
+    var cleanAddress = req.params.address.replace(/[^a-z0-9/]/gi,'');
+    console.log("Combiner Lookup",cleanAddress)
+    fs.readdir(combinersAt, function( err, files ) {
+          let found = false
+        if( err ) {
+            if(DEBUGCOMBINERLOOKUP) console.error( "Could not list the directory "+combinersAt, err );
+        } else{
+          files.forEach( function( file, index ) {
+            if(fs.readFileSync("../Combiner/"+file+"/Combiner.address").toString().trim()==cleanAddress){
+              if(DEBUGCOMBINERLOOKUP) console.log("FOUND "+file+" is "+cleanAddress)
+              found=file
+            }
+          })
+        }
+        if(found){
+          console.log(found)
+          res.end(found)
+        }else{
+          res.end(401)
+        }
+      })
+});
+
 app.listen(80, () => console.log('[*] express is up and listing on 80'))
