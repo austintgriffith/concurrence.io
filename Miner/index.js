@@ -59,7 +59,7 @@ ipfs.on('ready', () => {
 //Start everything off by attempting to connect to eth network
 connectToEthereumNetwork()
 
-/*
+
 setInterval(()=>{
   if(mainContract&&authContract&&requestsContract&&tokenContract){
       loadRequests()
@@ -78,7 +78,7 @@ setInterval(()=>{
       loadReservedCoinInRequests()
   }else{console.log("###")}
 },15000)
-*/
+
 
 ipfs.on('ready', () => {
   console.log("@@ IPFS READY @@")
@@ -166,13 +166,13 @@ function connectToMainContract(){
       mainContract = new web3.eth.Contract(mainContractAbi,mainContractAddress)
       console.log("Ready to interact with mainContract...")
       mainContract.methods.getContractAddress(0).call().then((_authContractAddress)=>{
-        console.log("Setting authContractAddress to "+_authContractAddress)
+        console.log("Setting _authContractAddress to "+_authContractAddress)
         authContractAddress = _authContractAddress
         mainContract.methods.getContractAddress(10).call().then((_requestsContractAddress)=>{
-          console.log("Setting authContractAddress to "+_requestsContractAddress)
+          console.log("Setting _requestsContractAddress to "+_requestsContractAddress)
           requestsContractAddress = _requestsContractAddress
           mainContract.methods.getContractAddress(20).call().then((_tokenContractAddress)=>{
-            console.log("Setting authContractAddress to "+_tokenContractAddress)
+            console.log("Setting _tokenContractAddress to "+_tokenContractAddress)
             tokenContractAddress = _tokenContractAddress
             connectToAuthContract()
           })

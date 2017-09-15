@@ -1,3 +1,10 @@
+/*
+
+  Basic Combiner
+
+  This is more of an example combiner
+
+*/
 pragma solidity ^0.4.0;
 
 import "Main.sol";
