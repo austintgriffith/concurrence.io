@@ -42,7 +42,7 @@ request.get({
 
                 console.log("addRequest...")
                 //let combinerabi = JSON.parse(fs.readFileSync("../Combiner/"+combiner+"/Combiner.abi"));
-                contract.methods.addRequest(web3.utils.randomHex(32),combinerAddress,3000,"http://requestco.in").send({
+                contract.methods.addRequest(web3.utils.randomHex(32),combinerAddress,3,"http://requestco.in").send({
                   from: accounts[1],
                   gasPrice: fs.readFileSync("../gasprice.int").toString().trim()*1000000000,
                   gas: fs.readFileSync("../deploygas.int").toString().trim()
