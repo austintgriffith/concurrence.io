@@ -10,10 +10,13 @@ web3.eth.getAccounts().then((accounts)=>{
   for(let i=0;i<count;i++){
     web3.eth.getBalance(accounts[i]).then((balance)=>{
       console.log(" ######### "+i+" # "+accounts[i]+" "+balance)
-      web3.eth.personal.unlockAccount(accounts[i]).then((a,b,c)=>{
-        console.log("unlocked "+i+": "+a)
+      try{
+        web3.eth.personal.unlockAccount(accounts[i]).then((a,b,c)=>{
+          console.log("unlocked "+i+": "+a)
 
-      })
+        })
+      }catch(e){console.log(e)}
+
     })
   }
 })

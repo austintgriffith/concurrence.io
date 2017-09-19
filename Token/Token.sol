@@ -14,10 +14,13 @@ contract Token {
 
      event Reserve(address _contract, address indexed _from, address indexed _combiner, bytes32 indexed _id, uint256 _value);
      event Reward(address indexed _combiner, bytes32 indexed _id, address indexed _to, uint256 _value);
+     event Revoke(address _contract, address indexed _from, address indexed _combiner, bytes32 indexed _id, uint256 _value);
      event AttemptReserve(address _contract, address indexed _account, address indexed _combiner, bytes32 indexed _id,uint256 _amount);
      event AttemptReward(address _combiner, bytes32 indexed _id, address _miner, uint _amount);
+     event AttemptRevoke(address _contract, address indexed _account, address indexed _combiner, bytes32 indexed _id,uint256 _amount);
      event FailedReserve(address _contract, address _validContract, address indexed _account, address indexed _combiner, bytes32 _id, uint256 _amount, uint256 _balance);
      event FailedReward(address indexed _contract, bytes32 indexed _id, address indexed _account, uint256 _amount);
+     event FailedRevoke(address _contract, address _validContract, address indexed _account, address indexed _combiner, bytes32 _id, uint256 _amount, uint256 _balance);
 
      //reservations are tokens held by a combiner's address for a request id to eventually reward miners
      mapping(address => mapping(bytes32 => uint256)) reservations;
@@ -61,6 +64,26 @@ contract Token {
           FailedReward(msg.sender,_id,_miner,_amount);
           return false;
 
+     }
+
+     function revoke(address _account,address _combiner,bytes32 _id,uint256 _amount) returns (bool) {
+          AttemptRevoke(msg.sender,_account,_combiner,_id,_amount);
+          Main main = Main(mainAddress);
+          //make sure msg.sender is the Requests contract registered in main
+          // it is important to make sure only the registered contract can
+          // reserve coin on behalf of users
+          address requestsContractAddress = main.getContractAddress(10);
+          if(msg.sender == requestsContractAddress){
+               if (reservations[_combiner][_id] >= _amount
+                  && _amount > 0) {
+                  balances[_account] += _amount;
+                  reservations[_combiner][_id] -= _amount;
+                  Revoke(msg.sender, _account, _combiner, _id, _amount);
+                  return true;
+               }
+          }
+          FailedRevoke(msg.sender,requestsContractAddress,_account,_combiner,_id,_amount,balances[_account]);
+          return false;
      }
 
      //Events

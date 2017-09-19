@@ -40,98 +40,176 @@ let permission
 let blockNumber
 
 let requestList = []
-let blockNumberSearchBack=999
 
 let DEBUG_MINER = false
 
+let activeRequest = false
+
 setInterval(()=>{
   console.log("## ")
-  for(let r in requestList){
-    let request = requestList[r]
-    if(DEBUG_MINER) console.log(" request:",request)
-    if(request.reserved>0){
-      console.log("# mining url "+request._url+" to combiner "+request._combiner)
-      Request(request._url,(error, response, body)=>{
-        if(error){
-          callback("Failed to mine "+request._url+"",body)
-        }else{
-          let responseBody = body
-          console.log(responseBody)
+  if(activeRequest){
+    console.log(".")
+  }else{
+    for(let r in requestList){
+      let request = requestList[r]
+      if(DEBUG_MINER) console.log(" request:",request)
+      if(typeof request.reserved == "undefined"){
+        console.log("# inspecting request "+request._id+" ("+request._url+")")
+      }else if(request.reserved>0){
+        console.log("# ("+request.reserved+") mining url "+request._url+" to combiner "+request._combiner)
 
-          console.log("Looking up combiner address "+request._combiner+"...")
-          Request('http://'+WEBSERVER+'/combinerLookup/'+request._combiner,(error, response, body)=>{
-            if(error){console.log(error)}else{
-              let combinerName = body
-              console.log("combinerName for "+request._combiner+" is "+combinerName)
-              Request('http://'+WEBSERVER+'/combiner/abi/'+combinerName+"",(error, response, body)=>{
-                if(error){console.log(error)}else{
-                  let combinerAbi = body
-                  try{
+        console.log("Looking up combiner address "+request._combiner+"...")
+        Request('http://'+WEBSERVER+'/combinerLookup/'+request._combiner,(error, response, body)=>{
+          if(error){console.log(error)}else{
+            let combinerName = body
+            console.log("combinerName for "+request._combiner+" is "+combinerName)
+            console.log("Loading abi...")
+            Request('http://'+WEBSERVER+'/combiner/abi/'+combinerName+"",(error, response, body)=>{
+              if(error){console.log(error)}else{
+                let combinerAbi = body
+                try{
 
-                    console.log("Parsing abi...")
-                    let combinerAbiObject = JSON.parse(combinerAbi)
+                  console.log("Parsing abi...")
+                  let combinerAbiObject = JSON.parse(combinerAbi)
 
-                    console.log("combinerAbi:",combinerAbi)
-                    let combinerContract = new web3.eth.Contract(combinerAbiObject,request._combiner)
-                    console.log("Ready to interact with combinerContract...")
-                    web3.eth.getAccounts().then((accounts)=>{
-                      combinerContract.methods.addResponse(request._id,Date.now(),0,200,responseBody).send({
-                        from: accounts[2],
-                        gasPrice: fs.readFileSync("../gasprice.int").toString().trim()*1000000000,
-                        gas: fs.readFileSync("../deploygas.int").toString().trim()
-                      }).then(function(receipt){
-                          console.log("SENT:",receipt)
-                          // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-                      });
+                  console.log("combinerAbiObject:",combinerAbiObject)
+
+                  let combinerContract = new web3.eth.Contract(combinerAbiObject,request._combiner)
+
+
+                  if(activeRequest){
+                    console.log(".")
+                  }else{
+                    console.log(" --- Making the request to "+request._url)
+                    Request(request._url,(error, response, body)=>{
+                      if(error){
+                        callback("Failed to mine "+request._url+"",body)
+                      }else{
+                        let responseBody = body
+                        console.log("RESPONSE:\n",responseBody)
+
+
+
+
+                        console.log("Ready to interact with combinerContract...")
+                        activeRequest=true
+                        web3.eth.getAccounts().then((accounts)=>{
+                          combinerContract.methods.addResponse(request._id,Date.now(),0,200,responseBody).send({
+                            from: accounts[2],
+                            gasPrice: fs.readFileSync("../gasprice.int").toString().trim()*1000000000,
+                            gas: fs.readFileSync("../deploygas.int").toString().trim()
+                          }).then(function(receipt){
+                            activeRequest=false
+                            console.log("SENT:",receipt)
+                            // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+                          });
+                        })
+
+                      }
                     })
-
-                  }catch(e){
-                    console.log(e)
                   }
 
-
+                }catch(e){
+                  console.log(e)
                 }
-              })
-            }
-          })
-        }
-      })
+              }
+            })
+          }
+        })
+
+        return;
+      }else{
+        console.log("# request "+request._url+" is empty")
+      }
     }
   }
-},5000)
+
+},1000)
 
 
-ipfs.on('ready', () => {
-  console.log("Ready?")
-  ipfs.id(function (err, identity) {
-    if (err) {
-      throw err
+let DEBUGREQUESTLOAD = false
+let blockNumberSearchBack=10000
+let lastBlockBackSearchIndex
+let lastBlockForwardSearchIndex
+function loadRequests(){
+  if(DEBUGREQUESTLOAD) console.log(" ~~ Loading requests...")
+  if(DEBUGREQUESTLOAD) console.log(" ~~ Current Block Number: ",blockNumber)
+  web3.eth.getBlockNumber((err,_currentBlockNumber)=>{
+    if(DEBUGREQUESTLOAD) console.log(" ~~ _currentBlockNumber: "+_currentBlockNumber)
+    if(_currentBlockNumber){
+      lastBlockBackSearchIndex = _currentBlockNumber-blockNumberSearchBack
+      lastBlockForwardSearchIndex = _currentBlockNumber
+      if(DEBUGREQUESTLOAD) console.log(" ~~ Looking for AddRequest events from current block "+_currentBlockNumber+" back to block "+lastBlockBackSearchIndex)
+      loadRequestsFromContract(requestsContract,lastBlockBackSearchIndex,"latest")
+      if(DEBUGREQUESTLOAD) console.log(" ~~ Searching up and down the chain for more requests...")
+      if(DEBUGREQUESTLOAD) console.log(" ~~ lastBlockBackSearchIndex:"+lastBlockBackSearchIndex)
+      if(DEBUGREQUESTLOAD) console.log(" ~~ _currentBlockNumber:"+_currentBlockNumber)
+      if(DEBUGREQUESTLOAD) console.log(" ~~ lastBlockForwardSearchIndex:"+lastBlockForwardSearchIndex)
+      setInterval(()=>{
+        if(DEBUGREQUESTLOAD) console.log(" ~~ -->")
+        loadRequestsFromContract(requestsContract,lastBlockForwardSearchIndex-1,'latest')
+        lastBlockForwardSearchIndex=_currentBlockNumber;
+      },250)
+      searchRequestsDownBlockchain();
     }
-    console.log(identity)
-    console.log("ISON",ipfs.isOnline())
   })
+}
+
+function searchRequestsDownBlockchain(){
+  if(DEBUGREQUESTLOAD) console.log(" ~~ <--")
+  let nextLastBlockBackSearchIndex=lastBlockBackSearchIndex-blockNumberSearchBack
+  if(nextLastBlockBackSearchIndex<0) nextLastBlockBackSearchIndex=0
+  loadRequestsFromContract(requestsContract,nextLastBlockBackSearchIndex,lastBlockBackSearchIndex+1)
+  lastBlockBackSearchIndex=nextLastBlockBackSearchIndex;
+  if(lastBlockBackSearchIndex>0){
+    setTimeout(searchRequestsDownBlockchain,750)
+  }else{
+    console.log(" ~~ finished searching down blockchain  ~~ ")
+  }
+}
+
+function loadRequestsFromContract(requestsContract,fromBlock,toBlock){
+  if(DEBUGREQUESTLOAD) console.log("Searching from "+fromBlock+" to "+toBlock)
+  requestsContract.getPastEvents('AddRequest', {
+    fromBlock: fromBlock,
+    toBlock: toBlock
+  }, function(error, events){
+    if(DEBUGREQUESTLOAD) console.log("Found "+events.length+" from "+fromBlock+" to "+toBlock+" requests...");
+    for(let request in events.reverse()){
+      //if(DEBUG) console.log(events[request].returnValues)
+      if(!requestList[events[request].returnValues._id]){
+        if(DEBUGREQUESTLOAD) console.log("Adding request "+events[request].returnValues._id+" with combiner "+events[request].returnValues._combiner)
+        requestList[events[request].returnValues._id] = events[request].returnValues
+      }
+    }
+  })
+}
+
+/*
+ipfs.on('ready', () => {
+console.log("Ready?")
+ipfs.id(function (err, identity) {
+if (err) {
+throw err
+}
+console.log(identity)
+console.log("ISON",ipfs.isOnline())
 })
+})
+*/
 
 //Start everything off by attempting to connect to eth network
 connectToEthereumNetwork()
 
-
-setInterval(()=>{
-  if(mainContract&&authContract&&requestsContract&&tokenContract){
-      loadRequests()
-  }else{console.log("---")}
-},10000)
-
-
 setInterval(()=>{
   if(requestList&&tokenContract){
-      loadReservedCoinInRequests()
+    loadReservedCoinInRequests()
   }else{console.log("###")}
 },15000)
 
 setInterval(()=>{
   if(requestList&&tokenContract){
-      loadReservedCoinInRequests()
+    loadReservedCoinInRequests()
   }else{console.log("###")}
 },15000)
 
@@ -294,31 +372,6 @@ function connectToTokenContract(){
   })
 }
 
-function loadRequests(){
-  let DEBUG = false
-  if(DEBUG) console.log("Loading requests...")
-  if(DEBUG) console.log("Current Block Number: ",blockNumber)
-  web3.eth.getBlockNumber((err,_currentBlockNumber)=>{
-    if(DEBUG) console.log("_currentBlockNumber: "+_currentBlockNumber)
-    if(_currentBlockNumber){
-      let thisBlockNumberSearchBack = _currentBlockNumber-blockNumberSearchBack
-      if(DEBUG) console.log("Looking for AddRequest events back to block ",thisBlockNumberSearchBack)
-      requestsContract.getPastEvents('AddRequest', {
-          fromBlock: thisBlockNumberSearchBack,
-          toBlock: 'latest'
-      }, function(error, events){
-        console.log("Found "+events.length+" requests...");
-        for(let request in events.reverse()){
-          if(DEBUG) console.log(events[request].returnValues)
-          if(!requestList[events[request].returnValues._id]){
-            console.log("Adding request "+events[request].returnValues._id+" with combiner "+events[request].returnValues._combiner)
-            requestList[events[request].returnValues._id] = events[request].returnValues
-          }
-        }
-      })
-    }
-  })
-}
 
 function loadReservedCoinInRequests(){
   let DEBUG=false
