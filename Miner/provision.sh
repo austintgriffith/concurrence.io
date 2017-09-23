@@ -16,6 +16,13 @@ sudo apt-get install -y nodejs
 node -v
 npm -v
 
+echo ".....Installing geth........................."
+sudo apt-get install software-properties-common
+sudo add-apt-repository -y ppa:ethereum/ethereum
+sudo apt-get update
+sudo apt-get install ethereum -y
+geth version
+
 echo ".....Installing ipfs........................."
 wget https://dist.ipfs.io/go-ipfs/v0.4.9/go-ipfs_v0.4.9_linux-386.tar.gz
 tar xvf go-ipfs_v0.4.9_linux-386.tar.gz
@@ -24,12 +31,7 @@ sudo ./install.sh
 ipfs version
 cd ..
 
-echo ".....Installing geth........................."
-sudo apt-get install software-properties-common
-sudo add-apt-repository -y ppa:ethereum/ethereum
-sudo apt-get update
-sudo apt-get install ethereum -y
-geth version
+
 
 echo "....Installing RQC........................."
 cd ~/rqc/Miner

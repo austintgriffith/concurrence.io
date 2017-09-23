@@ -1,0 +1,7 @@
+baseURL = "http://requestco.in"
+languageCode = "en-us"
+title = "RequestCoin"
+theme = "angels-ladder"
+[params]
+  subtitle = "Decentralized Ethereum Oracle"
+  author = "Austin Thomas Griffith"
