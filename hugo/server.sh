@@ -1,2 +1,2 @@
 #!/bin/bash
-hugo server -D
+hugo server -D 
