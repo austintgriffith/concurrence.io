@@ -1,7 +1,6 @@
 ---
 title: "Provisioning"
 date: 2017-09-22T11:02:45-06:00
-draft: true
 ---
 
 This exploration should start from the ground up.
@@ -52,4 +51,4 @@ Geth will start syncing with the blockchain:
 It will take more than an hour, but when you are up-to-date it sync single blocks at a time:
 ![rqc_provision_singleblockatatime](http://s3.amazonaws.com/rqcassets/rqc_provision_singleblockatatime.png)
 
-You can also visit <a href="https://ropsten.etherscan.io" target="_blank">https://ropsten.etherscan.io</a> to see what the latest block is. 
+You can also visit <a href="https://ropsten.etherscan.io" target="_blank">https://ropsten.etherscan.io</a> to see what the latest block is.
