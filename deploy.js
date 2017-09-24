@@ -24,7 +24,7 @@ if(!bytecode){
     let ethPrice = parseInt(fs.readFileSync("ethprice.int").toString().trim())
     web3.eth.getAccounts().then((accounts)=>{
       web3.eth.getBalance(accounts[ACCOUNT_INDEX]).then((balance)=>{
-        web3.eth.personal.unlockAccount(accounts[1]).then((a,b,c)=>{
+      //  web3.eth.personal.unlockAccount(accounts[1]).then((a,b,c)=>{
           let etherbalance = web3.utils.fromWei(balance,"ether");
           console.log(etherbalance+" $"+(etherbalance*ethPrice))
 
@@ -64,6 +64,7 @@ if(!bytecode){
                     console.log("==ETHER COST: "+etherdiff+" $"+(etherdiff*ethPrice))
                     console.log("Saving contract address:",result.contractAddress)
                     fs.writeFileSync(contractdir+"/"+contractname+".address",result.contractAddress)
+                    fs.writeFileSync(contractdir+"/"+contractname+".blockNumber",result.blockNumber)
 
                     let endSeconds = new Date().getTime() / 1000;
                     let duration = Math.floor((endSeconds-startSeconds))
@@ -75,12 +76,12 @@ if(!bytecode){
                   })
 
                 }else{
-                  console.log(".")
+                  process.stdout.write(".")
                 }
               })
-            },10000)
+            },1000)
           })
-        })
+      //  })
 
 
       })

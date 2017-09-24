@@ -19,7 +19,7 @@ if(!address){
       console.log("interact...")
 
       contract.getPastEvents('AddRequest', {
-          fromBlock: 0,
+          fromBlock: params.blockNumber,
           toBlock: 'latest'
       }, function(error, events){
         console.log(events);

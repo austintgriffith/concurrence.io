@@ -11,6 +11,11 @@ if(!contractname || contractname=="null") contractname=contractdir
 
 console.log("Reading data...")
 let address = fs.readFileSync(contractdir+"/"+contractname+".address").toString().trim()
+let blockNumber = 0
+try{
+   blockNumber = fs.readFileSync(contractdir+"/"+contractname+".blockNumber").toString().trim()
+}catch(e){console.log(e)}
+
 let abi = false
 if(!address){
   console.log("Couldn't load "+contractdir+"/"+contractname+".address")
@@ -34,6 +39,7 @@ if(!address){
       let scriptFunction
       try{
         let path = "./"+contractdir+"/"+script+".js"
+        console.log("LOADING:",path)
         if(fs.existsSync(path)){
           console.log("looking for script at ",path)
           scriptFunction=require(path)
@@ -44,8 +50,10 @@ if(!address){
         let params = {
           gas:gas,
           gasPrice:gaspricegwei,
-          accounts:accounts
+          accounts:accounts,
+          blockNumber:blockNumber
         }
+        console.log(params)
         let scriptPromise = scriptFunction(contract,params,process.argv)
         if(!scriptPromise || typeof scriptPromise.once != "function"){
           console.log("!!! SCRIPT "+script+" did not return promise!")
