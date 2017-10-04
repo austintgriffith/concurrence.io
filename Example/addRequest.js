@@ -13,6 +13,7 @@ const ACCOUNT_INDEX = 1
 //node contract addRequest Example null 0xa4304371200112183436a7d1a78f8b4d53136136 "https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=USD,BTC"
 
 module.exports = (contract,params,args)=>{
+  //web3.utils.toHex(
     return contract.methods.addRequest(web3.utils.sha3(args[5]+args[6]),args[6]).send({
       from: args[5],
       gas: params.gas,

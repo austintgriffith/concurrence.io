@@ -1,0 +1,46 @@
+node compile Example
+
+node deploy Example
+
+node contract addRequest Example null 0x788fc5efff6a4a9ea679b1ee6d67fa1bc85fbe07 "https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=USD,BTC"
+
+node contract newEventsAddRequest Example null 0x48bdd1b65c3531d4cbc7407adfbca2b3c01df6c1
+
+node contract newEventsAddResponse Example null
+
+node contract getResponse Example null 0xc8d73ef8b1ce6a1c9b4ea64cea565dac183dca55595f89afbc156a45ef51459d
+
+
+
+https://datahelpdesk.worldbank.org/knowledgebase/articles/902061-climate-data-api
+
+https://api.darksky.net/forecast/fe03da8b25ef58153f6d3c5a8bdc4866/40.5405,-105.0552,245657600?exclude=currently,minutely,hourly
+
+http://history.openweathermap.org/data/2.5/history/city?id=5577147&type=hour&appid=307c9f072568301a786ee6c0d53bef47
+
+http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=307c9f072568301a786ee6c0d53bef47
+
+http://w1.weather.gov/data/obhistory/KFNL.html
+
+http://climatedataapi.worldbank.org/climateweb/rest/v1/country/mavg/pr/2017/2017/USA
+
+https://api.worldweatheronline.com/premium/v1/past-weather.ashx?key=e33e1160c19543c19a4133035172909&q=40.540,-105.056&date=
+
+http://forecast.weather.gov/product.php?site=FFC&issuedby=ATL&product=MIS
+
+http://cloud.cocorahs.org/wys/2015-2016/CO/CO-BN-8-wys-2015-2016.html
+
+
+
+
+
+
+http://api.wunderground.com/api/Your_Key/conditions/q/CA/San_Francisco.json
+
+http://api.wunderground.com/api/Your_Key/history_YYYYMMDD/q/CA/San_Francisco.json
+
+https://www.wunderground.com/weather/api/d/docs?d=data/history
+
+
+
+https://github.com/oraclize/ethereum-examples/blob/master/solidity/DieselPrice.sol

@@ -1,40 +1,30 @@
 pragma solidity ^0.4.0;
+
 contract Example {
 
-  struct Request{
-    string url;
+    //construct
+  function Example() {}
+
+    //request
+  mapping (bytes32 => string) public requests;
+
+  function addRequest(bytes32 _id, string _url) returns (bool){
+      requests[_id]=_url;
+      AddRequest(msg.sender,_id,requests[_id]);
+  }
+  event AddRequest(address _sender,bytes32 _id, string _url);
+
+    //response
+  mapping(bytes32 => uint ) public responses;
+
+  function addResponse(bytes32 _id,uint _result) returns (bool){
+      responses[_id]=_result;
+      AddResponse(msg.sender,_id,responses[_id]);
+  }
+  event AddResponse(address _sender,bytes32 _id,uint _result);
+
+  function getResponse(bytes32 _id) returns (uint){
+      return responses[_id];
   }
 
-  mapping (bytes32 => Request) public requests;
-
-  function addRequest(string _id, string _url) returns (bool){
-      bytes32 __id = stringToBytes32(_id);
-      requests[__id].url=_url;
-      AddRequest(msg.sender,_id,requests[__id].url);
-  }
-  event AddRequest(address _sender,string _id, string _url);
-
-  struct Response{
-      string result;
-  }
-
-  mapping(bytes32 => mapping (address => Response) ) public responses;
-
-  function addResponse(string _id,string _result) returns (bool){
-      bytes32 __id = stringToBytes32(_id);
-      responses[__id][msg.sender].result=_result;
-      AddResponse(msg.sender,_id,responses[__id][msg.sender].result);
-  }
-  event AddResponse(address _sender,string _id,string _result);
-
-  function Example() {
-  }
-
-  function stringToBytes32(string memory source) returns (bytes32) {
-    bytes32 result;
-    assembly {
-        result := mload(add(source, 32))
-    }
-    return result;
-  }
 }

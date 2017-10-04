@@ -56,7 +56,7 @@ if(!address){
         console.log(params)
         let scriptPromise = scriptFunction(contract,params,process.argv)
         if(!scriptPromise || typeof scriptPromise.once != "function"){
-          console.log("!!! SCRIPT "+script+" did not return promise!")
+          console.log(""+script+" (no promise)")
         }
         else{
           let result = scriptPromise.once('transactionHash', function(transactionHash){

@@ -18,8 +18,9 @@ module.exports = (contract,params,args)=>{
         console.log("Checking id:",events[e].returnValues._id)
         console.log("MINING ",events[e].returnValues._url)
         request(events[e].returnValues._url, function (error, response, body) {
-           console.log(body)
-           contract.methods.addResponse(events[e].returnValues._id,body).send({
+          let obj = JSON.parse(body)
+          let ethPrice = Math.floor(obj[0].price_usd*1000);
+           contract.methods.addResponse(events[e].returnValues._id,web3.utils.toHex(ethPrice)).send({
              from: args[5],
              gas: params.gas,
              gasPrice:params.gasPrice
