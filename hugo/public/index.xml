@@ -7,7 +7,9 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 23 Sep 2017 10:12:22 -0600</lastBuildDate>
-    <atom:link href="http://requestco.in/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://requestco.in/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Ethereum Network Interaction</title>
@@ -15,68 +17,13 @@
       <pubDate>Sat, 23 Sep 2017 10:12:22 -0600</pubDate>
       
       <guid>http://requestco.in/posts/ethereuminteraction/</guid>
-      <description>&lt;p&gt;Let&amp;rsquo;s interact with the Ethereum network.&lt;/p&gt;
-
-&lt;p&gt;With Geth running and up-to-date, we can attach to it from another ssh session.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;geth attach http://:8545
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;A fresh installation of Geth will have an empty array of accounts.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;eth.accounts
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://s3.amazonaws.com/rqcassets/rqc_eth_interact_attach.png&#34; alt=&#34;rqc_eth_interact_attach&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Create a couple Ethereum test accounts:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;web3.personal.newAccount()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://s3.amazonaws.com/rqcassets/rqc_eth_interact_create_accounts.png&#34; alt=&#34;rqc_eth_interact_create_accounts&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Check the balance of an account with&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;eth.getBalance()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://s3.amazonaws.com/rqcassets/rqc_eth_interact_balance.png&#34; alt=&#34;rqc_eth_interact_balance&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Let&amp;rsquo;s ask a testnet faucet for a little test ether:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;curl -X POST  \
-  -H &amp;quot;Content-Type: application/json&amp;quot; \
-  -d &amp;quot;{\&amp;quot;toWhom\&amp;quot;:\&amp;quot;0x14f990ce8f5124f273bdc19b8a39769eab8736a3\&amp;quot;}&amp;quot; \
-  https://ropsten.faucet.b9lab.com/tap
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The faucet will return a transaction id and we can look it up using
-&lt;a href=&#34;https://ropsten.etherscan.io/tx/0x0dfd0f77f55c48313acff83284f4d97505e598273791c6de95761e386a0caef2&#34; target=&#34;_blank&#34;&gt;etherscan.io&lt;/a&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://s3.amazonaws.com/rqcassets/rqc_eth_inter_ropsten_faucet.png&#34; alt=&#34;rqc_eth_inter_ropsten_faucet&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;After the transaction clears we will have some test ether:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://s3.amazonaws.com/rqcassets/rqc_eth_interact_balancewitheth.png&#34; alt=&#34;rqc_eth_interact_balancewitheth&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Next, let&amp;rsquo;s send some test ether to the second account:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;eth.sendTransaction(
-  {
-    from:&amp;quot;0x14f990ce8f5124f273bdc19b8a39769eab8736a3&amp;quot;,
-    to:&amp;quot;0x6230323b97fb5504e2d352d5dd07c798a8ecbe91&amp;quot;,
-    value:1000000000000
-  }
-)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;(We also have to unlock the account)
-&lt;img src=&#34;http://s3.amazonaws.com/rqcassets/rqc_eth_interact_transfer.png&#34; alt=&#34;rqc_eth_interact_transfer&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;We can follow the transaction on &lt;a href=&#34;https://ropsten.etherscan.io/tx/0x301f949ba0304b750f339dad5cdf93c366e539bca42664348871e309fa8d654b&#34; target=&#34;_blank&#34;&gt;etherscan.io&lt;/a&gt;:
-&lt;img src=&#34;http://s3.amazonaws.com/rqcassets/rqc_eth_interact_tx.png&#34; alt=&#34;rqc_eth_interact_tx&#34; /&gt;&lt;/p&gt;
-</description>
+      <description>Let&amp;rsquo;s interact with the Ethereum network.
+With Geth running and up-to-date, we can attach to it from another ssh session.
+geth attach http://:8545  A fresh installation of Geth will have an empty array of accounts.
+eth.accounts  Create a couple Ethereum test accounts:
+web3.personal.newAccount()  Check the balance of an account with
+eth.getBalance()  Let&amp;rsquo;s ask a testnet faucet for a little test ether:
+curl -X POST \ -H &amp;quot;Content-Type: application/json&amp;quot; \ -d &amp;quot;{\&amp;quot;toWhom\&amp;quot;:\&amp;quot;0x14f990ce8f5124f273bdc19b8a39769eab8736a3\&amp;quot;}&amp;quot; \ https://ropsten.</description>
     </item>
     
     <item>
@@ -85,56 +32,11 @@
       <pubDate>Fri, 22 Sep 2017 11:02:45 -0600</pubDate>
       
       <guid>http://requestco.in/posts/provisioning/</guid>
-      <description>&lt;p&gt;This exploration should start from the ground up.
-The first thing we have to do is get a machine up and running.
-Starting from a default Ubuntu AMI in AWS:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://s3.amazonaws.com/rqcassets/provisioning_aws.png&#34; alt=&#34;provisioning_aws&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;SSH into the machine and run all the necessary updates:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;sudo apt-get update
-sudo apt-get dist-upgrade -y
-sudo apt-get upgrade -y
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Install build tools:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;sudo apt-get install build-essential -y
-sudo apt-get install python -y
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Install Node.js:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-sudo apt-get install -y nodejs
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Install Geth:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;sudo apt-get install software-properties-common
-sudo add-apt-repository -y ppa:ethereum/ethereum
-sudo apt-get update
-sudo apt-get install ethereum -y
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Fire up Geth and connect to the Ethereum test network.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;geth --testnet \
-  --datadir &amp;quot;~/.rqc&amp;quot; \
-  --syncmode=fast \
-  --rpc \
-  --rpcapi=&amp;quot;db,eth,net,web3,personal&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Geth will start syncing with the blockchain:
-&lt;img src=&#34;http://s3.amazonaws.com/rqcassets/rqc_provisioning-gethsync.png&#34; alt=&#34;provisioning_geth_sync&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;It will take more than an hour, but when you are up-to-date it sync single blocks at a time:
-&lt;img src=&#34;http://s3.amazonaws.com/rqcassets/rqc_provision_singleblockatatime.png&#34; alt=&#34;rqc_provision_singleblockatatime&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;You can also visit &lt;a href=&#34;https://ropsten.etherscan.io&#34; target=&#34;_blank&#34;&gt;&lt;a href=&#34;https://ropsten.etherscan.io&#34;&gt;https://ropsten.etherscan.io&lt;/a&gt;&lt;/a&gt; to see what the latest block is.&lt;/p&gt;
-</description>
+      <description>This exploration should start from the ground up. The first thing we have to do is get a machine up and running. Starting from a default Ubuntu AMI in AWS:
+SSH into the machine and run all the necessary updates:
+sudo apt-get update sudo apt-get dist-upgrade -y sudo apt-get upgrade -y  Install build tools:
+sudo apt-get install build-essential -y sudo apt-get install python -y  Install Node.js:
+curl -sL https://deb.</description>
     </item>
     
   </channel>

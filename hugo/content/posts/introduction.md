@@ -1,15 +1,16 @@
 ---
 title: "Introduction"
-date: 2017-09-21T15:33:29-06:00
+date: 2017-09-21T16:33:29-06:00
 draft: true
 ---
-Blockchain technologies, smart contracts in particular, are incredibly powerful but are unable to communicate directly with information on the internet.
-An oracle provides that link by making requests, delivering results, and most importantly, forming a consensus on the blockchain.
+Blockchain technologies, smart contracts in particular, are incredibly powerful and are posed to disrupt many aspects of financial and business sectors.
 
-No single, centralized content provider is reliable enough to source advanced, deterministically binding contracts that dictate the exchange of wealth.
-A statistically adequate amount of miners, in combination with the staking of a currency and cpu, can reach an agreed upon value in a trust-less fashion.
+However, due to the deterministic and decentralized nature of smart contracts, they are unable to communicate directly with valuable data sources on the internet.
 
-This currency must, in turn, be of some value to incentivize miners to continue making requests, forming consensus, and enriching the blockchain.
-ICOs are earning millions of dollars and backing the development of amazing new products, but RequestCoin can only be earned through mining.
+An oracle provides that link by making requests and delivering results to the blockchain.
 
-The following is an exploration into somehow incentivizing and building a reliable link between smart contracts and the internet with cryptographically and statistically accurate information.
+Unfortunately, only centralized oracles exist today and contracts are forced to rely on a single point of failure which could easily be attacked, manipulated, and corrupted.
+
+A decentralized, trust-less network of oracles is needed to empower the next generation of smart contracts. This system must also take into account the cryptoeconomics of incentivizing miners to enrich the blockchain.  
+
+A statistically adequate amount of miners requesting information from multiple internet sources, in combination with the staking of a token and cpu, can reach an agreed upon consensus off-chain, and then efficiently inscribe data onto the blockchain.

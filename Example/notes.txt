@@ -32,7 +32,7 @@ http://cloud.cocorahs.org/wys/2015-2016/CO/CO-BN-8-wys-2015-2016.html
 
 
 
-
+https://blog.quandl.com/api-for-interest-rate-data
 
 
 http://api.wunderground.com/api/Your_Key/conditions/q/CA/San_Francisco.json
@@ -44,3 +44,6 @@ https://www.wunderground.com/weather/api/d/docs?d=data/history
 
 
 https://github.com/oraclize/ethereum-examples/blob/master/solidity/DieselPrice.sol
+
+
+https://www.reddit.com/r/ethereum/comments/4f6vc2/lets_talk_about_use_of_oracles_in_smart_contracts/

@@ -3,5 +3,5 @@ languageCode = "en-us"
 title = "RequestCoin"
 theme = "angels-ladder"
 [params]
-  subtitle = "Decentralized Ethereum Oracle"
-  author = "Austin Thomas Griffith"
+  subtitle = "Decentralized Blockchain Oracle"
+  author = "Austin Thomas Griffith M.S. E.E."
