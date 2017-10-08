@@ -51,4 +51,3 @@ event AddResponse(address _sender,bytes32 _id,uint _result);
 ```
 
 This simplified example is the heart of a decentralized oracle network and in the following posts, we will build a more robust system around this idea.
-

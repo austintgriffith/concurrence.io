@@ -11,4 +11,3 @@ To solve this problem we'll use an emerging technology called [IPFS](https://ipf
 To solve the problem of copy-cat miners, each miner will first post a hash of what they think the content value should be. Once enough miners come to the same conclusion, this hash will be written to the blockchain and the token will be used as stake. Finally, after a consensus of the hash of the content is statistically reached, the content itself can be revealed and hosted in IPFS.
 
 Eventually, [Filecoin](https://filecoin.io/) will incentivize the storage of said content in IPFS so RequstCoin will also act as a bridge between the old and new internet. For example, if an entity wanted to move all of their content from the traditional internet into IPFS, they could spend RequestCoin to pay miners to download and store the content in IPFS and then spend [Filecoin](https://filecoin.io/) to keep that content hosted and replicated in a peer-to-peer fashion.
-

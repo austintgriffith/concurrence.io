@@ -52,4 +52,3 @@ It will take more than an hour, but when you are up-to-date it sync single block
 ![rqc_provision_singleblockatatime](http://s3.amazonaws.com/rqcassets/rqc_provision_singleblockatatime.png)
 
 You can also visit <a href="https://ropsten.etherscan.io" target="_blank">https://ropsten.etherscan.io</a> to see what the latest block is.
-

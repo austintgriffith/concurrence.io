@@ -14,4 +14,3 @@ Unfortunately, only centralized oracles exist today and contracts are forced to 
 A decentralized, trust-less network of oracles is needed to empower the next generation of smart contracts. This system must also take into account the cryptoeconomics of incentivizing miners to enrich the blockchain.  
 
 A statistically adequate amount of miners requesting information from multiple internet sources, in combination with the staking of a token and cpu, can reach a blind, agreed upon consensus off-chain, and then efficiently inscribe data publicly onto the blockchain.
-

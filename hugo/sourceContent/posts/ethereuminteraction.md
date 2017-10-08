@@ -68,4 +68,3 @@ eth.sendTransaction(
 
 We can follow the transaction on <a href="https://ropsten.etherscan.io/tx/0x301f949ba0304b750f339dad5cdf93c366e539bca42664348871e309fa8d654b" target="_blank">etherscan.io</a>:
 ![rqc_eth_interact_tx](http://s3.amazonaws.com/rqcassets/rqc_eth_interact_tx.png)
-

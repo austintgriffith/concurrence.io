@@ -10,4 +10,3 @@ The best strategies to provide upgradability to contracts is using many differen
 Along with this "microservice" architecture, contracts will need to have lineage. As off-chain code interacts with contracts, they will follow a tree of ancestry to the most current descendant. At any moment, a contract will "die" and a successor will be "born". We might also be frozen in a "lame duck" state during which information from the predecessor is transferred to the new contract.
 
 As the fleet of contacts harden and functionality solidifies, certain safety measures and kill switches will be removed. This provides more long term trust because a single account will no longer be able to dictate how others can interact with the contracts.
-

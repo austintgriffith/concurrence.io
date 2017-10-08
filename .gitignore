@@ -7,11 +7,13 @@ App
 */*/*.address
 */*/*.run.xml
 */*/*.log.*
+*/*/*.blockNumber
 */*.abi
 */*.bytecode
 */*.bib
 */*.address
 */*.run.xml
 */*.log.*
+*/*.blockNumber
 */node_modules
 /node_modules

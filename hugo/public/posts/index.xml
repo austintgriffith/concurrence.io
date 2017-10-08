@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on RequestCoin</title>
+    <link>http://requestco.in/posts/</link>
+    <description>Recent content in Posts on RequestCoin</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 23 Sep 2017 10:12:22 -0600</lastBuildDate>
+    
+	<atom:link href="http://requestco.in/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Ethereum Network Interaction</title>
+      <link>http://requestco.in/posts/ethereuminteraction/</link>
+      <pubDate>Sat, 23 Sep 2017 10:12:22 -0600</pubDate>
+      
+      <guid>http://requestco.in/posts/ethereuminteraction/</guid>
+      <description>Let&amp;rsquo;s interact with the Ethereum network.
+With Geth running and up-to-date, we can attach to it from another ssh session.
+geth attach http://:8545  A fresh installation of Geth will have an empty array of accounts.
+eth.accounts  Create a couple Ethereum test accounts:
+web3.personal.newAccount()  Check the balance of an account with
+eth.getBalance()  Let&amp;rsquo;s ask a testnet faucet for a little test ether:
+curl -X POST \ -H &amp;quot;Content-Type: application/json&amp;quot; \ -d &amp;quot;{\&amp;quot;toWhom\&amp;quot;:\&amp;quot;0x14f990ce8f5124f273bdc19b8a39769eab8736a3\&amp;quot;}&amp;quot; \ https://ropsten.</description>
+    </item>
+    
+    <item>
+      <title>Provisioning</title>
+      <link>http://requestco.in/posts/provisioning/</link>
+      <pubDate>Fri, 22 Sep 2017 11:02:45 -0600</pubDate>
+      
+      <guid>http://requestco.in/posts/provisioning/</guid>
+      <description>This exploration should start from the ground up. The first thing we have to do is get a machine up and running. Starting from a default Ubuntu AMI in AWS:
+SSH into the machine and run all the necessary updates:
+sudo apt-get update sudo apt-get dist-upgrade -y sudo apt-get upgrade -y  Install build tools:
+sudo apt-get install build-essential -y sudo apt-get install python -y  Install Node.js:
+curl -sL https://deb.</description>
+    </item>
+    
+  </channel>
+</rss>

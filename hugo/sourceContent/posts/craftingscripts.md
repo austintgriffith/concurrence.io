@@ -67,4 +67,3 @@ contract.js
 ```javascript
 //contract.js CODE NEEDS TO AUTO POPULATE HERE//
 ```
-
