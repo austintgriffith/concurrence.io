@@ -78,3 +78,8 @@ foreach (new RecursiveIteratorIterator($di) as $filename => $file) {
 
   }
 }
+
+
+
+/* Finally, run the hugo stuff to build out the public directory */
+passthru("hugo");
