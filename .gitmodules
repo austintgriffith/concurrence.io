@@ -10,3 +10,6 @@
 [submodule "hugo/themes/angels-ladder"]
 	path = hugo/themes/angels-ladder
 	url = https://github.com/tanksuzuki/angels-ladder
+[submodule "rqcsite"]
+	path = rqcsite
+	url = https://github.com/austintgriffith/rqcsite.git
