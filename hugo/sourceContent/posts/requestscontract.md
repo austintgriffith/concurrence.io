@@ -6,3 +6,9 @@ draft: true
 The **Requests** contract is the main datastore for requests.
 
 <!--RQC CODE solidity Requests/Requests.sol -->
+
+Current address:
+<!--RQC ADDRESS Requests/Requests.address -->
+
+Current ABI:
+<!--RQC ABI Requests/Requests.abi -->

@@ -4,6 +4,7 @@ pragma solidity ^0.4.0;
 >=250 withdraw ether sent on accident to contracts
 >=240 give permissions to other addresses (Auth admin)
 >=200 setContractAddress (Main admin)
+>=32 to add a request 
 */
 
 contract Auth {
@@ -35,16 +36,4 @@ contract Auth {
         return (owner==_address);
     }
 
-    //we need to be able to drain any errant ether
-    //spread this to all contracts after testing
-    function withdraw() returns (bool) {
-        if ( permission[msg.sender] >= 250 ) {
-            if(!msg.sender.send(this.balance)){
-              revert();
-            }
-            return true;
-        }else{
-          revert();
-        }
-    }
 }

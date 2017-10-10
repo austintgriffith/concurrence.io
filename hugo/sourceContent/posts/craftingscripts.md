@@ -16,54 +16,41 @@ echo "280" > ethprice.int
 echo "2000000" > deploygas.int
 echo "200000" > xfergas.int
 ```
-
+<!--
 lib.js
 ------------------
 *brings in global variables and prepares helper functions and dependancies*
-
-```javascript
-//lib.js CODE NEEDS TO AUTO POPULATE HERE//
-```
+-->
 
 
 
 personal.js
 ------------------
-*reports current account balances and unlock accounts*
+*reports current account balances and unlocks accounts*
 
-```javascript
-//personal.js CODE NEEDS TO AUTO POPULATE HERE//
-```
+<!--RQC CODE javascript personal.js -->
 
 
 send.js
 ------------------
 *sends ether from one account to another*
 
-```javascript
-//send.js CODE NEEDS TO AUTO POPULATE HERE//
-```
+<!--RQC CODE javascript send.js -->
 
 compile.js
 ------------------
 *compiles a contract*
 
-```javascript
-//compile.js CODE NEEDS TO AUTO POPULATE HERE//
-```
+<!--RQC CODE javascript compile.js -->
 
 deploy.js
 ------------------
 *deploys a contract*
 
-```javascript
-//deploy.js CODE NEEDS TO AUTO POPULATE HERE//
-```
+<!--RQC CODE javascript deploy.js -->
 
 contract.js
 ------------------
-*provides other scripts an interface to contracts through abstraction*
+*provides other scripts with an interface to contracts through abstraction*
 
-```javascript
-//contract.js CODE NEEDS TO AUTO POPULATE HERE//
-```
+<!--RQC CODE javascript contract.js -->

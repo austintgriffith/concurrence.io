@@ -20,7 +20,6 @@ if(!bytecode){
   if(!abi){
     console.log("Couldn't load "+contractdir+"/"+contractname+".abi")
   }else{
-
     let ethPrice = parseInt(fs.readFileSync("ethprice.int").toString().trim())
     web3.eth.getAccounts().then((accounts)=>{
       web3.eth.getBalance(accounts[ACCOUNT_INDEX]).then((balance)=>{
@@ -82,45 +81,7 @@ if(!bytecode){
             },1000)
           })
       //  })
-
-
       })
     })
-
-
-
-
-
-
-
-
   }
 }
-
-/*
-{
-    from: '0xe5a055cfe57287feb89bbae79538a3be3a06f62b',
-    gas: 1500000,
-    gasPrice: '30000000000000'
-}
-
-/*
-.on('error', function(error){ console.log("ERROR",error) })
-.on('transactionHash', function(transactionHash){ console.log("transactionHash",transactionHash)})
-.on('receipt', function(receipt){
-   console.log("receipt",receipt.contractAddress) // contains the new contract address
-})
-.on('confirmation', function(confirmationNumber, receipt){ console.log("confirmation",confirmationNumber,receipt) })
-*/
-
-
-
-/*
-let deployed = test.deploy({
-  data: bytecode,
-  arguments: ["CONARG1"]
-})
-console.log("Deployed...")
-
-console.log(deployed)
-*/

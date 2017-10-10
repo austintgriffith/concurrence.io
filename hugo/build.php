@@ -67,6 +67,11 @@ foreach (new RecursiveIteratorIterator($di) as $filename => $file) {
 "```".$codeType."
 ".file_get_contents("../".$parts[3])."
 ```";
+          }else if($parts[1]=="ADDRESS"||$parts[1]=="ABI"){
+            $outputContent.=
+"```
+".file_get_contents("../".$parts[2])."
+```";
           }
         }else{
           $outputContent.=$line."\n";

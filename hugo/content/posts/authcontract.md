@@ -12,6 +12,7 @@ pragma solidity ^0.4.0;
 >=250 withdraw ether sent on accident to contracts
 >=240 give permissions to other addresses (Auth admin)
 >=200 setContractAddress (Main admin)
+>=32 to add a request 
 */
 
 contract Auth {
@@ -43,20 +44,17 @@ contract Auth {
         return (owner==_address);
     }
 
-    //we need to be able to drain any errant ether
-    //spread this to all contracts after testing
-    function withdraw() returns (bool) {
-        if ( permission[msg.sender] >= 250 ) {
-            if(!msg.sender.send(this.balance)){
-              revert();
-            }
-            return true;
-        }else{
-          revert();
-        }
-    }
 }
 
 ```
 Eventually, the **Auth** contract will be extended to allow for more complex governance including voting and signally for specific changes to the system.
 
+
+Current address:
+```
+0x4C643328d5395d56004Fe91e7Af9b0dbBdFee40c
+```
+Current ABI:
+```
+[{"constant":true,"inputs":[{"name":"_address","type":"address"}],"name":"isOwner","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"withdraw","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"permission","outputs":[{"name":"","type":"uint8"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_address","type":"address"}],"name":"getPermission","outputs":[{"name":"","type":"uint8"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_address","type":"address"},{"name":"_permission","type":"uint8"}],"name":"setPermission","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"inputs":[],"payable":false,"type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_sender","type":"address"},{"indexed":false,"name":"_address","type":"address"},{"indexed":false,"name":"_permission","type":"uint8"}],"name":"SetPermission","type":"event"}]
+```

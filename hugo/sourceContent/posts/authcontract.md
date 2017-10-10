@@ -8,3 +8,10 @@ draft: true
 <!--RQC CODE solidity Auth/Auth.sol -->
 
 Eventually, the **Auth** contract will be extended to allow for more complex governance including voting and signally for specific changes to the system.
+
+
+Current address:
+<!--RQC ADDRESS Auth/Auth.address -->
+
+Current ABI:
+<!--RQC ABI Auth/Auth.abi -->

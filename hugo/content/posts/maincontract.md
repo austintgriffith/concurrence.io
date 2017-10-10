@@ -10,7 +10,6 @@ pragma solidity ^0.4.0;
 
 import "Auth.sol";
 
-
 contract Main {
 
     /*
@@ -47,4 +46,12 @@ contract Main {
 
 }
 
+```
+Current address:
+```
+0x543c78Dd3fF4fAfF6f7Fb7c740F9bF52E4d56e2a
+```
+Current ABI:
+```
+[{"constant":true,"inputs":[{"name":"","type":"uint32"}],"name":"contracts","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_id","type":"uint32"},{"name":"_address","type":"address"}],"name":"setContractAddress","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_id","type":"uint32"}],"name":"getContractAddress","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"inputs":[{"name":"_authContractAddress","type":"address"}],"payable":false,"type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_id","type":"uint32"},{"indexed":false,"name":"_address","type":"address"}],"name":"SetContractAddress","type":"event"}]
 ```

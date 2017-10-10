@@ -1,10 +1,11 @@
 ---
 title: "Provisioning"
 date: 2017-09-22T11:02:45-06:00
+draft: true
 ---
 
-This exploration should start from the ground up.
-The first thing we have to do is get a machine up and running.
+This exploration should start from the ground up. We want anyone to be able to spin up a vanilla linux machine and build out an entire miner from scratch. We also want to explore basic Ethereum network interactions from the transferring of funds to simple contracts and eventually more advanced contract mechanics. If you understand these already and want to get down to the brass tacks of the system, skip ahead to the [deployed contracts section](/posts/requestcoinfleet/).
+
 Starting from a default Ubuntu AMI in AWS:
 
 ![provisioning_aws](http://s3.amazonaws.com/rqcassets/provisioning_aws.png)
@@ -44,11 +45,12 @@ geth --testnet \
   --rpc \
   --rpcapi="db,eth,net,web3,personal"
 ```
+(note: make sure port 8545 is blocked to the public in your AWS security group)
 
 Geth will start syncing with the blockchain:
 ![provisioning_geth_sync](http://s3.amazonaws.com/rqcassets/rqc_provisioning-gethsync.png)
 
-It will take more than an hour, but when you are up-to-date it sync single blocks at a time:
+It will take more than an hour, but when you are up-to-date it will sync single blocks at a time:
 ![rqc_provision_singleblockatatime](http://s3.amazonaws.com/rqcassets/rqc_provision_singleblockatatime.png)
 
 You can also visit <a href="https://ropsten.etherscan.io" target="_blank">https://ropsten.etherscan.io</a> to see what the latest block is.

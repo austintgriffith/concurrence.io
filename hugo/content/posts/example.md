@@ -21,7 +21,7 @@ event AddRequest(address _sender,bytes32 _id, string _url);
 
 With the **addRequest** function we can store a request and trigger an event called **AddRequest** on the blockchain.
 
-Miners could then, off-chain, make requests to a number of internet endpoints, collecting relevant data, and sending it back to the contract.
+Miners, incentivized by a reserved token, then make requests to a number of internet endpoints, collecting relevant data, and sending it back to the contract.
 ```javascript
 contract.getPastEvents('AddRequest', {
     fromBlock: params.blockNumber,

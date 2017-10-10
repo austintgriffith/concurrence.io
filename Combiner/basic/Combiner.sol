@@ -1,9 +1,6 @@
 /*
-
   Basic Combiner
-
   This is more of an example combiner
-
 */
 pragma solidity ^0.4.0;
 
@@ -33,11 +30,9 @@ contract Combiner{
     mapping(bytes32 => address ) public head;
     mapping(bytes32 => uint16 ) public count;
 
-    ///// ======= ----------------------------------------------
     //event ErrorString(string _str);
     event AddResponse(string _id,address _miner,uint32 _timestamp, uint32 _duration,uint16 _status, string _result,address head, address next, uint reward);
 
-    ///// request add  --------------------------------------------------
     function addResponse(string _id,uint32 _timestamp,uint32 _duration, uint16 _status, string _result) returns (bool){
         bytes32 __id = stringToBytes32(_id);
         //AddResponseAttempt(_id,msg.sender,_duration,_status,_result);
@@ -73,7 +68,6 @@ contract Combiner{
           return false;
         }
     }
-    ///// === --------------------------------------------------
 
     function stringToBytes32(string memory source) returns (bytes32) {
       bytes32 result;
