@@ -2,7 +2,7 @@ pragma solidity ^0.4.11;
 
 import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 
-contract Inherit is Ownable{
+contract Inherit is Ownable {
 
     string public message;
 
