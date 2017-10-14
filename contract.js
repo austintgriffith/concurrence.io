@@ -54,6 +54,7 @@ if(!address){
           blockNumber:blockNumber
         }
         console.log(params)
+        params.web3=web3//pass the web3 object so scripts have the utils
         let scriptPromise = scriptFunction(contract,params,process.argv)
         if(!scriptPromise || typeof scriptPromise.once != "function"){
           console.log(""+script+" (no promise)")

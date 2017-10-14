@@ -1,0 +1,6 @@
+
+coinmarketcap
+
+https://api.coinmarketcap.com/v1/ticker/
+
+test to see if an automatic getter is generated for the mapping, if not the getPrice will be needed
