@@ -4,3 +4,8 @@ coinmarketcap
 https://api.coinmarketcap.com/v1/ticker/
 
 test to see if an automatic getter is generated for the mapping, if not the getPrice will be needed
+
+
+build a "better" store that has the last updated time as a struct for the mapping
+
+maybe the getPrice could even check for a descendant and then call getPrice on it 
