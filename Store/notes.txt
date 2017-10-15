@@ -8,4 +8,8 @@ test to see if an automatic getter is generated for the mapping, if not the getP
 
 build a "better" store that has the last updated time as a struct for the mapping
 
-maybe the getPrice could even check for a descendant and then call getPrice on it 
+maybe the getPrice could even check for a descendant and then call getPrice on it (that doesn't work, it'll have to happen off chain)
+
+Let's think of the EthVsBch as our "client" and we are their oracle
+
+EthVsBch will just tell us if Eth or Bch is worth more at any time and it needs to stay up to date and never go down

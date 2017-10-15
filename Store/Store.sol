@@ -11,7 +11,7 @@ contract Store is Ownable,Pausable,Predecessor {
     //prices mapped by SYMBOL => price in USD
     //we could make this public but it's better
     //to have getPrice be the access method so
-    //we can forward the on to the descendant 
+    //we can forward the on to the descendant
     mapping (bytes32 => uint) price;
 
     function Store(string _source) {
@@ -26,9 +26,10 @@ contract Store is Ownable,Pausable,Predecessor {
     }
 
     //anyone can get any price by symbol
-    function getPrice(bytes32 _symbol) constant returns (uint) {
+    function getPrice(bytes32 _symbol) constant returns (uint) { /*whenNotMigrating*/
       //if there is a descendant, pass the call on
-      if(descendant!=address(0)) return Store(descendant).getPrice(_symbol);
-      else return price[_symbol];
+      //if(descendant!=address(0)) return Store(descendant).getPrice(_symbol);
+      //else
+      return price[_symbol];
     }
 }

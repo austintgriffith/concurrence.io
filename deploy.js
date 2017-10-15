@@ -66,6 +66,10 @@ if(!bytecode){
                     if(fs.existsSync(addressPath)){
                       fs.writeFileSync(contractdir+"/"+contractname+".previous.address",fs.readFileSync(addressPath).toString())
                     }
+                    let headAddressPath = contractdir+"/"+contractname+".head.address"
+                    if(!fs.existsSync(headAddressPath)){
+                      fs.writeFileSync(headAddressPath,result.contractAddress)
+                    }
                     fs.writeFileSync(addressPath,result.contractAddress)
                     fs.writeFileSync(contractdir+"/"+contractname+".blockNumber",result.blockNumber)
 

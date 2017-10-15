@@ -1,7 +1,7 @@
 //
 // usage: node contract minePrice Store null #SYMBOL#
 //
-// ex: node contract minePrice Store null BTC,ETH,XRP,BCH,LTC,
+// ex: node contract minePrice Store null BTC,ETH,XRP,BCH,LTC
 //
 const SHIFT = 1000000000000//shift price from float to uint
 const Request = require('request');
