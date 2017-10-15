@@ -2,15 +2,15 @@ pragma solidity ^0.4.11;
 
 import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 import 'zeppelin-solidity/contracts/lifecycle/Pausable.sol';
+import "Predecessor.sol";
 
-contract Store is Ownable,Pausable {
+contract Store is Ownable,Pausable,Predecessor {
 
     //string to hold source url of price information for reference
     string public source;
     //prices mapped by SYMBOL => price in USD
-    mapping (bytes32 => uint) public price;
-    //contract lineage for miners
-    address public predecessor;
+    //we could make this public
+    mapping (bytes32 => uint) price;
 
     function Store(string _source) {
       source = _source;
@@ -18,16 +18,21 @@ contract Store is Ownable,Pausable {
 
     //only the owner can set prices by symbol
     function setPrice(bytes32 _symbol,uint _price) onlyOwner whenNotPaused {
-      //setPrice should never get called once a predecessor is defined
-      //assert(predecessor==address(0));
+      //setPrice should never get called once a descendant is set
+      assert(descendant==address(0));
       price[_symbol]=_price;
     }
 
     //anyone can get any price by symbol
     function getPrice(bytes32 _symbol) constant returns (uint) {
-      //getPrice should never get called once a predecessor is defined 
-      //assert(predecessor==address(0));
-      return price[_symbol];
+      //if there is a descendant, pass the call on
+      if(descendant!=address(0)) return Store(descendant).getPrice(_symbol);
+      else return price[_symbol];
     }
 
+    //contract lineage for miners
+    address public descendant;
+    function setDescendant(address _descendant) onlyOwner {
+      descendant=_descendant;
+    }
 }
