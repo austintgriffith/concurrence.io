@@ -28,8 +28,9 @@ contract Store is Ownable,Pausable,Predecessor {
     //anyone can get any price by symbol
     function getPrice(bytes32 _symbol) constant returns (uint) { /*whenNotMigrating*/
       //if there is a descendant, pass the call on
-      //if(descendant!=address(0)) return Store(descendant).getPrice(_symbol);
-      //else
+      if(descendant!=address(0)) {
+        return Store(descendant).getPrice(_symbol);
+      }
       return price[_symbol];
     }
 }

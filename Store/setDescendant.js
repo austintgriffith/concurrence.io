@@ -5,8 +5,8 @@
 //
 let ACCOUNT_INDEX = 1
 module.exports = (contract,params,args)=>{
-  console.log("%*== onDeploy: set descendant to "+params.previousAddress)
-  return contract.methods.setDescendant(params.previousAddress).send({
+  console.log("%*== onDeploy: set descendant to ",params.nextAddress)
+  return contract.methods.setDescendant(params.nextAddress).send({
     from: params.accounts[ACCOUNT_INDEX],
     gas: params.gas,
     gasPrice:params.gasPrice
