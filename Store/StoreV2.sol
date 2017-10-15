@@ -7,7 +7,7 @@ contract Store is Ownable,Predecessor {
 
     //string to hold source url of price information for reference
     string public source;
-    
+
     //prices mapped by SYMBOL => price in USD
     mapping (bytes32 => uint) price;
 
@@ -20,6 +20,8 @@ contract Store is Ownable,Predecessor {
       //setPrice should never get called once a descendant is set
       assert(descendant==address(0));
       price[_symbol]=_price;
+      //--- keep track of block number of last update
+      lastUpdate=block.number;
     }
 
     //anyone can get any price by symbol
@@ -30,4 +32,6 @@ contract Store is Ownable,Predecessor {
       }
       return price[_symbol];
     }
+    //--- lastUpdate is block number of last update
+    uint public lastUpdate;
 }

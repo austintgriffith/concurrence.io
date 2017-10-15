@@ -1,15 +1,81 @@
 
-coinmarketcap
+coinmarketcap https://api.coinmarketcap.com/v1/ticker/
 
-https://api.coinmarketcap.com/v1/ticker/
+first we start with Store, it keeps track of prices by symbol
+compile, deploy, run the miner, get the prices, run the miner again, get the price
 
-test to see if an automatic getter is generated for the mapping, if not the getPrice will be needed
+maybe make a note of why price isn't public so getPrice can hook into lineage
+(just planning ahead for now, but just use it as a single contract)
 
-
-build a "better" store that has the last updated time as a struct for the mapping
-
-maybe the getPrice could even check for a descendant and then call getPrice on it (that doesn't work, it'll have to happen off chain)
+node compile Store
+node deploy Store
+node contract getState Store
+node contract getPrice Store null ETH
+node contract minePrice Store null BTC,ETH,XRP,BCH,LTC
+node contract getPrice Store null ETH
+node contract getPrice Store null LTC
+node contract minePrice Store null BTC,ETH,XRP,BCH,LTC
+node contract getPrice Store null LTC
 
 Let's think of the EthVsBch as our "client" and we are their oracle
+EthVsBch will just tell us if Eth or Bch is worth more at any time
+compile and deploy eth vs bch with the Store address hardcoded!
 
-EthVsBch will just tell us if Eth or Bch is worth more at any time and it needs to stay up to date and never go down
+node compile EthVsBch
+set arguments to contract address (0x4FfC56C148FF5dD2D9DD847aD93d4C23e6ce3ba8 on test rpc)
+node deploy EthVsBch
+node contract getState EthVsBch
+node contract minePrice Store null BTC,ETH,XRP,BCH,LTC
+node contract getState EthVsBch
+
+the miner should be assumed it is still running, and eth vs bch should always be up to date
+
+but what if the info goes stale, there is no way of knowing right now how recent the info is
+let's build a better store that also keeps track of last updated
+the last updated time will be a new uint for block number but Store must be backwards compatible too!
+
+setup Store as V1 and V2 as Store
+
+node compile Store
+node deploy Store
+node contract getState Store
+node contract getPrice Store null ETH
+node contract getLastUpdate Store
+node contract minePrice Store null BTC,ETH,XRP,BCH,LTC
+node contract getPrice Store null ETH
+node contract getLastUpdate Store
+
+wait a bit
+
+node contract minePrice Store null BTC,ETH,XRP,BCH,LTC
+node contract getPrice Store null ETH
+node contract getLastUpdate Store
+
+now we go back to the old EthVsBch and make sure it's still running pointed to the old contract
+node contract getState EthVsBch
+
+okay so EthVsBch is talking to the old Store and the prices are getting to be out of date
+we can see that the old Store is still active:
+
+node contract getDescendant Store previous
+
+the last process of our deployment would be to update the Descentdant on the old contract to force it over to the new
+
+node contract setDescendant Store previous
+node contract getDescendant Store previous
+
+now let's see if that old hard coded contract is picking up new prices
+
+node contract getState EthVsBch
+node contract minePrice Store null BTC,ETH,XRP,BCH,LTC
+node contract getState EthVsBch
+
+okay, old contract is still operating fine with the descendant passthrough, but now, let's build a v2 of EthVsBch
+
+node compile EthVsBch
+set arguments to contract address (0xAC25Cbf07288873068F1D0b4C7aAEF46b7720ca8 on test rpc)
+node deploy EthVsBch
+
+node contract getState EthVsBch
+node contract minePrice Store null BTC,ETH,XRP,BCH,LTC
+node contract getState EthVsBch
