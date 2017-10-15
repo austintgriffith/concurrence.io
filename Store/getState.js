@@ -8,8 +8,8 @@ module.exports = (contract,params,args)=>{
       console.log("PAUSED:"+paused)
       contract.methods.source().call().then((source)=>{
         console.log("SOURCE:"+source)
-        contract.methods.predecessor().call().then((predecessor)=>{
-          console.log("PREDECESSOR:"+predecessor)
+        contract.methods.descendant().call().then((descendant)=>{
+          console.log("DESCENDANT:"+descendant)
         })
       })
     })

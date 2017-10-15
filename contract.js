@@ -7,10 +7,17 @@ let startSeconds = new Date().getTime() / 1000;
 let script = process.argv[2]
 let contractdir = process.argv[3]
 let contractname = process.argv[4]
-if(!contractname || contractname=="null") contractname=contractdir
+if(!contractname || contractname=="null" ) contractname=contractdir
 
 console.log("Reading data...")
-let address = fs.readFileSync(contractdir+"/"+contractname+".address").toString().trim()
+let address
+if(contractname=="previous" ){
+  contractname=contractdir
+  console.log("Reading for "+contractdir+"/"+contractname+".previous.address")
+  address = fs.readFileSync(contractdir+"/"+contractname+".previous.address").toString().trim()
+}else{
+  address = fs.readFileSync(contractdir+"/"+contractname+".address").toString().trim()
+}
 let blockNumber = 0
 try{
    blockNumber = fs.readFileSync(contractdir+"/"+contractname+".blockNumber").toString().trim()
@@ -52,6 +59,11 @@ if(!address){
           gasPrice:gaspricegwei,
           accounts:accounts,
           blockNumber:blockNumber
+        }
+        //check for previous address to pass along
+        let previousAddressFile = contractdir+"/"+contractname+".previous.address"
+        if(fs.existsSync(previousAddressFile)){
+          params.previousAddress = fs.readFileSync(previousAddressFile).toString()
         }
         console.log(params)
         params.web3=web3//pass the web3 object so scripts have the utils

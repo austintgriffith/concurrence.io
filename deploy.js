@@ -62,7 +62,11 @@ if(!bytecode){
                     let etherdiff = etherbalance-endetherbalance
                     console.log("==ETHER COST: "+etherdiff+" $"+(etherdiff*ethPrice))
                     console.log("Saving contract address:",result.contractAddress)
-                    fs.writeFileSync(contractdir+"/"+contractname+".address",result.contractAddress)
+                    let addressPath = contractdir+"/"+contractname+".address"
+                    if(fs.existsSync(addressPath)){
+                      fs.writeFileSync(contractdir+"/"+contractname+".previous.address",fs.readFileSync(addressPath).toString())
+                    }
+                    fs.writeFileSync(addressPath,result.contractAddress)
                     fs.writeFileSync(contractdir+"/"+contractname+".blockNumber",result.blockNumber)
 
                     let endSeconds = new Date().getTime() / 1000;

@@ -9,7 +9,9 @@ contract Store is Ownable,Pausable,Predecessor {
     //string to hold source url of price information for reference
     string public source;
     //prices mapped by SYMBOL => price in USD
-    //we could make this public
+    //we could make this public but it's better
+    //to have getPrice be the access method so
+    //we can forward the on to the descendant 
     mapping (bytes32 => uint) price;
 
     function Store(string _source) {
@@ -28,11 +30,5 @@ contract Store is Ownable,Pausable,Predecessor {
       //if there is a descendant, pass the call on
       if(descendant!=address(0)) return Store(descendant).getPrice(_symbol);
       else return price[_symbol];
-    }
-
-    //contract lineage for miners
-    address public descendant;
-    function setDescendant(address _descendant) onlyOwner {
-      descendant=_descendant;
     }
 }
