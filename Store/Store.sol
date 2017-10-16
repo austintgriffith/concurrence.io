@@ -7,7 +7,7 @@ contract Store is Ownable,Predecessor {
 
     //string to hold source url of price information for reference
     string public source;
-    
+
     //prices mapped by SYMBOL => price in USD
     mapping (bytes32 => uint) price;
 
