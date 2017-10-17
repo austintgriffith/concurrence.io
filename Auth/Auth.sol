@@ -1,31 +1,23 @@
 pragma solidity ^0.4.0;
 
-/*
-  >= 240 give permissions to other addresses (Auth admin)
-  >= 200 setContractAddress (Main admin)
-*/
-
 import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 import 'zeppelin-solidity/contracts/ownership/HasNoEther.sol';
 
 contract Auth is Ownable, HasNoEther  {
 
-    event SetPermission( address _sender, address _address , uint8 _permission );
+    event SetPermission( address _sender, address _address, bytes32 _permission, bool _value );
 
-    mapping ( address => uint8 ) public permission;
+    mapping ( address => mapping ( bytes32 => bool ) ) public permission;
 
     function Auth() {
-        permission[owner] = 255;
+        permission[owner]['setPermission'] = true;
     }
 
-    function setPermission( address _address , uint8 _permission) {
-        require( permission[msg.sender] >= 240 );
-        require( permission[msg.sender] >= _permission );
-        require( _address != owner );
-        require( _address != msg.sender );
-        permission[_address] = _permission;
-        SetPermission(msg.sender,_address,_permission);
+    function setPermission( address _address , bytes32 _permission, bool _value) {
+        require( permission[msg.sender]['setPermission'] );
+        require( _address!=owner || _permission!='setPermission');
+        permission[_address][_permission] = _value;
+        SetPermission(msg.sender,_address,_permission,_value);
     }
-
 
 }

@@ -1,39 +1,22 @@
 pragma solidity ^0.4.0;
 
-import "Auth.sol";
+contract Auth { mapping ( address => uint8 ) public permission; }
 
 contract Main {
 
-    /*
-    0 - Auth Contract
-    10 - Requests Contract
-    20 - Token Contract
-    (see wireupAllContracts.js)
-    */
+    event SetContractAddress(bytes32 _name,address _address);
 
-    mapping(uint32 => address) public contracts;
+    mapping(bytes32 => address) public contracts;
 
     function Main(address _authContractAddress) {
-      contracts[0]=_authContractAddress;
+      contracts['Auth']=_authContractAddress;
     }
 
-    event SetContractAddress(
-            uint32 _id,
-            address _address
-    );
-
-    function setContractAddress(uint32 _id,address _address) returns (bool){
-      SetContractAddress(_id,_address);
-      Auth auth = Auth(contracts[0]);
-      if( auth.getPermission(msg.sender) >= 200 ){
-          contracts[_id]=_address;
-          return true;
-      }
-      revert();
-    }
-
-    function getContractAddress(uint32 _id) constant returns (address){
-        return contracts[_id];
+    function setContractAddress(bytes32 _name,address _address){
+      Auth authContract = Auth(contracts['Auth']);
+      require( authContract.permission(msg.sender) >= 200 );
+      contracts[_name]=_address;
+      SetContractAddress(_name,_address);
     }
 
 }
