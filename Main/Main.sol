@@ -1,22 +1,34 @@
 pragma solidity ^0.4.0;
 
-contract Auth { mapping ( address => uint8 ) public permission; }
+import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
+import 'zeppelin-solidity/contracts/ownership/HasNoEther.sol';
+import 'Predecessor.sol';
 
-contract Main {
+contract Auth { mapping ( address => mapping ( bytes32 => bool ) ) public permission; }
 
-    event SetContractAddress(bytes32 _name,address _address);
+contract Main is Ownable, HasNoEther, Predecessor {
 
-    mapping(bytes32 => address) public contracts;
+    event SetContract(bytes32 _name,address _address);
 
-    function Main(address _authContractAddress) {
-      contracts['Auth']=_authContractAddress;
+    mapping(bytes32 => address) contracts;
+
+    function Main(address _authContract) {
+      contracts['Auth']=_authContract;
     }
 
-    function setContractAddress(bytes32 _name,address _address){
+    function setContract(bytes32 _name,address _address){
       Auth authContract = Auth(contracts['Auth']);
-      require( authContract.permission(msg.sender) >= 200 );
+      require( authContract.permission(msg.sender,'setContract') );
       contracts[_name]=_address;
-      SetContractAddress(_name,_address);
+      SetContract(_name,_address);
+    }
+
+    function getContract(bytes32 _name) constant returns (address) {
+      if(descendant!=address(0)) {
+        return Main(descendant).getContract(_name);
+      }else{
+        return contracts[_name];
+      }
     }
 
 }

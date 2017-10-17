@@ -11,6 +11,7 @@ contract Auth is Ownable, HasNoEther  {
 
     function Auth() {
         permission[owner]['setPermission'] = true;
+        permission[owner]['setContract'] = true; //Main.sol
     }
 
     function setPermission( address _address , bytes32 _permission, bool _value) {
