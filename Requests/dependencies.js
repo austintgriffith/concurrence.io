@@ -1,8 +1,7 @@
 const fs = require('fs');
 module.exports = {
-/*  'Auth.sol': fs.readFileSync('Auth/Auth.sol', 'utf8'),
-  'Main.sol': fs.readFileSync('Main/Main.sol', 'utf8'),
-  'Freezable.sol': fs.readFileSync('Freezable/Freezable.sol', 'utf8'),
-  'Descendant.sol': fs.readFileSync('Descendant/Descendant.sol', 'utf8'),
-  'Token.sol': fs.readFileSync('Token/Token.sol', 'utf8'),*/
+  'zeppelin-solidity/contracts/ownership/Ownable.sol': fs.readFileSync('zeppelin-solidity/contracts/ownership/Ownable.sol', 'utf8'),
+  'zeppelin-solidity/contracts/ownership/HasNoEther.sol': fs.readFileSync('zeppelin-solidity/contracts/ownership/HasNoEther.sol', 'utf8'),
+  'zeppelin-solidity/contracts/ownership/Contactable.sol': fs.readFileSync('zeppelin-solidity/contracts/ownership/Contactable.sol', 'utf8'),
+  'Addressed.sol': fs.readFileSync('Addressed/Addressed.sol', 'utf8')
 };

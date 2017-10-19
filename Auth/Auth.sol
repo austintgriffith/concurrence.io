@@ -12,13 +12,16 @@ contract Auth is Ownable, HasNoEther  {
     function Auth() {
         permission[owner]['setPermission'] = true;
         permission[owner]['setContract'] = true; //Main.sol
+        permission[owner]['setMainAddress'] = true; //Token.sol and Requests.sol
+        permission[owner]['addRequest'] = true; //Requests.sol
     }
 
-    function setPermission( address _address , bytes32 _permission, bool _value) {
+    function setPermission( address _address , bytes32 _permission, bool _value) public returns (bool) {
         require( permission[msg.sender]['setPermission'] );
         require( _address!=owner || _permission!='setPermission');
         permission[_address][_permission] = _value;
         SetPermission(msg.sender,_address,_permission,_value);
+        return true;
     }
 
 }

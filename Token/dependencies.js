@@ -7,5 +7,6 @@ module.exports = {
   'zeppelin-solidity/contracts/token/ERC20.sol': fs.readFileSync('zeppelin-solidity/contracts/token/ERC20.sol', 'utf8'),
   'zeppelin-solidity/contracts/token/ERC20Basic.sol': fs.readFileSync('zeppelin-solidity/contracts/token/ERC20Basic.sol', 'utf8'),
   'zeppelin-solidity/contracts/token/BasicToken.sol': fs.readFileSync('zeppelin-solidity/contracts/token/BasicToken.sol', 'utf8'),
-  'zeppelin-solidity/contracts/token/StandardToken.sol': fs.readFileSync('zeppelin-solidity/contracts/token/StandardToken.sol', 'utf8')
+  'zeppelin-solidity/contracts/token/StandardToken.sol': fs.readFileSync('zeppelin-solidity/contracts/token/StandardToken.sol', 'utf8'),
+  'Addressed.sol': fs.readFileSync('Addressed/Addressed.sol', 'utf8')
 };

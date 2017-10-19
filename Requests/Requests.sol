@@ -1,65 +1,41 @@
 pragma solidity ^0.4.0;
 
-import "Auth.sol";
-import "Main.sol";
-import "Token.sol";
+import 'zeppelin-solidity/contracts/ownership/HasNoEther.sol';
+import 'zeppelin-solidity/contracts/ownership/Contactable.sol';
+import 'Addressed.sol';
 
-contract Requests {
+contract Requests is HasNoEther, Contactable, Addressed {
 
-  address public mainAddress;
-  bool public frozen;
+  event ErrorString(string _str);
+  event AddRequest(address _sender, bytes32 _id, address _combiner, string _request, bytes32 _flavor);
+  event AttemptAddRequest(address _sender, bytes32 _id, address _combiner, string _url, bytes32 _flavor);
 
-  function Requests(address _mainAddress) {
-    mainAddress=_mainAddress;
-  }
-
-  function setMainAddress(address _mainAddress){
-    Main main = Main(mainAddress);
-    Auth auth = Auth(main.getContractAddress(0));
-    if( auth.isOwner(msg.sender) ){
-      mainAddress=_mainAddress;
-    }
-  }
-
-  ///// Request ----------------------------------------------
   struct Request{
-    string url;//ex "http://ifconfig.co"
-    address combiner;//ex 3 (this would mean contract 103)
+    address combiner;
+    string request;
+    bytes32 flavor;
   }
 
   mapping (bytes32 => Request) public requests;
 
-  event ErrorString(string _str);
-  event AddRequest(address _sender,string _id,address _combiner,uint _coin, string _url);
-  event AttemptAddRequest(address _sender,string _id,address _combiner,uint _coin, string _url);
-
-  function addRequest(string _id, address _combiner, uint _coin, string _url) returns (bool){
-    AttemptAddRequest(msg.sender,_id,_combiner,_coin,_url);
-    Main main = Main(mainAddress);
-    Auth auth = Auth(main.getContractAddress(0));
-    Token token = Token(main.getContractAddress(20));
-    if( auth.getPermission(msg.sender)>=32 ){
-      bytes32 __id = stringToBytes32(_id);
-      if( token.reserve(msg.sender,_combiner,__id,_coin) ){
-        requests[__id].url=_url;
-        requests[__id].combiner=_combiner;
-        AddRequest(msg.sender,_id,_combiner,_coin,_url);
-        return true;
-      }else{
-        ErrorString("Failed to reserve!");
-        return false;
-      }
-    }else{
-      ErrorString("Failed to get permission!");
+  function addRequest(bytes32 _id, address _combiner, string _request, bytes32 _flavor) public returns (bool) {
+    AttemptAddRequest(msg.sender,_id,_combiner,_request,_flavor);
+    if(requests[_id].combiner != address(0) || _combiner==address(0)){
+      ErrorString("Request already exists");
       return false;
     }
-  }
-
-  function getRequest(string _id) constant returns (uint,string,address){
-    bytes32 __id = stringToBytes32(_id);
     Main main = Main(mainAddress);
-    Token token = Token(main.getContractAddress(20));
-    return ( token.getReserved(requests[__id].combiner,__id), requests[__id].url, requests[__id].combiner );
+    Auth auth = Auth(main.getContract('Auth'));
+    if( auth.permission(msg.sender,"addRequest") ){
+      requests[_id].combiner=_combiner;
+      requests[_id].request=_request;
+      requests[_id].flavor=_flavor;
+      AddRequest(msg.sender,_id,requests[_id].combiner,requests[_id].request,requests[_id].flavor);
+      return true;
+    }else{
+      ErrorString("Failed to get permission");
+      return false;
+    }
   }
 
 }
