@@ -6,4 +6,4 @@ This repo contains the collection of scripts and smart contracts that power [Pyt
 
 
 ## License
-Code released under the [MIT License](https://github.com/Pyth.io/LICENSE).
+Code released under the [MIT License](https://github.com/austintgriffith/Pyth.io/blob/master/LICENSE).
