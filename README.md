@@ -1,24 +1,8 @@
-#RQC
+# Pyth.io
 
-Start a test rpc
-```
-testrpc
-```
+This repo contains the collection of scripts and smart contracts that power [Pyth.io](http://pyth.io).
 
-Deploy contracts to rpc
-```
-./deploy.sh
-```
+[Pyth.io](http://pyth.io) is an exploration into building a decentralized blockchain oracle.
 
-Fire up the mock backend server
-```
-cd Web
-sudo nodemon index.js
-(http://localhost/address returns the main address)
-```
-
-Bring up the client with
-```
-cd App
-npm start
-```
+## License
+Code released under the [MIT License](https://github.com/Pyth.io/LICENSE).
