@@ -1,36 +1,55 @@
 pragma solidity ^0.4.11;
 
+contract ExternalContract{ function __callback(uint _number,string _name) {} }
+
 contract LinkedList {
 
-  event AddNameAttempt(address sender, uint number);
-  event AddName(uint number,address head, address next);
+  event AddEntry(bytes32 head,uint number,string name,bytes32 next);
 
-  struct Number{
-    address next;
+  uint public length = 0;//also used as nonce
+
+  struct Object{
+    bytes32 next;
     uint number;
+    string name;
   }
 
-  address public head;
-  mapping (address => Number) public numbers;
+  bytes32 public head;
+  mapping (bytes32 => Object) public objects;
 
-  function LinkedList(){
+  function LinkedList(){}
 
+  function addEntry(uint _number,string _name) public returns (bool){
+    Object memory object = Object(head,_number,_name);
+    bytes32 id = sha3(object.number,object.name,now,length);
+    objects[id] = object;
+    head = id;
+    length = length+1;
+    AddEntry(head,object.number,object.name,object.next);
   }
 
-  function addNumber(uint _number) public returns (bool){
-    AddNameAttempt(msg.sender,_number);
-    require(!numberExists(_number));
-    //Number number = Number(head,_number);
-    //head = msg.sender
-  }
+  // --------- total stuff
 
-  function numberExists(uint _number) public constant returns (bool) {
-    address current = head;
-    while( current != address(0) ){
-      if(numbers[current].number == _number) return true;
-      current = numbers[current].next;
+  function total() public constant returns (uint) {
+    bytes32 current = head;
+    uint totalCount = 0;
+    while( current != 0 ){
+      totalCount = totalCount + objects[current].number;
+      current = objects[current].next;
     }
-    return false;
+    return totalCount;
   }
+
+  function setTotal() public returns (bool) {
+    writtenTotal = total();
+    return true;
+  }
+
+  function resetTotal() public returns (bool) {
+    writtenTotal = 0;
+    return true;
+  }
+
+  uint public writtenTotal;
 
 }

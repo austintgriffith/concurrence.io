@@ -1,0 +1,62 @@
+keeping track of names with a corresponding number, maybe like votes or something
+(Assuming that these counts are coming in from a trusted, secure contract)
+all data is stored in an object that is then reference by bytes32 hashes
+we will create a head link and then each object links to their next
+we will add to the head (this is the cheapest way vs adding to middle or sorting live or something)
+we keep track of length mainly to provide a nonce for the hash
+
+node contract getHead LinkedList
+
+node contract addEntry LinkedList null 93 "Bram"
+
+node contract getHead LinkedList
+
+node contract addEntry LinkedList null 67 "Eric"
+
+node contract getHead LinkedList
+
+events that are only tracked off chain can easily show you everything and everything is public:
+
+node contract eventsAddEntry LinkedList
+
+add in a bunch of entries with:
+./LinkedList/populate.sh
+
+Now let's say we need to have a certain total of votes counted before we can reach a consensus
+we can get a total count off-chain easily because it talks to one local node
+
+node contract getTotal LinkedList
+
+BUT, as soon as we want to change some state at the end of that it gets expensive
+
+node contract setTotal LinkedList
+node contract getWrittenTotal LinkedList
+
+node contract resetTotal LinkedList
+
+demo this by setting the total to "writtenTotal" and then running reset total and looking at the difference in gas usage
+
+we should also compare the difference in gas cost between setTotal and resetTotal because that difference is simply the cost of navigating the
+linked list and keeping a running total (which is free when you don't write state!)
+
+notice that if another contract needed to get the total and then perform some action that changes state,
+you would want to use the writtentotal, but in terms of off chain interaction, getTotal is better because
+you get a live total every time and cost doesn't matter
+Again it really doesn't make sense to get the total and write it to the contract, it's better to add it up off chain every time!?
+BUT once you need this data ON chain you probably want to run through once and write the results
+
+Since it's free off chain,  we could count votes off chain, but then we would be writing it back to the chain.. BUT that could be manipulated
+the whole point of this is to absolutely deterministic and trustless... only the law of the machines etc
+
+
+
+okay so let's look at a second contract called "Teller" that will count votes
+
+
+
+questions -
+
+  what about running out of gas? maybe we need to count the votes in steps and make multiple calls?
+  (msg.gas gives remaining gas)
+
+  what if we wanted to make it expensive to cast a vote, could we put a hash mine right into the add entry function?
