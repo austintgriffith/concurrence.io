@@ -1,17 +1,15 @@
 pragma solidity ^0.4.11;
 
-contract ExternalContract{ function __callback(uint _number,string _name) {} }
-
 contract LinkedList {
 
-  event AddEntry(bytes32 head,uint number,string name,bytes32 next);
+  event AddEntry(bytes32 head,uint number,bytes32 name,bytes32 next);
 
   uint public length = 0;//also used as nonce
 
   struct Object{
     bytes32 next;
     uint number;
-    string name;
+    bytes32 name;
   }
 
   bytes32 public head;
@@ -19,13 +17,18 @@ contract LinkedList {
 
   function LinkedList(){}
 
-  function addEntry(uint _number,string _name) public returns (bool){
+  function addEntry(uint _number,bytes32 _name) public returns (bool){
     Object memory object = Object(head,_number,_name);
     bytes32 id = sha3(object.number,object.name,now,length);
     objects[id] = object;
     head = id;
     length = length+1;
     AddEntry(head,object.number,object.name,object.next);
+  }
+
+  //needed for external contract access to struct
+  function getEntry(bytes32 _id) public returns (bytes32,uint,bytes32){
+    return (objects[_id].next,objects[_id].number,objects[_id].name);
   }
 
   // --------- total stuff

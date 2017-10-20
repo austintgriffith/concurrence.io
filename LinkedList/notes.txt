@@ -5,6 +5,9 @@ we will create a head link and then each object links to their next
 we will add to the head (this is the cheapest way vs adding to middle or sorting live or something)
 we keep track of length mainly to provide a nonce for the hash
 
+node compile LinkedList
+node deploy LinkedList
+
 node contract getHead LinkedList
 
 node contract addEntry LinkedList null 93 "Bram"
@@ -34,13 +37,12 @@ node contract getWrittenTotal LinkedList
 
 node contract resetTotal LinkedList
 
-demo this by setting the total to "writtenTotal" and then running reset total and looking at the difference in gas usage
-
-we should also compare the difference in gas cost between setTotal and resetTotal because that difference is simply the cost of navigating the
+we should compare the difference in gas cost between setTotal and resetTotal because that difference is simply the cost of navigating the
 linked list and keeping a running total (which is free when you don't write state!)
+It can't be free on-chain though because you could get into an infinite loop, gas prices are there for multiple reasons!
 
 notice that if another contract needed to get the total and then perform some action that changes state,
-you would want to use the writtentotal, but in terms of off chain interaction, getTotal is better because
+you would want to use the written total, but in terms of off chain interaction, getTotal is better because
 you get a live total every time and cost doesn't matter
 Again it really doesn't make sense to get the total and write it to the contract, it's better to add it up off chain every time!?
 BUT once you need this data ON chain you probably want to run through once and write the results
@@ -52,11 +54,35 @@ the whole point of this is to absolutely deterministic and trustless... only the
 
 okay so let's look at a second contract called "Teller" that will count votes
 
+node compile Teller
+node deploy Teller
 
+Teller is a first example of an enumerated state machines
+
+node contract getState Teller
+
+Once the linked list reaches the Teller's quorum then it can start counting votes
+
+node contract getTotal LinkedList
+
+node contract countVotes Teller null 0x8A07A9381b6c42c5e3E7a40Feccc9ba9c920c019
+
+node contract getState Teller
+
+node contract getCounted Teller
+
+node contract getCurrentPointer Teller
+
+node contract countVotes Teller null 0x8A07A9381b6c42c5e3E7a40Feccc9ba9c920c019
+
+along the way we can follow who is winning:
+node contract getWinningName Teller
+node contract getWinningVotes Teller
+
+once it rolls all the way through then the winningName and winningVotes are final
+
+countVotes will throw an error once it's done
 
 questions -
-
-  what about running out of gas? maybe we need to count the votes in steps and make multiple calls?
-  (msg.gas gives remaining gas)
 
   what if we wanted to make it expensive to cast a vote, could we put a hash mine right into the add entry function?
