@@ -1,5 +1,14 @@
 pragma solidity ^0.4.11;
 
+//simple interface to the LinkedList
+contract LinkedList {
+  struct Object{ bytes32 next;uint number;bytes32 name;}
+  bytes32 public head;
+  mapping (bytes32 => Object) public objects;
+  function total() public constant returns (uint) {}
+  function getEntry(bytes32 _id) public returns (bytes32,uint,bytes32){}
+}
+
 contract Teller {
 
   uint16 public quorum = 400;
@@ -14,20 +23,18 @@ contract Teller {
 
   States public state = States.WaitingForQuorum;
 
-  address public owner;
-
-  function Teller(){ owner=msg.sender; }
+  function Teller(){ }
 
   bytes32 public currentPointer;
   mapping (bytes32 => uint) public totals;
   uint public counted=0;
 
   function countVotes(address _linkedListAddress) public returns (bool){
-    require(owner==msg.sender);
     LinkedList linkedList = LinkedList(_linkedListAddress);
     if( state == States.WaitingForQuorum ){
       require( linkedList.total() >= quorum );
       state = States.CountingVotes;
+      return true;
     }else if( state == States.CountingVotes ){
       if( currentPointer==0 ){
         currentPointer=linkedList.head();
@@ -46,18 +53,12 @@ contract Teller {
       }
       if( currentPointer==0 ){
         state = States.ElectionFinished;
+        return true;
+      }else{
+        return false;
       }
     }else{
       revert();
     }
   }
-}
-
-//simple interface to the LinkedList
-contract LinkedList {
-  struct Object{ bytes32 next;uint number;bytes32 name;}
-  bytes32 public head;
-  mapping (bytes32 => Object) public objects;
-  function total() public constant returns (uint) {}
-  function getEntry(bytes32 _id) public returns (bytes32,uint,bytes32){}
 }
