@@ -5,6 +5,8 @@ we will create a head link and then each object links to their next
 we will add to the head (this is the cheapest way vs adding to middle or sorting live or something)
 we keep track of length mainly to provide a nonce for the hash
 
+
+
 node compile LinkedList
 node deploy LinkedList
 
