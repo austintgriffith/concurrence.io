@@ -20,7 +20,7 @@ if(!input){
   if(!dependencies) dependencies={}
   dependencies[contractdir+"/"+contractname+".sol"] = fs.readFileSync(contractdir+"/"+contractname+".sol", 'utf8');
   const output = solc.compile({sources: dependencies}, 1);
-  console.log(output)
+  console.log(output.contracts[contractdir+"/"+contractname+".sol:"+contractname])
   const bytecode = output.contracts[contractdir+"/"+contractname+".sol:"+contractname].bytecode;
   const abi = output.contracts[contractdir+"/"+contractname+".sol:"+contractname].interface;
   fs.writeFile(contractdir+"/"+contractname+".bytecode",bytecode)

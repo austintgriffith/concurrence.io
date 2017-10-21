@@ -8,7 +8,7 @@ contract Auth { mapping ( address => mapping ( bytes32 => bool ) ) public permis
 
 contract Main is HasNoEther, Contactable, Predecessor {
 
-    event SetContract(bytes32 _name,address _address,address _whoDid);
+    event SetContract(bytes32 name,address contractAddress,address whoDid);
 
     mapping(bytes32 => address) contracts;
 
@@ -16,11 +16,11 @@ contract Main is HasNoEther, Contactable, Predecessor {
       contracts['Auth']=_authContract;
     }
 
-    function setContract(bytes32 _name,address _address) public returns (bool) {
+    function setContract(bytes32 _name,address _contract) public returns (bool) {
       Auth authContract = Auth(contracts['Auth']);
       require( authContract.permission(msg.sender,'setContract') );
-      contracts[_name]=_address;
-      SetContract(_name,_address,msg.sender);
+      contracts[_name]=_contract;
+      SetContract(_name,_contract,msg.sender);
       return true;
     }
 

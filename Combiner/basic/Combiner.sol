@@ -2,34 +2,22 @@ pragma solidity ^0.4.11;
 
 contract Combiner{
 
-    event AddResponseAttempt(address _miner,bytes32 _id,string _result);
-    event AddResponse(address _miner,bytes32 _id,string _result,address head, address next);
-
-    struct Response{
-        address next;
-        address miner;
-        string result;
-    }
-
-    mapping(bytes32 => address ) public head;
-    mapping(bytes32 => mapping (address => Response) ) public responses;
-
     function Combiner(){}
 
-    function addResponse(bytes32 _id,string _result) public returns (bool){
-        AddResponseAttempt(msg.sender,_id,_result);
-    }
+    /*
 
-    function responseExists(bytes32 _id,address _miner) public constant returns (bool) {
-      assert(_miner != address(0));
-      address current = head[_id];
-      while( current != address(0) ){
-        if(responses[_id][current].miner == _miner)
-        current = responses[_id][current].next;
-      }
-    }
+    this will hold the final value of a request once a consensus is reached.
 
-    //could I create a foreach that runs a function on each element of the linked list
-    //https://ethereum.stackexchange.com/questions/3342/pass-a-function-as-a-parameter-in-solidity
+    probably the same function that gets the value will also work through the responses and form the consensus
+
+    the consesus algorithm will be to add up the different responses along with the amount of token staked for each
+
+    there will have to be some quorum of staked token before a final result is stored
+
+    if developers are using oraclize, they have callbacks so you may need to call a callback with the final value too
+
+    also, at the end you can punish incorrectly staked tokens by transferring them to some other account 
+
+    */
 
 }

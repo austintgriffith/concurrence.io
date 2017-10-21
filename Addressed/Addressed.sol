@@ -1,7 +1,7 @@
 pragma solidity ^0.4.11;
 
 contract Auth { mapping ( address => mapping ( bytes32 => bool ) ) public permission; }
-contract Main{ function getContract(bytes32 _name) constant returns (address) {} }
+contract Main { function getContract(bytes32 _name) constant returns (address) {} }
 
 contract Addressed {
 

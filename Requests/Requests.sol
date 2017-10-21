@@ -1,41 +1,52 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.4.11;
 
 import 'zeppelin-solidity/contracts/ownership/HasNoEther.sol';
-import 'zeppelin-solidity/contracts/ownership/Contactable.sol';
 import 'Addressed.sol';
 
-contract Requests is HasNoEther, Contactable, Addressed {
+//contract Token { function balanceOf(address _owner) public constant returns (uint256 balance) { } }
 
-  event ErrorString(string _str);
-  event AddRequest(address _sender, bytes32 _id, address _combiner, string _request, bytes32 _flavor);
-  event AttemptAddRequest(address _sender, bytes32 _id, address _combiner, string _url, bytes32 _flavor);
+contract Requests is HasNoEther, Addressed {
+
+  function Requests(address _mainAddress) Addressed(_mainAddress) { }
+
+  event AddRequest(address sender, bytes32 id, address combiner, string request, string parser, uint256 count);
+
+  uint256 public count = 0;
 
   struct Request{
     address combiner;
     string request;
-    bytes32 flavor;
+    string parser;
+    bool active;
   }
 
   mapping (bytes32 => Request) public requests;
 
-  function addRequest(bytes32 _id, address _combiner, string _request, bytes32 _flavor) public returns (bool) {
-    AttemptAddRequest(msg.sender,_id,_combiner,_request,_flavor);
-    if(requests[_id].combiner != address(0) || _combiner==address(0)){
-      ErrorString("Request already exists");
-      return false;
-    }
-    Main main = Main(mainAddress);
-    Auth auth = Auth(main.getContract('Auth'));
-    if( auth.permission(msg.sender,"addRequest") ){
-      requests[_id].combiner=_combiner;
-      requests[_id].request=_request;
-      requests[_id].flavor=_flavor;
-      AddRequest(msg.sender,_id,requests[_id].combiner,requests[_id].request,requests[_id].flavor);
-      return true;
-    }else{
-      ErrorString("Failed to get permission");
-      return false;
-    }
+  function addRequest(address _combiner, string _request, string _parser) public returns (bytes32) {
+
+    bytes32 id = sha3(now,count,_combiner,_request,_parser);
+    assert(!requests[id].active);//a collision should never happen
+
+    //Main mainContract = Main(mainAddress);
+    //Token token = Token(mainContract.getContract('Token'));
+
+    //you must have some of the token to add a request
+    //require(token.balanceOf(msg.sender)>0);
+
+    requests[id].combiner=_combiner;
+    requests[id].request=_request;
+    requests[id].parser=_parser;
+    requests[id].active=true;
+
+    AddRequest(msg.sender,id,requests[id].combiner,requests[id].request,requests[id].parser,count);
+
+    count=count+1;
+
+    return id;
   }
 
+
+  function getRequest(bytes32 _id) public constant returns (address,string,string) {
+    return (requests[_id].combiner,requests[_id].request,requests[_id].parser);
+  }
 }

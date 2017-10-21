@@ -7,8 +7,7 @@ const app = express()
 
 app.use(helmet())
 
-app.use(express.static('../hugo/public'))
-/*
+
 app.get('/', (req, res) => {
     let stamp = Date.now()
     let seed = Math.random()
@@ -80,5 +79,5 @@ app.get('/combinerLookup/:address', (req, res) => {
         }
       })
 });
-*/
+
 app.listen(80, () => console.log('[*] express is up and listing on 80'))
