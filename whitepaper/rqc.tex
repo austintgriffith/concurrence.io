@@ -43,7 +43,7 @@
 \title{%
   Request Coin \\
   \medbreak
-  \small  Open-Source, Decentralized Oracle and Uptime Ledger\\
+  \small  Decentralized Blockchain Oracle\\
      }
 
 \date{\today}
@@ -54,87 +54,72 @@
 \begin{center}
 \textbf{Abstract}
 \end{center}
-decentralized oracle \\
-uptime ledger \\
-http to ipfs \\
+Blockchain technologies, smart contracts in particular, are incredibly powerful and are poised to disrupt many aspects of finance, business, and law. However, due to the deterministic and decentralized nature of smart contracts, they are unable to communicate directly with valuable data sources on the internet.\\
 
-what it is \\
-how it works \\
+An oracle provides that link by making off-chain requests and delivering results on-chain. Unfortunately, only centralized oracles exist today and contracts are forced to rely on a single point of failure which could easily be attacked, manipulated, or corrupted.\\
 
+A decentralized, trustless network of incentivized oracles is needed to empower the next generation of smart contracts.\\
 
-\begin{center}
-\textbf{Controllers}
-\end{center}
+With the correct cryptoeconomics in place, a statistically adequate supply of miners will request information from multiple internet sources and, in combination with the staking of a token, reach a blind consensus off-chain. Then, efficiently inscribe the data onto the blockchain, available publicly for smart contract logic and execution.\\
 
-Head/Main \\
-Provides a mapping to all the different active contracts. \\
-This lets you upgrade a contract by deploying a new version, copying state, and updating head contract with new address \\
-
-Auth \\
-An auth contract that will store a mapping of addresses to an ENUM permission \\
-Methods to get and set permission based on role of sender \\
-Ability for trusted addresses to vote out or in new trusties? \\
-
-Token \\
-An ERC20 or similar token contract that will be used as the currency for requests \\
-Even the token could theoretically be upgraded (freeze contract, transfer balances, set new address for token contract in head) \\
-
-Requests \\
-An open job queue of Request still waiting for more miners \\
-Requests will be represented by a struct and can have many different forms \\
-(Some requests will want consensus while others will want single calls)
-
-Combiners \\
-Once a request is fulfilled by a miner, it should be processed on the way back in \\
-Meaning, the request struct will define a contract ENUM (looked up on head) to process the results \\
-Processors could range from simple passalong, to hash, to different forms on consensus \\
-
-Responses \\
-Stores references and other meta data for responses \\
-This will include the original request id, status code, request time, and content hash \\
-This could also store a consensus or anything else the processor ends up collecting and specifying \\
+The Pyth.io network will provide the raw middleware between Ethereum and the greater internet by allowing contracts to signal for data which will trigger miners to retrieve the information, reach a truthful consensus, and deliver it back to the blockchain. The miners will, in turn, receive a token reward originally reserved by the requesting contract.\\
 
 
 \begin{center}
-\textbf{Request Response Lifecycle }
+\textbf{Example}
 \end{center}
-End user sends Request struct to Requests contract along with some amount of RQC token to incentivize miners \\
-Miners read Requests Events, pick the best job (incentives), and make http requests \\
-Depending on request specifications, the Miner will at least submit the a response to the processor defined in the request \\
-The miner may provide hash of the content, the response code, the response time, an IPFS address of response, location of miner, etc to the processor
-The processor will accumulate responses until the defined consensus is met and create a response \\
-This response event is watched either on chain or off by either RequestCoin clients or third party apps \\
-Public and decentralized history of all requests/consensus/responses \\
 
-//best languages are C++ and AWK so far, maybe Scilab,
+In the not-too-distant future, farmers all around the world could pay Ether into a smart contract that would provide agricultural insurance against hail or drought. Then, throughout the year, as “request miners” detect these specific weather conditions using multiple APIs and other internet sources, the contract would deterministically pay Ether back to the farmers in need. This incredibly efficient system completely sidesteps an entire field of insurance agents and adjusters, immediately helping the farmers in need without any unnecessary overhead.\\
+
+Let’s dive into an oversimplified (and insecure) example contract just to understand the mechanics of how such a system would work.\\
+
+First, we’ll need a way to signal miners that a consensus is needed for a particular data point:\\
 
 \begin{lstlisting}[language=Scilab]
-import "Token.sol";
-//some comment
-contract Requests is Freezable,Descendant {
+mapping (bytes32 => string) public requests;
 
-  address public mainAddress;
-
-  function Requests(address _mainAddress) {
-    mainAddress=_mainAddress;
-    //setAncestor(_ancestor);
-  }
-
-  function setMainAddress(address _mainAddress){
-    Main main = Main(mainAddress);
-    Auth auth = Auth(main.getContractAddress(0));
-    if( auth.isOwner(msg.sender) ){
-      mainAddress=_mainAddress;
-    }
-  }
+function addRequest(bytes32 _id, string _url) returns (bool){
+    requests[_id]=_url;
+    AddRequest(msg.sender,_id,requests[_id]);
 }
+event AddRequest(address _sender,bytes32 _id, string _url);
 \end{lstlisting}
 
+With the addRequest function we can store a request and trigger an event called AddRequest on the blockchain.\\
+
+Miners, incentivized by a reserved token, then make requests to a number of internet endpoints, collect relevant data, and send it back to the contract.\\
+
+\begin{lstlisting}[language=Scilab]
+contract.getPastEvents('AddRequest', {
+    fromBlock: params.blockNumber,
+    toBlock: 'latest'
+}, function(error, events){
+  for(let e in events){
+    request(events[e].returnValues._url, function (error, response, body) {
+       contract.methods.addResponse(events[e].returnValues._id,body).send({
+         from: params.account,
+         gas: params.gas,
+         gasPrice:params.gasPrice
+       })
+    })
+  }
+})
+\end{lstlisting}
+
+The addResponse method is used to store the final response that other contracts could then use to drive their logic.\\
+
+\begin{lstlisting}[language=Scilab]
+mapping(bytes32 => string ) public responses;
+
+function addResponse(bytes32 _id,string _result) returns (bool){
+    responses[_id]=_result;
+    AddResponse(msg.sender,_id,responses[_id]);
+}
+event AddResponse(address _sender,bytes32 _id,string _result);
+\end{lstlisting}
+
+This simplified example is the heart of a decentralized oracle network. We will build a more robust system around this idea in the following posts.\\
 
 
-\begin{center}
-\textbf{Todo }
-\end{center}
-Register requestcoin.eth, request.eth, and rqc.eth \\
 
 \end{document}
