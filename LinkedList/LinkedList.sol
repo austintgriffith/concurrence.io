@@ -31,7 +31,8 @@ contract LinkedList {
     return (objects[_id].next,objects[_id].number,objects[_id].name);
   }
 
-  // --------- total stuff
+
+  //------------------ totalling stuff to explore list mechanics 
 
   function total() public constant returns (uint) {
     bytes32 current = head;
