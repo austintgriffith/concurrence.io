@@ -1,7 +1,8 @@
+explorer/
 Pyth.io-Site
+Pyth.js
 accounts.json
 zeppelin-solidity
-rqcsite
 package-lock.json
 *.log
 *.ens

@@ -11,7 +11,7 @@ contract Token is StandardToken, Ownable, HasNoEther, Contactable, Addressed {
   string public constant name = "Pyth.io";
   string public constant symbol = "PTH";
   uint8 public constant decimals = 18;
-  uint256 public constant INITIAL_SUPPLY = 1000000000;
+  uint256 public constant INITIAL_SUPPLY = 1000000000000;
 
   function Token(address _mainAddress) Addressed(_mainAddress) {
     totalSupply = INITIAL_SUPPLY;
