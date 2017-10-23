@@ -33,6 +33,13 @@ app.get('/abi/:contract', (req, res) => {
     res.end(fs.readFileSync("../"+contract+"/"+contract+".abi").toString().trim())
 });
 
+app.get('/blockNumber/:contract', (req, res) => {
+
+    var contract = req.params.contract.replace(/[^a-z0-9/]/gi,'');
+    console.log("/blockNumber",contract)
+    res.end(fs.readFileSync("../"+contract+"/"+contract+".blockNumber").toString().trim())
+});
+
 app.get('/combiner/source/:contract', (req, res) => {
 
     var contract = req.params.contract.replace(/[^a-z0-9/]/gi,'');

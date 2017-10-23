@@ -18,10 +18,13 @@ contract Token is StandardToken, Ownable, HasNoEther, Contactable, Addressed {
     balances[msg.sender] = INITIAL_SUPPLY;
   }
 
+  //event debug(address sender, uint256 balance, bytes32 request, uint256 amount);
   event Reserve(address sender, bytes32 request, uint256 value, uint256 total);
 
   mapping (bytes32 => uint256) public reserved;
 
+  //reservations are one directional; once they go in, the only way
+  //to get them out is through mining and consensus
   function reserve(bytes32 _request, uint256 _value) public returns (bool) {
     require(_value <= balances[msg.sender]);
     balances[msg.sender] = balances[msg.sender].sub(_value);

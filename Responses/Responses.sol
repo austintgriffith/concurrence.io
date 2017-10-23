@@ -7,7 +7,7 @@ contract Responses is HasNoEther, Addressed {
 
   function Responses(address _mainAddress) Addressed(_mainAddress) { }
 
-  event AddResponse(address sender, bytes32 id, string response, uint256 count);
+  event AddResponse(address indexed sender, bytes32 indexed id, string response, uint256 count);
 
   uint256 public count = 0;
 
