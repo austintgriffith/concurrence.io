@@ -1,23 +1,30 @@
 pragma solidity ^0.4.11;
 
-contract Combiner{
+import 'Addressed.sol';
 
-    function Combiner(){}
+contract Token { function balanceOf(address _owner) public constant returns (uint256 balance) { } }
+contract Responses{mapping (bytes32 => bytes32) public heads;function getResponse(bytes32 id) public constant returns (address,string,bytes32) {}}
 
-    /*
+contract Combiner is Addressed{
 
-    this will hold the final value of a request once a consensus is reached.
+  function Combiner(address _mainAddress) Addressed(_mainAddress) { }
 
-    probably the same function that gets the value will also work through the responses and form the consensus
+  event Combine(address sender, bytes32 _request);
 
-    the consesus algorithm will be to add up the different responses along with the amount of token staked for each
-
-    there will have to be some quorum of staked token before a final result is stored
-
-    if developers are using oraclize, they have callbacks so you may need to call a callback with the final value too
-
-    also, at the end you can punish incorrectly staked tokens by transferring them to some other account 
-
-    */
+  function combine(bytes32 _request) public constant returns (string) {
+    Main mainContract = Main(mainAddress);
+    Token tokenContract = Token(mainContract.getContract('Token'));
+    Responses responsesContract = Responses(mainContract.getContract('Responses'));
+    //bytes32 current = responsesContract.heads(_request);
+    string bestResult = "NOTHING";
+    //while(current!=0){
+    //    address miner;
+    //    string result;
+        //(miner,result,current) = responsesContract.getResponse(current);
+        //bestResult=result;
+    //}
+    //return bestResult;
+    return bestResult;
+  }
 
 }

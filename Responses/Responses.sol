@@ -34,4 +34,8 @@ contract Responses is HasNoEther, Addressed {
 
     return true;
   }
+
+  function getResponse(bytes32 id) public constant returns (address,string,bytes32) {
+    return (responses[id].miner,responses[id].response,responses[id].next);
+  }
 }

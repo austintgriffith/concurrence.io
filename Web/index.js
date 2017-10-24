@@ -7,15 +7,14 @@ const app = express()
 
 app.use(helmet())
 
-
 app.get('/', (req, res) => {
-    let stamp = Date.now()
-    let seed = Math.random()
+    let date = new Date();
+    let datestring = date.getUTCFullYear()+" "+date.getUTCDate()+" "+date.getUTCHours()
+    let mainContractAddress = fs.readFileSync("../Main/Main.address").toString().trim()
     var sha = new sha3.SHA3Hash(224);
-    sha.update(""+stamp + seed);
+    sha.update(mainContractAddress+datestring);
     let hash = sha.digest('hex');
-  //  let ip =
-    console.log("/"+stamp,seed,hash,req.connection.remoteAddress, req.connection.remotePort, req.connection.localAddress, req.connection.localPort,req.headers['user-agent'])
+    console.log("/"+Date.now(),mainContractAddress,hash,req.connection.remoteAddress, req.connection.remotePort, req.connection.localAddress, req.connection.localPort,req.headers['user-agent'])
     res.end(hash)
 });
 

@@ -39,7 +39,7 @@ echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 echo "Interacting with Main..."
 node contract getContract Main null "Auth"
-node contract setContactInformation Main null 1 "http://pyth.io austin@pyth.io"
+node contract setContactInformation Main null 1 "http://pyth.io"
 node contract getContactInformation Main
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
@@ -62,7 +62,11 @@ node deploy Responses
 node contract setContract Main null 1 Responses $(cat Responses/Responses.address)
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 
-
+echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
+echo "Deploying basic Combiner..."
+node compile Combiner/basic Combiner
+node deploy Combiner/basic Combiner
+echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 
 
 #echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"

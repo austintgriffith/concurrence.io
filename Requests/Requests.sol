@@ -22,7 +22,7 @@ contract Requests is HasNoEther, Addressed {
 
   mapping (bytes32 => Request) public requests;
 
-  function addRequest(address _combiner, string _request, string _parser) public returns (bytes32) {
+  function addRequest(address _combiner, string _request, string _parser) public returns (bool) {
 
     bytes32 id = sha3(now,count,_combiner,_request,_parser);
     assert(!requests[id].active);//a collision should never happen
@@ -42,7 +42,7 @@ contract Requests is HasNoEther, Addressed {
 
     count=count+1;
 
-    return id;
+    return true;
   }
 
 

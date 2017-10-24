@@ -1,2 +1,4 @@
 const fs = require('fs');
-module.exports = {}
+module.exports = {
+  'Addressed.sol': fs.readFileSync('Addressed/Addressed.sol', 'utf8')
+}
