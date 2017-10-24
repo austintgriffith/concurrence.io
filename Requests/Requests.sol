@@ -49,4 +49,8 @@ contract Requests is HasNoEther, Addressed {
   function getRequest(bytes32 _id) public constant returns (address,string,string) {
     return (requests[_id].combiner,requests[_id].request,requests[_id].parser);
   }
+
+  function getCombiner(bytes32 _id) public constant returns (address) {
+    return requests[_id].combiner;
+  }
 }

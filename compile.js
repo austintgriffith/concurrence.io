@@ -26,4 +26,6 @@ if(!input){
   fs.writeFile(contractdir+"/"+contractname+".bytecode",bytecode)
   fs.writeFile(contractdir+"/"+contractname+".abi",abi)
   console.log("Compiled!")
+  
+
 }

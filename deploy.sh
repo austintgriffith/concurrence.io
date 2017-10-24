@@ -47,6 +47,7 @@ echo "Deploying Token..."
 node compile Token
 node deploy Token
 node contract setContract Main null 1 Token $(cat Token/Token.address)
+#node contract setContract Main null 1 Token (cat Token/Token.address)
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 echo "Deploying Requests..."
