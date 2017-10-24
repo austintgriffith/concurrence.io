@@ -60,6 +60,7 @@ echo "Deploying Responses..."
 node compile Responses
 node deploy Responses
 node contract setContract Main null 1 Responses $(cat Responses/Responses.address)
+## node contract setContract Main null 1 Responses (cat Responses/Responses.address)
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
