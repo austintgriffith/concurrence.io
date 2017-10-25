@@ -54,6 +54,7 @@ echo "Deploying Requests..."
 node compile Requests
 node deploy Requests
 node contract setContract Main null 1 Requests $(cat Requests/Requests.address)
+#node contract setContract Main null 1 Requests (cat Requests/Requests.address)
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
