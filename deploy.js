@@ -23,7 +23,8 @@ if(!bytecode){
     let ethPrice = parseInt(fs.readFileSync("ethprice.int").toString().trim())
     web3.eth.getAccounts().then((accounts)=>{
       web3.eth.getBalance(accounts[ACCOUNT_INDEX]).then((balance)=>{
-        web3.eth.personal.unlockAccount(accounts[1]).then((a,b,c)=>{
+        console.log(web3.eth.personal.unlockAccount)
+        /*web3.eth.personal.unlockAccount(accounts[1]).then((a,b,c)=>{
           console.log(a,b,c)
           let etherbalance = web3.utils.fromWei(balance,"ether");
           console.log(etherbalance+" $"+(etherbalance*ethPrice))
@@ -90,6 +91,7 @@ if(!bytecode){
             },1000)
           })
         })
+        */
       })
     })
   }
