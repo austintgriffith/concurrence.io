@@ -4,7 +4,7 @@ let startSeconds = new Date().getTime() / 1000;
 let contractdir = process.argv[2]
 let contractname = process.argv[3]
 if(!contractname) contractname=contractdir
-console.log("Compiling "+contractdir+"/"+contractname+".sol ...")
+console.log("Compiling "+contractdir+"/"+contractname+".sol ["+solc.version()+"]...")
 const input = fs.readFileSync(contractdir+"/"+contractname+'.sol');
 if(!input){
   console.log("Couldn't load "+contractdir+"/"+contractname+".sol")
@@ -26,6 +26,6 @@ if(!input){
   fs.writeFile(contractdir+"/"+contractname+".bytecode",bytecode)
   fs.writeFile(contractdir+"/"+contractname+".abi",abi)
   console.log("Compiled!")
-  
+
 
 }
