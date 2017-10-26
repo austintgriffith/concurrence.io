@@ -5,9 +5,13 @@ ipfs.on('ready', () => {
   let multihashStr = process.argv[2];
   console.log("Getting "+multihashStr)
   ipfs.files.get(multihashStr, function (err, stream) {
-    stream.on('data', (file) => {
-      file.content.pipe(process.stdout)
-    })
+    if(err){
+      console.log(err)
+    }else{
+      stream.on('data', (file) => {
+        file.content.pipe(process.stdout)
+      })
+    }
   })
 })
 ipfs.on('error', (err) => {
