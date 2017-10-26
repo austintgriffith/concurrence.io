@@ -8,9 +8,9 @@ ipfs.on('ready', () => {
       if (err) {
         throw err
       }
-      console.log(peerInfos.length)
+      console.log(peerInfos)
     })
-  },1000)
+  },5000)
 })
 ipfs.on('error', (err) => {
   console.log("ipfs error:",err)
