@@ -15,8 +15,7 @@ app.get('/', (req, res) => {
     sha.update(mainContractAddress+datestring);
     let hash = sha.digest('hex');
     console.log("/"+Date.now(),mainContractAddress,hash,req.connection.remoteAddress, req.connection.remotePort, req.connection.localAddress, req.connection.localPort,req.headers['user-agent'])
-    //res.end(hash)
-    res.end("hello world");
+    res.end(hash)
 });
 
 app.get('/address/:contract', (req, res) => {
