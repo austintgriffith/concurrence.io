@@ -5,6 +5,7 @@ const fs = require("fs")
 let reallyReady = false;
 
 ipfs.on('ready', () => {
+
   setInterval(()=>{
     ipfs.swarm.peers(function (err, peerInfos) {
       if (err) {
@@ -18,8 +19,6 @@ ipfs.on('ready', () => {
       }
     })
   },1000)
-
-
 
 })
 ipfs.on('error', (err) => {
