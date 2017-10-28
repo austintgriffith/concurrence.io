@@ -18,7 +18,7 @@ activate
 create window with profile "Default"
 tell the current window
 tell the current session
-write text "cd /Users/austingriffith/Desktop/Pyth.io;./deploy.sh"
+write text "cd /Users/austingriffith/Desktop/concurrence.io;./deploy.sh"
 end tell
 end tell
 end tell'
@@ -29,7 +29,7 @@ activate
 create window with profile "Default"
 tell the current window
 tell the current session
-write text "cd /Users/austingriffith/Desktop/Pyth.io;cd explorer/;npm install;npm start"
+write text "cd /Users/austingriffith/Desktop/concurrence.io;cd explorer/;npm install;npm start"
 end tell
 end tell
 end tell'
@@ -40,7 +40,7 @@ activate
 create window with profile "Default"
 tell the current window
 tell the current session
-write text "cd /Users/austingriffith/Desktop/Pyth.io;cd Web;sudo nodemon index.js"
+write text "cd /Users/austingriffith/Desktop/concurrence.io;cd Web;sudo nodemon index.js"
 end tell
 end tell
 end tell'

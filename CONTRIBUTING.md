@@ -1,6 +1,4 @@
-Contributing to Pyth.io
+Contributing to Concurrence.io
 =======
 
-Shooting from the hip for now, hit me up with a pull request.
-
-austin@pyth.io
+austin@concurrence.io

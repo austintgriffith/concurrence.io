@@ -10,8 +10,8 @@ contract Requests {function getCombiner(bytes32 _id) public constant returns (ad
 
 contract Token is StandardToken, Ownable, HasNoEther, Contactable, Addressed {
 
-  string public constant name = "Pyth.io";
-  string public constant symbol = "PTH";
+  string public constant name = "Concurrence";
+  string public constant symbol = "CCCE";
   uint8 public constant decimals = 9;
   uint256 public constant INITIAL_SUPPLY = 10**18;
 
