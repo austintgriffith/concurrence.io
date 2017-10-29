@@ -1,13 +1,5 @@
 pragma solidity ^0.4.11;
 
-import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
-import 'zeppelin-solidity/contracts/ownership/HasNoEther.sol';
-import 'zeppelin-solidity/contracts/ownership/Contactable.sol';
-import 'zeppelin-solidity/contracts/token/StandardToken.sol';
-import 'Addressed.sol';
-
-contract Requests {function getCombiner(bytes32 _id) public constant returns (address) {}}
-
 contract Token is StandardToken, Ownable, HasNoEther, Contactable, Addressed {
 
   string public constant name = "Concurrence";
@@ -84,17 +76,12 @@ contract Token is StandardToken, Ownable, HasNoEther, Contactable, Addressed {
     return true;
   }
 
-  /*
-  it seems like unstake is a bad idea, someone could pull out if the current
-  count was looking like it  wouldn't be in their favor.. pull out for now
-
-  function unstake(bytes32 _response, uint256 _value) public returns (bool) {
-    require(_value <= staked[msg.sender][_response]);
-    staked[msg.sender][_response] = staked[msg.sender][_response].sub(_value);
-    balances[msg.sender] = balances[msg.sender].add(_value);
-    Unstake(msg.sender,_response,_value,staked[msg.sender][_response]);
-    return true;
-  }
-  */
-
 }
+
+contract Requests {function getCombiner(bytes32 _id) public constant returns (address) {}}
+
+import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
+import 'zeppelin-solidity/contracts/ownership/HasNoEther.sol';
+import 'zeppelin-solidity/contracts/ownership/Contactable.sol';
+import 'zeppelin-solidity/contracts/token/StandardToken.sol';
+import 'Addressed.sol';

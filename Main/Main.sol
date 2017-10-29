@@ -1,11 +1,5 @@
 pragma solidity ^0.4.11;
 
-import 'zeppelin-solidity/contracts/ownership/HasNoEther.sol';
-import 'zeppelin-solidity/contracts/ownership/Contactable.sol';
-import 'Predecessor.sol';
-
-contract Auth { mapping ( address => mapping ( bytes32 => bool ) ) public permission; }
-
 contract Main is HasNoEther, Contactable, Predecessor {
 
     event SetContract(bytes32 name,address contractAddress,address whoDid);
@@ -33,3 +27,9 @@ contract Main is HasNoEther, Contactable, Predecessor {
     }
 
 }
+
+contract Auth { mapping ( address => mapping ( bytes32 => bool ) ) public permission; }
+
+import 'zeppelin-solidity/contracts/ownership/HasNoEther.sol';
+import 'zeppelin-solidity/contracts/ownership/Contactable.sol';
+import 'Predecessor.sol';

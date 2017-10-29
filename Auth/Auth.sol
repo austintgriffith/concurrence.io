@@ -1,13 +1,10 @@
 pragma solidity ^0.4.11;
 
-import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
-import 'zeppelin-solidity/contracts/ownership/HasNoEther.sol';
-
 contract Auth is Ownable, HasNoEther  {
 
     event SetPermission( address sender, address account, bytes32 permission, bool value );
 
-    mapping ( address => mapping ( bytes32 => bool ) ) public permission;
+    mapping ( address => mapping ( bytes32 => bool ) ) permission;
 
     function Auth() {
         permission[owner]['setPermission'] = true;
@@ -24,4 +21,11 @@ contract Auth is Ownable, HasNoEther  {
         return true;
     }
 
+    function getPermission( address _account , bytes32 _permission) constant public returns (bool) {
+        return permission[_account][_permission];
+    }
+
 }
+
+import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
+import 'zeppelin-solidity/contracts/ownership/HasNoEther.sol';

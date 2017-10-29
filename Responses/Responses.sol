@@ -1,8 +1,5 @@
 pragma solidity ^0.4.11;
 
-import 'zeppelin-solidity/contracts/ownership/HasNoEther.sol';
-import 'Addressed.sol';
-
 contract Responses is HasNoEther, Addressed {
 
   function Responses(address _mainAddress) Addressed(_mainAddress) { }
@@ -40,3 +37,6 @@ contract Responses is HasNoEther, Addressed {
   }
 
 }
+
+import 'zeppelin-solidity/contracts/ownership/HasNoEther.sol';
+import 'Addressed.sol';
