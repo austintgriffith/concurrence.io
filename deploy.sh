@@ -47,9 +47,9 @@ echo "Deploying Token..."
 node compile Token
 node deploy Token
 node contract setContract Main null 1 Token $(cat Token/Token.address)
+#node contract setContract Main null 1 Token (cat Token/Token.address)
 node contract setContactInformation Token null 1 "http://concurrence.io"
 node contract getContactInformation Token
-#node contract setContract Main null 1 Token (cat Token/Token.address)
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 echo "Deploying Requests..."
@@ -64,7 +64,7 @@ echo "Deploying Responses..."
 node compile Responses
 node deploy Responses
 node contract setContract Main null 1 Responses $(cat Responses/Responses.address)
-## node contract setContract Main null 1 Responses (cat Responses/Responses.address)
+#node contract setContract Main null 1 Responses (cat Responses/Responses.address)
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
@@ -72,80 +72,3 @@ echo "Deploying basic Combiner..."
 node compile Combiner/basic Combiner
 node deploy Combiner/basic Combiner
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
-
-
-#echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
-#echo "Check that everything is wired up..."
-#node personal.js
-#cd Main
-#node get.js Main
-#cd ..
-#echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
-#
-#
-#echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
-#echo "Transfer some coin to the second account..."
-#cd Token
-#node transfer Token
-#node balances Token
-#cd ..
-#echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
-#
-#
-#
-#
-#echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
-#echo "Deploying basic Combiner..."
-#node compile Combiner/basic Combiner
-#node deploy Combiner/basic Combiner
-#node contract wireupContract Main null Combiner/basic Combiner 100
-#echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
-#
-#
-#
-#
-#echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
-#echo "Add an open request from the second account ..."
-#cd Requests
-#node index Requests
-#cd ..
-#echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
-#
-#
-#echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
-#echo "View Token event of request add ..."
-#cd Token
-#node eventsReserve Token
-#cd ..
-#echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
-#
-#echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
-#echo "View Request event of request add ..."
-#cd Requests
-#node eventsAddRequest Requests
-#cd ..
-#echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
-#
-#
-#echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
-#echo "Mine Request as account[1]..."
-#cd Requests
-#node mine Requests
-#cd ..
-#echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
-#
-#
-#echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
-#echo "View mine event..."
-#cd Combiner/basic
-#node eventsAddResponse Combiner
-#cd ../..
-#echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
-#
-#
-#echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
-#echo "View balances after mining..."
-#cd Token
-#node balances Token
-#cd ..
-#echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"

@@ -12,7 +12,7 @@ contract Main is HasNoEther, Contactable, Predecessor {
 
     function setContract(bytes32 _name,address _contract) public returns (bool) {
       Auth authContract = Auth(contracts['Auth']);
-      require( authContract.permission(msg.sender,'setContract') );
+      require( authContract.getPermission(msg.sender,'setContract') );
       contracts[_name]=_contract;
       SetContract(_name,_contract,msg.sender);
       return true;
@@ -28,7 +28,7 @@ contract Main is HasNoEther, Contactable, Predecessor {
 
 }
 
-contract Auth { mapping ( address => mapping ( bytes32 => bool ) ) public permission; }
+contract Auth { function getPermission( address _account , bytes32 _permission) constant public returns (bool) { } }
 
 import 'zeppelin-solidity/contracts/ownership/HasNoEther.sol';
 import 'zeppelin-solidity/contracts/ownership/Contactable.sol';

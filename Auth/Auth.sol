@@ -4,7 +4,7 @@ contract Auth is Ownable, HasNoEther  {
 
     event SetPermission( address sender, address account, bytes32 permission, bool value );
 
-    mapping ( address => mapping ( bytes32 => bool ) ) permission;
+    mapping ( address => mapping ( bytes32 => bool ) ) private permission;
 
     function Auth() {
         permission[owner]['setPermission'] = true;
