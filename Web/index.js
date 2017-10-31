@@ -18,6 +18,13 @@ app.get('/', (req, res) => {
     res.end(hash)
 });
 
+app.get('/time', (req, res) => {
+    let now = Date.now().toString();
+    console.log("/time",now,req.connection.remoteAddress, req.connection.remotePort, req.connection.localAddress, req.connection.localPort,req.headers['user-agent'])
+    res.end(now)
+});
+
+
 app.get('/address/:contract', (req, res) => {
 
     var contract = req.params.contract.replace(/[^a-z0-9/]/gi,'');
