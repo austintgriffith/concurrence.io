@@ -42,14 +42,18 @@ contract Requests is HasNoEther, Addressed {
     return true;
   }
 
-
-  function getRequest(bytes32 _id) public constant returns (address,string,bytes32) {
-    return (requests[_id].combiner,requests[_id].request,requests[_id].protocol);
+  function getRequest(bytes32 _id) public constant returns (address,string,bytes32,address) {
+    return (requests[_id].combiner,requests[_id].request,requests[_id].protocol,requests[_id].callback);
   }
 
   function getCombiner(bytes32 _id) public constant returns (address) {
     return requests[_id].combiner;
   }
+
+  function getCallback(bytes32 _id) public constant returns (address) {
+    return requests[_id].callback;
+  }
+
 }
 
 contract Token { function balanceOf(address _owner) public constant returns (uint256 balance) { } }

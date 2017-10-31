@@ -15,7 +15,7 @@ contract Adjuster {
       then, add the correct amount to get to _target
       if _target < count, overflow uint8
     */
-    function adjustTo(address _contractAddress,uint8 _target) returns (uint8) {
+    function adjustTo(address _contractAddress,uint8 _target) public returns (uint8) {
       //make sure the sender is the owner, only that address can use the Adjuster
       require(msg.sender == owner);
       //load the Simple contract based on the _contractAddress supplied

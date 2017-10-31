@@ -72,3 +72,9 @@ echo "Deploying basic Combiner..."
 node compile Combiner/basic Combiner
 node deploy Combiner/basic Combiner
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
+
+echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
+echo "Deploying Generic Callback..."
+node compile Callback
+node deploy Callback
+echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"

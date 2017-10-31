@@ -12,7 +12,7 @@ contract Combiner is Ownable, Addressed{
     INIT,
     COUNTING,
     FEEDBACK,
-    CALLOUT,
+    CALLBACK,
     DONE
   }
 
@@ -64,8 +64,16 @@ contract Combiner is Ownable, Addressed{
       feedbackLoop(_request);
       if( current[_request]==0 ){
         rewardCombinerMiner(_request);
-        mode[_request] = Mode.DONE;
+
+        //TRIGGER THE CALLBACK HERE
+        // IT SHOULD SEND THE requestId, bestResponse to the callback contract at function "concurrence"
+
+        mode[_request] = Mode.CALLBACK;
       }
+    }
+    if(mode[_request] == Mode.CALLBACK && msg.gas>90000){
+      callback(_request);
+      mode[_request] = Mode.DONE;
     }
     DebugPointer(current[_request]);
     return mode[_request];
@@ -223,6 +231,29 @@ contract Combiner is Ownable, Addressed{
     }
   }
 
+  function callback(bytes32 _request) internal {
+    Main mainContract = Main(mainAddress);
+    Token tokenContract = Token(mainContract.getContract('Token'));
+    Responses responsesContract = Responses(mainContract.getContract('Responses'));
+
+    //determine the reward split
+    uint32 rewardableMiners = correctMiners[_request];
+
+    //add a little on the top to incentivize miners to run the combine loop
+    //this causes a little to be left over and the last miner to run combine
+    //  will be rewarded with the same bounty of the actual request/consensus
+    rewardableMiners++;
+
+    //set the reward by splitting up the reserved token by how many miners
+    //responded to the request... a little game theory will apply here,
+    //if a request is too heavily mined it's not worth much
+    reward[_request] = tokenContract.reserved(_request)/rewardableMiners;
+    if(reward[_request]<1) reward[_request]=1;
+
+    //reset the pointer back to the head so we can iterate through again
+    current[_request] = responsesContract.heads(_request);
+  }
+
 }
 
 
@@ -240,6 +271,7 @@ contract Responses{
 }
 contract Requests {
   function getCombiner(bytes32 _id) public constant returns (address) { }
+  function getCallback(bytes32 _id) public constant returns (address) { }
 }
 
 
