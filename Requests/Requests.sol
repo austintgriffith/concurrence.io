@@ -4,7 +4,7 @@ contract Requests is HasNoEther, Addressed {
 
   function Requests(address _mainAddress) Addressed(_mainAddress) { }
 
-  event AddRequest(address sender, bytes32 id, address combiner, string request, bytes32 protocol, uint256 count);
+  event AddRequest(address sender, bytes32 id, address combiner, string request, bytes32 protocol, address callback, uint256 count);
 
   uint256 public count = 0;
 
@@ -35,7 +35,7 @@ contract Requests is HasNoEther, Addressed {
     requests[id].callback=_callback;
     requests[id].active=true;
 
-    AddRequest(msg.sender,id,requests[id].combiner,requests[id].request,requests[id].protocol,count);
+    AddRequest(msg.sender,id,requests[id].combiner,requests[id].request,requests[id].protocol,requests[id].callback,count);
 
     count=count+1;
 

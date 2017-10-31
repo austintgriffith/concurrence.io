@@ -5,4 +5,4 @@ git clone https://github.com/austintgriffith/concurrence.js.git
 git clone https://github.com/austintgriffith/concurrence.io-site.git
 npm install pm2 -g
 
-git clone https://github.com/settlemint/EthExplorer.git;cd EthExplorer/;npm install;npm start
+git clone https://github.com/etherparty/explorer.git;cd explorer;npm install;npm start
