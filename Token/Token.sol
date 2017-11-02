@@ -45,6 +45,11 @@ contract Token is StandardToken, Ownable, HasNoEther, Contactable, Addressed {
   mapping (address => mapping (bytes32 => mapping (bytes32 => uint256))) public staked;
 
   function stake(bytes32 _request,bytes32 _response, uint256 _value) public returns (bool) {
+
+    //TODO for now set it up so only the response sender can stake token behind it
+    // this is because if another account stakes on a response they wont ever
+    // get their token back
+
     require(_value <= balances[msg.sender]);
     balances[msg.sender] = balances[msg.sender].sub(_value);
     staked[msg.sender][_request][_response] = staked[msg.sender][_request][_response].add(_value);

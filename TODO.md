@@ -1,0 +1,16 @@
+# TODO
+ - [ ] Help checking spelling / grammar issues in the repos
+ - [ ] Combiner needs to make the callback 
+ - [ ] Reset mode that let's developer reset and reserve without posting a new request
+ - [ ] First live relay node with all contracts deployed to testnet
+ - [ ] Reset Combiner function so developers can reset and reserve to get a new consensus without adding a new request (fuel existing)
+ - [ ] Build out a medium level end-to-end that gets a user response or something
+ - [ ] Build out a more advanced end-to-end that uses docker and gets sports scores or something
+ - [ ] Build a page that is a collection of all the mined data on the testnet that other contracts can use
+ - [ ] Informal smart contract audit, just getting eyes on them to start
+ - [ ] End-To-End Javascript walk through as Concurrence.js documentation
+ - [ ] Electron app that runs concurrence.js
+ - [ ] React Frontend that lets users interact with the fleet of contracts
+ - [ ] Faucet for testnet coin
+ - [ ] Formalized a roadmap when core group of developers is established and we know how long it will take
+ - [ ] Browser based miner that makes ajax and throws it into an account created on the server, then they can point that at their own address (this is the lightest possible miner)

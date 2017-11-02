@@ -19,6 +19,7 @@ contract Combiner is Ownable, Addressed{
   // ------------------------ concurrence ---------------------------------- //
   mapping (bytes32 => bytes32 ) public concurrence; //agreed upon consensus
   mapping (bytes32 => uint256 ) public weight; //amount staked on concurrence
+  mapping (bytes32 => uint256 ) public timestamp; //amount staked on concurrence
   // ------------------------ ----------- ---------------------------------- //
 
   //req id            //result    //amount of token
@@ -65,8 +66,8 @@ contract Combiner is Ownable, Addressed{
       if( current[_request]==0 ){
         rewardCombinerMiner(_request);
 
-        //TRIGGER THE CALLBACK HERE
-        // IT SHOULD SEND THE requestId, bestResponse to the callback contract at function "concurrence"
+        // TODO TRIGGER THE CALLBACK HERE
+        // IT SHOULD SEND THE requestId, concurrence, weight, timestamp  to the callback contract at function "concurrence"
 
         mode[_request] = Mode.CALLBACK;
       }
@@ -74,6 +75,18 @@ contract Combiner is Ownable, Addressed{
     if(mode[_request] == Mode.CALLBACK && msg.gas>90000){
       callback(_request);
       mode[_request] = Mode.DONE;
+    }
+    if(mode[_request] == Mode.DONE){
+
+      // TODO RESET THE RESPONSES HERE TOO
+      // YOU NEED TO GO SET THE HEAD FOR THIS REQUEST ID TO 0x0
+      //correctMiners[_request] = 0;
+      //reward[_request] = 0;
+      //current[_request] = address(0);
+      //mode[_request] = Mode.INIT;
+
+      //instead let's just revert for now
+      revert();
     }
     DebugPointer(current[_request]);
     return mode[_request];
@@ -90,7 +103,7 @@ contract Combiner is Ownable, Addressed{
     address requestCombiner = requestsContract.getCombiner(_request);
     if(requestCombiner==address(0)) return false;
     if(requestCombiner!=address(this)) return false;
-    //check for tokens next
+    if(tokenContract.reserved(_request)<=0) return false;
     return true;
   }
 
@@ -141,6 +154,7 @@ contract Combiner is Ownable, Addressed{
       miners[_request][result]++;
       //keep track of running best and how much is staked to it
       if(staked[_request][result]>weight[_request]){
+        timestamp[_request] = block.timestamp;
         weight[_request] = staked[_request][result];
         concurrence[_request] = result;
         correctMiners[_request] = miners[_request][result];
@@ -250,7 +264,8 @@ contract Combiner is Ownable, Addressed{
     reward[_request] = tokenContract.reserved(_request)/rewardableMiners;
     if(reward[_request]<1) reward[_request]=1;
 
-    //reset the pointer back to the head so we can iterate through again
+    //reset the pointer back to the head so we can iterate through again if we have some later mode
+    //what will most likely happen is we move to the RESET mode and this is set back to address(0)
     current[_request] = responsesContract.heads(_request);
   }
 

@@ -19,6 +19,8 @@ contract Responses is HasNoEther, Addressed {
 
   function addResponse(bytes32 _request,bytes32 _response) public returns (bool) {
 
+    //TODO you shouldn't be able to add a response until the combiner is 'open'
+
     Response memory response = Response(msg.sender,_response,heads[_request]);
 
     bytes32 id = sha3(now,count,response.miner,response.response);
@@ -34,6 +36,12 @@ contract Responses is HasNoEther, Addressed {
 
   function getResponse(bytes32 id) public constant returns (address,bytes32,bytes32) {
     return (responses[id].miner,responses[id].response,responses[id].next);
+  }
+
+  function reset(bytes32 id) public returns (bool) {
+    //TODO
+    //THE COMBINER FOR THE REQUEST SHOULD BE ABLE TO RUN THIS
+    //IT SHOULD SET THE HEAD FOR THE REQUEST TO 0
   }
 
 }

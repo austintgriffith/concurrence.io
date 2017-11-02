@@ -10,7 +10,7 @@ contract Requests is HasNoEther, Addressed {
 
   struct Request{
     address combiner; //what combiner to use
-    string request;   //the actual request, could be json object
+    string request;   //the actual request, could be json object ----- in the future we may only store a hash of this on-chain
     bytes32 protocol; //the type of request can be anything, up to miners to understand
     address callback; //developer contract to __callback to when result is found
     bool active;      //bool used as meta data
