@@ -23,7 +23,7 @@ if(!bytecode){
     var ethPrice = parseInt(fs.readFileSync("ethprice.int").toString().trim())
     web3.eth.getAccounts().then((accounts)=>{
       web3.eth.getBalance(accounts[ACCOUNT_INDEX]).then((balance)=>{
-        if(balance < 1000){
+        if(balance < 10000000000000000000){
           web3.eth.personal.unlockAccount(accounts[1]).then((a,b,c)=>{
             deployContract(accounts,balance)
           })

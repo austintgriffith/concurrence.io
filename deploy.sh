@@ -39,7 +39,7 @@ echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 echo "Interacting with Main..."
 node contract getContract Main null "Auth"
-node contract setContactInformation Main null 1 "http://concurrence.io"
+node contract setContactInformation Main null 1 "https://concurrence.io"
 node contract getContactInformation Main
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
@@ -48,7 +48,7 @@ node compile Token
 node deploy Token
 node contract setContract Main null 1 Token $(cat Token/Token.address)
 #node contract setContract Main null 1 Token (cat Token/Token.address)
-node contract setContactInformation Token null 1 "http://concurrence.io"
+node contract setContactInformation Token null 1 "https://concurrence.io"
 node contract getContactInformation Token
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"
 echo "-=======-=======-=======-=======-=======-=======-=======-=======-------"

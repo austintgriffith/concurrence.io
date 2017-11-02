@@ -24,6 +24,9 @@ app.get('/time', (req, res) => {
     res.end(now)
 });
 
+app.get('/email', (req, res) => {
+    res.end("austin@concurrence.io")
+});
 
 app.get('/address/:contract', (req, res) => {
 
