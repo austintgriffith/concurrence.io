@@ -1,7 +1,8 @@
 # TODO
  - [ ] Help checking spelling / grammar issues in the repos
- - [ ] Combiner needs to make the callback 
+ - [ ] Combiner needs to make the callback
  - [ ] Reset mode that let's developer reset and reserve without posting a new request
+ - [ ] Some dummy named the function call selectAccount and then the variable selectedAddress 
  - [ ] First live relay node with all contracts deployed to testnet
  - [ ] Reset Combiner function so developers can reset and reserve to get a new consensus without adding a new request (fuel existing)
  - [ ] Build out a medium level end-to-end that gets a user response or something
