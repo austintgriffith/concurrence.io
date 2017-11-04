@@ -86,7 +86,7 @@ contract Combiner is Ownable, Addressed{
       //mode[_request] = Mode.INIT;
 
       //instead let's just revert for now
-      revert();
+      //revert();
     }
     DebugPointer(current[_request]);
     return mode[_request];
@@ -153,7 +153,8 @@ contract Combiner is Ownable, Addressed{
       staked[_request][result] += tokenContract.staked(miner,_request,current[_request]);
       miners[_request][result]++;
       //keep track of running best and how much is staked to it
-      if(staked[_request][result]>weight[_request]){
+      // use >= here to make it 'first come first serve'
+      if(staked[_request][result] >= weight[_request]){
         timestamp[_request] = block.timestamp;
         weight[_request] = staked[_request][result];
         concurrence[_request] = result;
