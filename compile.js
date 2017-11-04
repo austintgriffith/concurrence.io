@@ -1,5 +1,7 @@
 const fs = require('fs');
 const solc = require('solc');
+console.log(" ### COMPILE")
+
 let startSeconds = new Date().getTime() / 1000;
 let contractdir = process.argv[2]
 let contractname = process.argv[3]
@@ -26,6 +28,4 @@ if(!input){
   fs.writeFile(contractdir+"/"+contractname+".bytecode",bytecode)
   fs.writeFile(contractdir+"/"+contractname+".abi",abi)
   console.log("Compiled!")
-
-
 }

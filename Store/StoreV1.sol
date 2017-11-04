@@ -1,13 +1,10 @@
 pragma solidity ^0.4.11;
 
-import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
-import "Predecessor.sol";
-
-contract Store is Ownable,Predecessor {
+contract Store is Ownable, Predecessor {
 
     //string to hold source url of price information for reference
     string public source;
-    
+
     //prices mapped by SYMBOL => price in USD
     mapping (bytes32 => uint) price;
 
@@ -23,7 +20,7 @@ contract Store is Ownable,Predecessor {
     }
 
     //anyone can get any price by symbol
-    function getPrice(bytes32 _symbol) constant returns (uint) { /*whenNotMigrating*/
+    function getPrice(bytes32 _symbol) constant returns (uint) {
       //if there is a descendant, pass the call on
       if(descendant!=address(0)) {
         return Store(descendant).getPrice(_symbol);
@@ -31,3 +28,6 @@ contract Store is Ownable,Predecessor {
       return price[_symbol];
     }
 }
+
+import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
+import "Predecessor.sol";

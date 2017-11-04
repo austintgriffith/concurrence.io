@@ -1,9 +1,6 @@
 pragma solidity ^0.4.11;
 
-import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
-import "Predecessor.sol";
-
-contract Store is Ownable,Predecessor {
+contract Store is Ownable, Predecessor {
 
     //string to hold source url of price information for reference
     string public source;
@@ -35,3 +32,6 @@ contract Store is Ownable,Predecessor {
     //--- lastUpdate is block number of last update
     uint public lastUpdate;
 }
+
+import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
+import "Predecessor.sol";

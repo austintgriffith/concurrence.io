@@ -1,15 +1,14 @@
 const fs = require('fs');
 const Web3 = require('web3');
 const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+console.log(" ### CONTRACT")
+
 var ACCOUNT_INDEX = 1
 var startSeconds = new Date().getTime() / 1000;
-
 var script = process.argv[2]
 var contractdir = process.argv[3]
 var contractname = process.argv[4]
 if(!contractname || contractname=="null" ) contractname=contractdir
-
-console.log("Reading data...")
 var address
 var nextAddress
 if(contractname=="previous" ){
@@ -24,7 +23,6 @@ var blockNumber = 0
 try{
    blockNumber = fs.readFileSync(contractdir+"/"+contractname+".blockNumber").toString().trim()
 }catch(e){console.log(e)}
-
 var abi = false
 if(!address){
   console.log("Couldn't load "+contractdir+"/"+contractname+".address")
@@ -37,7 +35,6 @@ if(!address){
     var gasPrice = fs.readFileSync("gasprice.int").toString().trim()
     var gas = fs.readFileSync("deploygas.int").toString().trim()
     var gaspricegwei = gasPrice*1000000000
-
     console.log("Loading accounts...")
     web3.eth.getAccounts().then((accounts)=>{
       web3.eth.getBalance(accounts[ACCOUNT_INDEX]).then((balance)=>{
@@ -108,12 +105,9 @@ function interactWithContract(accounts,balance){
               }
             })
           },5000)
-
         })
       }
-
     }else{
       console.log("UNABLE TO LOAD SCRIPT "+script+" for "+contractname)
     }
-
 }

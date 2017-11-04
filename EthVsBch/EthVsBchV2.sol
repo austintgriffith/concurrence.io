@@ -4,12 +4,6 @@ pragma solidity ^0.4.11;
 A simple 'request oracle client' that needs to know the price of Eth and Bch
 */
 
-//simple Store interface with just the function we need
-contract Store{
-  function getPrice(bytes32 _symbol) constant returns (uint) {}
-  uint public lastUpdate;//--new public uint
-}
-
 contract EthVsBch {
 
     //string to hold source address of oracle
@@ -20,7 +14,7 @@ contract EthVsBch {
     }
 
     //anyone can get any price by symbol
-    function whoIsWinning() constant returns (string,uint) { /*whenNotMigrating*/
+    function whoIsWinning() constant returns (string,uint) {
       Store store = Store(source);
 
       //--- new piece that checks if the data is old
@@ -39,4 +33,10 @@ contract EthVsBch {
         return ("TIE!",priceOfEth);
       }
     }
+}
+
+//simple Store interface with just the function we need
+contract Store{
+  function getPrice(bytes32 _symbol) constant returns (uint) {}
+  uint public lastUpdate;//--new public uint
 }

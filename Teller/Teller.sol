@@ -1,14 +1,5 @@
 pragma solidity ^0.4.11;
 
-//simple interface to the LinkedList
-contract LinkedList {
-  struct Object{ bytes32 next;uint number;bytes32 name;}
-  bytes32 public head;
-  mapping (bytes32 => Object) public objects;
-  function total() public constant returns (uint) {}
-  function getEntry(bytes32 _id) public returns (bytes32,uint,bytes32){}
-}
-
 contract Teller {
 
   uint16 public quorum = 400;
@@ -61,4 +52,13 @@ contract Teller {
       revert();
     }
   }
+}
+
+//simple interface to the LinkedList
+contract LinkedList {
+  struct Object{ bytes32 next;uint number;bytes32 name;}
+  bytes32 public head;
+  mapping (bytes32 => Object) public objects;
+  function total() public constant returns (uint) {}
+  function getEntry(bytes32 _id) public returns (bytes32,uint,bytes32){}
 }

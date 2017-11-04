@@ -1,16 +1,13 @@
 const fs = require('fs');
 const Web3 = require('web3');
 const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+console.log(" ### DEPLOY")
 
 var ACCOUNT_INDEX = 1
-
 var startSeconds = new Date().getTime() / 1000;
-
 var contractdir = process.argv[2]
 var contractname = process.argv[3]
 if(!contractname) contractname=contractdir
-
-console.log("Reading data...")
 var bytecode = fs.readFileSync(contractdir+"/"+contractname+".bytecode").toString()
 var abi = false
 if(!bytecode){
@@ -38,7 +35,6 @@ if(!bytecode){
 function deployContract(accounts,balance){
   let etherbalance = web3.utils.fromWei(balance,"ether");
   console.log(etherbalance+" $"+(etherbalance*ethPrice))
-
   console.log("\nLoaded account "+accounts[ACCOUNT_INDEX])
   console.log("Deploying...",bytecode,abi)
   let contract = new web3.eth.Contract(abi)
@@ -68,7 +64,6 @@ function deployContract(accounts,balance){
       web3.eth.getTransactionReceipt(transactionHash,(error,result)=>{
         if(result && result.contractAddress && result.cumulativeGasUsed){
           console.log("Success",result)
-
           web3.eth.getBalance(accounts[ACCOUNT_INDEX]).then((balance)=>{
             let endetherbalance = web3.utils.fromWei(balance,"ether");
             let etherdiff = etherbalance-endetherbalance
@@ -88,12 +83,9 @@ function deployContract(accounts,balance){
             let endSeconds = new Date().getTime() / 1000;
             let duration = Math.floor((endSeconds-startSeconds))
             console.log("deploy time: ",duration)
-
             fs.appendFileSync("./deploy.log",contractdir+"/"+contractname+" "+result.contractAddress+" "+duration+" "+etherdiff+" $"+(etherdiff*ethPrice)+" "+gaspricegwei+"\n")
-
             process.exit(0);
           })
-
         }else{
           process.stdout.write(".")
         }

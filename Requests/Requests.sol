@@ -10,7 +10,6 @@ contract Requests is HasNoEther, Addressed {
 
   struct Request{
     address combiner; //what combiner to use
-    string request;   //the actual request, could be json object ----- in the future we may only store a hash of this on-chain
     bytes32 protocol; //the type of request can be anything, up to miners to understand
     address callback; //developer contract to __callback to when result is found
     bool active;      //bool used as meta data
@@ -26,24 +25,23 @@ contract Requests is HasNoEther, Addressed {
     Main mainContract = Main(mainAddress);
     Token token = Token(mainContract.getContract('Token'));
 
-    //you must have some of the token to add a request
+    //for now, you must have some of the token to add a request
     require(token.balanceOf(msg.sender)>0);
 
     requests[id].combiner=_combiner;
-    requests[id].request=_request;
     requests[id].protocol=_protocol;
     requests[id].callback=_callback;
     requests[id].active=true;
 
-    AddRequest(msg.sender,id,requests[id].combiner,requests[id].request,requests[id].protocol,requests[id].callback,count);
+    AddRequest(msg.sender,id,requests[id].combiner,_request,requests[id].protocol,requests[id].callback,count);
 
     count=count+1;
 
     return true;
   }
 
-  function getRequest(bytes32 _id) public constant returns (address,string,bytes32,address) {
-    return (requests[_id].combiner,requests[_id].request,requests[_id].protocol,requests[_id].callback);
+  function getRequest(bytes32 _id) public constant returns (address,bytes32,address) {
+    return (requests[_id].combiner,requests[_id].protocol,requests[_id].callback);
   }
 
   function getCombiner(bytes32 _id) public constant returns (address) {
