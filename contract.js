@@ -34,11 +34,11 @@ if(!address){
     var ethPrice = parseInt(fs.readFileSync("ethprice.int").toString().trim())
     var gasPrice = fs.readFileSync("gasprice.int").toString().trim()
     var gas = fs.readFileSync("deploygas.int").toString().trim()
-    var gaspricegwei = gasPrice*1000000000
+    var gaspricegwei = gasPrice*10*10**8
     console.log("Loading accounts...")
     web3.eth.getAccounts().then((accounts)=>{
       web3.eth.getBalance(accounts[ACCOUNT_INDEX]).then((balance)=>{
-        if(balance < 1000){
+        if(balance < 10*10**18){
           web3.eth.personal.unlockAccount(accounts[1]).then((a,b,c)=>{
             interactWithContract(accounts,balance)
           })
