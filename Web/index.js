@@ -7,6 +7,13 @@ const app = express()
 
 app.use(helmet())
 
+// Add headers
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+    next();
+});
+
 app.get('/', (req, res) => {
     let date = new Date();
     let datestring = date.getUTCFullYear()+" "+date.getUTCDate()+" "+date.getUTCHours()
