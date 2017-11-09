@@ -20,7 +20,7 @@ if(!bytecode){
     var ethPrice = parseInt(fs.readFileSync("ethprice.int").toString().trim())
     web3.eth.getAccounts().then((accounts)=>{
       web3.eth.getBalance(accounts[ACCOUNT_INDEX]).then((balance)=>{
-        if(balance < 10000000000000000000){
+        if(balance < 10*10**18){
           web3.eth.personal.unlockAccount(accounts[1]).then((a,b,c)=>{
             deployContract(accounts,balance)
           })
@@ -40,7 +40,7 @@ function deployContract(accounts,balance){
   let contract = new web3.eth.Contract(abi)
   let gasPrice = fs.readFileSync("gasprice.int").toString().trim()
   let gas = fs.readFileSync("deploygas.int").toString().trim()
-  let gaspricegwei = gasPrice*1000000000
+  let gaspricegwei = gasPrice*10*10**8
   console.log("paying a max of "+gas+" gas @ the price of "+gasPrice+" gwei ("+gaspricegwei+")")
   let contractarguments = []
   try{
